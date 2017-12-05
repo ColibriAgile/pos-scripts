@@ -1,0 +1,1 @@
+update mododevenda set nome = 'nenhum' where id = 0

@@ -1,0 +1,14 @@
+{
+   "schema":"dbo",
+   "pastas":[
+      "inicializacao",
+      "8.5",
+      "8.6",
+      "8.7",
+      "functions",
+      "procedures",
+      "views",
+      "dados",
+      "finalizacao"
+   ]
+}

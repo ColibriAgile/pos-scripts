@@ -1,0 +1,8 @@
+exec sp_padronizar_defaults 
+go
+exec sp_padronizar_indices
+go
+exec sp_padronizar_primary_keys
+go
+exec sp_padronizar_foreign_keys
+go
