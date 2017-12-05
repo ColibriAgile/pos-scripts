@@ -4,11 +4,12 @@
       "inicializacao",
       "8.5",
       "8.6",
-      "8.7",
+      "10",
       "functions",
       "procedures",
       "views",
       "dados",
+      "migracao",
       "finalizacao"
    ]
 }
