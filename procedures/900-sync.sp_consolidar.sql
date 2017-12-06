@@ -1,5 +1,5 @@
 if not exists (select * from sys.schemas where name = 'sync') 
-  exec sys.sp_executesql 'create schema [sync]' 
+  exec sys.sp_executesql N'create schema [sync]' 
 go
 
 
