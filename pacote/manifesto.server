@@ -6,10 +6,5 @@
   "nome":"ColibriScripts",
   "nome_exibicao": "NCR Colibri DB update",
   "versao": "1.0.0.0",
-  "produto": "pos",
-  "versoes_bases": [
-    {
-      "_obter_versao_do_json":"config.json"
-    }
-  ]
+  "produto": "pos"
 }
