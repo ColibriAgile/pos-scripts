@@ -233,7 +233,21 @@ set identity_insert dbo.combo off
 set identity_insert dbo.combo_slot on
 
 merge dbo.combo_slot as target 
-using sync.comboslot as source with (nolock) on target.id = source.slot_id
+using (
+  select 
+    slot_id = row_number() over (order by combo_id, slot_id),
+    ordem,
+    minimo,
+    maximo,
+    preco,
+    classe_id,
+    combo_id,
+    local_producao,
+    material_id,
+    precificador_id,
+    quantificador_id
+  from sync.comboslot with (nolock)
+) as source on target.id = source.slot_id
 when matched then
   update set
     dt_alt = @getDate,
