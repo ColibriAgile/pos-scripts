@@ -4,7 +4,7 @@
     "Master": "2.*"  
   },
   "nome":"ColibriScripts",
-  "nome_exibicao": "NCR Colibri DB update",
+  "nome_exibicao": "NCR Colibri DB Update",
   "versao": "1.0.0.0",
   "produto": "pos"
 }
