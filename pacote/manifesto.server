@@ -6,5 +6,6 @@
   "nome":"ColibriScripts",
   "nome_exibicao": "NCR Colibri DB Update",
   "versao": "1.0.0.0",
+  "download_obrigatorio": true,
   "produto": "pos"
 }
