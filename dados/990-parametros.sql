@@ -1168,16 +1168,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgConfereCaixaComValores',
-  @categoria = '5.Fechamento',
-  @subcategoria = 'Caixa',
-  @descr = 'Mostrar valores calculados pelo sistema na conferência de caixa',
-  @tipo_valor = 'boolean',
-  @tipo_param = 'V',
-  @valor_default = '0'
-go
-
-exec sp_inserir_parametro
   @codigo = 'CfgForcarEmissaoComprovantes',
   @categoria = '5.Fechamento',
   @subcategoria = 'Caixa',
@@ -1186,7 +1176,6 @@ exec sp_inserir_parametro
   @tipo_param = 'V',
   @valor_default = '1',
   @detalhes = 'Impede o fechamento de caixa caso existam vendas sem comprovante emitido'
-
 go
 
 exec sp_inserir_parametro
