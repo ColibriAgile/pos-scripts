@@ -1,203 +1,68 @@
-﻿declare
-    @alias varchar(50),
-    @bandeira varchar(50);
+﻿if (object_id('sp_alias_bandeira') is not null)
+  drop procedure sp_alias_bandeira
+go
 
-set @alias = 'ALELO'
-set @bandeira = 'Alelo'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
+create procedure dbo.sp_alias_bandeira(@alias varchar(50), @bandeira varchar(50), @somente_credito bit = 0)
+as begin
+	update bandeira 
+	set aliases = case 
+	  when aliases is not null then aliases + ';' + @alias 
+	  else @alias 
+	end 
+	where nome = @bandeira
+	and isnull(aliases,'') not like '%'+@alias+'%'
+	and ((tipo = 'credito') or (@somente_credito = 0))
+end;
+go
 
-set @alias = 'Alimentação'
-set @bandeira =  'Ticket Refeição'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'AMEX'
-set @bandeira = 'Amex'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'AURA'
-set @bandeira = 'Aura'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'AVISTA'
-set @bandeira = 'Mastercard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'BANESCARD crédito à vista'
-set @bandeira = 'Banescard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'credito'
-
-set @alias = 'BANESE CARD'
-set @bandeira = 'Banescard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'BNBCLUBE'
-set @bandeira =  'BNB Clube'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'CABAL'
-set @bandeira = 'Cabal'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'COOPERCRED'
-set @bandeira = 'Coopercred'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'CREDI-SHOP'
-set @bandeira = 'Credishop'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'Crédito'
-set @bandeira = 'Visa'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'credito'
-
-set @alias = 'Crédito com senha'
-set @bandeira = 'Banescard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'credito'
-
-set @alias = 'CREDSYSTEM'
-set @bandeira = 'Credisystem'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'CredZ crédito à vista'
-set @bandeira = 'CredZ'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'DINERS'
-set @bandeira = 'Diners'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'DISCOVER'
-set @bandeira = 'Discovery'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'ELO Crédito'
-set @bandeira = 'Elo'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'credito'
-
-set @alias = 'ELO Débito'
-set @bandeira = 'Elo'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'debito'
-
-set @alias = 'FROTA'
-set @bandeira = 'Policard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'GOOD CARD'
-set @bandeira = 'Goodcard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'GREEN CARD'
-set @bandeira = 'Greencard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'HIPERCARD'
-set @bandeira = 'Hipercard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'JCB'
-set @bandeira = 'JCB'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'MAESTRO'
-set @bandeira = 'Maestro'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'MAIS'
-set @bandeira = 'Mastercard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'MASTERCARD'
-set @bandeira = 'Mastercard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'NUTRICASH'
-set @bandeira = 'Nutricash'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'PAT'
-set @bandeira = 'Policard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'PLANVALE'
-set @bandeira = 'Planvale'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'POLICARD'
-set @bandeira = 'Policard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'PRIVATE LABEL'
-set @bandeira =  'Private Label'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'REDE ESTRADA'
-set @bandeira = 'Mastercard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'Refeição'
-set @bandeira =  'Ticket Refeição'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'SAPORE'
-set @bandeira = 'Sapore'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'SICREDI'
-set @bandeira = 'Sicredi'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'SODEXO'
-set @bandeira =  'Sodexo Refeição'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'SODEXO'
-set @bandeira = 'Sodexo'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'SOROCRED'
-set @bandeira = 'Sorocred'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'TICKET'
-set @bandeira =  'Ticket Refeição'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'TICKET CAR'
-set @bandeira =  'Ticket Combustível'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VALECARD'
-set @bandeira = 'Verocheque'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VALECARD'
-set @bandeira = 'Valecard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VALEMULTI'
-set @bandeira = 'Valecard'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VEROCARD'
-set @bandeira = 'Verocheque'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VEROCHEQUE'
-set @bandeira = 'Verocheque'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VISA Crediário'
-set @bandeira = 'Visa'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'credito'
-
-set @alias = 'VISA Crédito'
-set @bandeira = 'Visa'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira and tipo = 'credito'
-
-set @alias = 'VISA Electron'
-set @bandeira =  'Visa Electron'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
-
-set @alias = 'VISA Parcelado Loja'
-set @bandeira = 'Visa'
-update bandeira set aliases = case when aliases is not null then aliases + ';' + @alias else @alias end where nome = @bandeira
+exec dbo.sp_alias_bandeira 'ALELO', 'Alelo'
+exec dbo.sp_alias_bandeira 'Alimentação',  'Ticket Refeição'
+exec dbo.sp_alias_bandeira 'AMEX', 'Amex'
+exec dbo.sp_alias_bandeira 'AURA', 'Aura'
+exec dbo.sp_alias_bandeira 'AVISTA', 'Mastercard'
+exec dbo.sp_alias_bandeira 'BANESCARD crédito à vista', 'Banescard', 1
+exec dbo.sp_alias_bandeira 'BANESE CARD', 'Banescard'
+exec dbo.sp_alias_bandeira 'BNBCLUBE',  'BNB Clube'
+exec dbo.sp_alias_bandeira 'CABAL', 'Cabal'
+exec dbo.sp_alias_bandeira 'COOPERCRED', 'Coopercred'
+exec dbo.sp_alias_bandeira 'CREDI-SHOP', 'Credishop'
+exec dbo.sp_alias_bandeira 'Crédito', 'Visa', 1
+exec dbo.sp_alias_bandeira 'Crédito com senha', 'Banescard', 1
+exec dbo.sp_alias_bandeira 'CREDSYSTEM', 'Credisystem'
+exec dbo.sp_alias_bandeira 'CredZ crédito à vista', 'CredZ'
+exec dbo.sp_alias_bandeira 'DINERS', 'Diners'
+exec dbo.sp_alias_bandeira 'DISCOVER', 'Discovery'
+exec dbo.sp_alias_bandeira 'ELO Débito', 'Elo'
+exec dbo.sp_alias_bandeira 'ELO Crédito', 'Elo', 1
+exec dbo.sp_alias_bandeira 'FROTA', 'Policard'
+exec dbo.sp_alias_bandeira 'GOOD CARD', 'Goodcard'
+exec dbo.sp_alias_bandeira 'GREEN CARD', 'Greencard'
+exec dbo.sp_alias_bandeira 'HIPERCARD', 'Hipercard'
+exec dbo.sp_alias_bandeira 'JCB', 'JCB'
+exec dbo.sp_alias_bandeira 'MAESTRO', 'Maestro'
+exec dbo.sp_alias_bandeira 'MAIS', 'Mastercard'
+exec dbo.sp_alias_bandeira 'MASTERCARD', 'Mastercard'
+exec dbo.sp_alias_bandeira 'NUTRICASH', 'Nutricash'
+exec dbo.sp_alias_bandeira 'PAT', 'Policard'
+exec dbo.sp_alias_bandeira 'PLANVALE', 'Planvale'
+exec dbo.sp_alias_bandeira 'POLICARD', 'Policard'
+exec dbo.sp_alias_bandeira 'PRIVATE LABEL',  'Private Label'
+exec dbo.sp_alias_bandeira 'REDE ESTRADA', 'Mastercard'
+exec dbo.sp_alias_bandeira 'Refeição',  'Ticket Refeição'
+exec dbo.sp_alias_bandeira 'SAPORE', 'Sapore'
+exec dbo.sp_alias_bandeira 'SICREDI', 'Sicredi'
+exec dbo.sp_alias_bandeira 'SODEXO',  'Sodexo Refeição'
+exec dbo.sp_alias_bandeira 'SODEXO', 'Sodexo'
+exec dbo.sp_alias_bandeira 'SOROCRED', 'Sorocred'
+exec dbo.sp_alias_bandeira 'TICKET',  'Ticket Refeição'
+exec dbo.sp_alias_bandeira 'TICKET CAR',  'Ticket Combustível'
+exec dbo.sp_alias_bandeira 'VALECARD', 'Verocheque'
+exec dbo.sp_alias_bandeira 'VALECARD', 'Valecard'
+exec dbo.sp_alias_bandeira 'VALEMULTI', 'Valecard'
+exec dbo.sp_alias_bandeira 'VEROCARD', 'Verocheque'
+exec dbo.sp_alias_bandeira 'VEROCHEQUE', 'Verocheque'
+exec dbo.sp_alias_bandeira 'VISA Crediário', 'Visa', 1
+exec dbo.sp_alias_bandeira 'VISA Crédito', 'Visa', 1
+exec dbo.sp_alias_bandeira 'VISA Electron',  'Visa Electron'
+exec dbo.sp_alias_bandeira 'VISA Parcelado Loja', 'Visa'
+go
