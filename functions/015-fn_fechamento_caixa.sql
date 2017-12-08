@@ -308,7 +308,7 @@ as begin
   from conf
   where turno_id = turno
     and meio_id = meio_pagamento_id
-    and bandeira = bndr;
+    and isnull(bandeira,'') = isnull(bndr,'');
 
   /*Atualizando totais de trocos:
       - troco e repique são abatidos do dinheiro;
