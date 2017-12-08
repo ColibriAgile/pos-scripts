@@ -315,6 +315,8 @@ execute sp_apagar_campo 'material', 'prd_tipo'
 go
 execute sp_apagar_campo 'material', 'st_tipomaterial'
 go
+execute sp_apagar_campo 'material', 'fabricacao_propria'
+go
 execute sp_apagar_campo 'meio_pagamento', 'banco_id'
 go
 execute sp_apagar_campo 'meio_pagamento', 'bn_deposita'
