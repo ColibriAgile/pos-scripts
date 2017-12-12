@@ -130,7 +130,7 @@ as begin
       else tipo
     end,
     meio_id,
-    meio_nome = min(t.descricao) + isnull(' ' +bandeira,''),
+    meio_nome = min(t.descricao),
     bandeira,
     vl = sum(vl)
   from
@@ -211,13 +211,13 @@ as begin
   (
     select
       meio_id = id,
-      meio_nome = dbo.fn_capitalize (descricao, 0) + isnull(' ' + bandeira,''),
+      meio_nome = dbo.fn_capitalize (descricao, 0),
       bandeira
     from meio_pagamento mp
     left join (
       select 
         meio_pagamento_id, 
-        bandeira 
+        bandeira = case when bandeira = '' then null else bandeira end 
       from movimento_caixa  
       group by meio_pagamento_id, bandeira
     ) mc on mp.id = mc.meio_pagamento_id
@@ -253,7 +253,7 @@ as begin
       tur = turno,
       trec_id = meio_id,
       valor = sum(vl),
-      bndr = isnull(bandeira,'')
+      bndr = bandeira
     from @aux_totais_turno
     where meio_id not in (-1,-2,-3)
       and tipo = 'venda'
@@ -263,7 +263,7 @@ as begin
     and func_id = x.f_id
     and turno = x.tur
     and meio_id = x.trec_id
-    and isnull(bandeira,'') = x.bndr
+    and isnull(bandeira, '') = isnull(x.bndr,'')
 
   --Atualizando totais de créditos em conta assinada
   update @tbl
@@ -276,7 +276,7 @@ as begin
       tur = turno,
       trec_id = meio_id,
       valor = sum(vl),
-      bandeira
+      bndr = bandeira
     from @aux_totais_turno
     where meio_id not in (-1,-2,-3)
       and tipo = 'Conta Assinada'
@@ -290,7 +290,8 @@ as begin
   where data = x.dt
     and func_id = x.f_id
     and turno = x.tur
-    and meio_id = x.trec_id;
+    and meio_id = x.trec_id
+    and isnull(bandeira, '') = isnull(x.bndr,'');
 
   /*Atualizando o valor informado na conferência de caixa*/
   with conf as
@@ -308,7 +309,7 @@ as begin
   from conf
   where turno_id = turno
     and meio_id = meio_pagamento_id
-    and isnull(bandeira,'') = isnull(bndr,'');
+    and isnull(bandeira, '') = isnull(conf.bndr,'');
 
   /*Atualizando totais de trocos:
       - troco e repique são abatidos do dinheiro;
