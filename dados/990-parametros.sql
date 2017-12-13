@@ -1357,6 +1357,70 @@ exec sp_inserir_parametro
   @valor_default = '0'  
 go
 
+-----Autopagamento-------------------
+exec sp_inserir_parametro
+  @codigo = 'CfgFormaPagamentoCredito',
+  @categoria = 'Modo',
+  @subcategoria = 'Autopagamento',
+  @descr = 'Meio para crédito',
+  @detalhes = 'Meio de pagamento a ser utilizado para a opção crédito no autopagamento',
+  @tipo_valor = 'integer',
+  @tipo_param = 'K',
+  @valor_default = '-90',
+  @modovenda = '4',
+  @list_sql =
+    'select key_field = cast(id as varchar), list_field = descricao
+     from meio_pagamento
+     where tef = 1
+       and ((
+        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
+       ) or ( 
+        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
+       ))' 
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgFormaPagamentoDebito',
+  @categoria = 'Modo',
+  @subcategoria = 'Autopagamento',
+  @descr = 'Meio para débito',
+  @detalhes = 'Meio de pagamento a ser utilizado para a opção débito no autopagamento',
+  @tipo_valor = 'integer',
+  @tipo_param = 'K',
+  @valor_default = '-91',
+  @modovenda = '4',
+  @list_sql =
+    'select key_field = cast(id as varchar), list_field = descricao
+     from meio_pagamento
+     where tef = 1
+       and ((
+        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
+       ) or ( 
+        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
+       ))' 
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgFormaPagamentoVoucher',
+  @categoria = 'Modo',
+  @subcategoria = 'Autopagamento',
+  @descr = 'Meio para voucher',
+  @detalhes = 'Meio de pagamento a ser utilizado para a opção voucher no autopagamento',
+  @tipo_valor = 'integer',
+  @tipo_param = 'K',
+  @valor_default = '-92',
+  @modovenda = '4',
+  @list_sql =
+    'select key_field = cast(id as varchar), list_field = descricao
+     from meio_pagamento
+     where tef = 1
+       and ((
+        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
+       ) or ( 
+        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
+       ))' 
+go
+
 
 /**************************************
  Parametros obsoletos
@@ -1381,7 +1445,6 @@ delete parametro where codigo like 'CfgRelatorioDe%'
 
 delete parametro where codigo = 'CfgTEFUsaMeioUnico'
 delete parametro where codigo in ('CfgRedeAdquirenteDebito', 'CfgRedeAdquirenteCredito', 'CfgRedeAdquirenteRefeicao')
-delete parametro where codigo in ('CfgFormaPagamentoDebito', 'CfgFormaPagamentoCredito', 'CfgFormaPagamentoRefeicao')
 
 --paf
 delete parametro where codigo = 'CfgPastaArqMfd'
