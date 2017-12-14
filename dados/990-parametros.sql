@@ -1445,6 +1445,13 @@ delete parametro where codigo like 'CfgRelatorioDe%'
 
 delete parametro where codigo = 'CfgTEFUsaMeioUnico'
 delete parametro where codigo in ('CfgRedeAdquirenteDebito', 'CfgRedeAdquirenteCredito', 'CfgRedeAdquirenteRefeicao')
+if exists(select * from dbo.parametro where codigo = 'CfgFormaPagamentoRefeicao')
+begin  
+  update parametro_modo set valor = (select valor from dbo.parametro where codigo = 'CfgFormaPagamentoRefeicao')
+  where codigo = 'CfgFormaPagamentoVoucher'
+
+  delete parametro where codigo = 'CfgFormaPagamentoRefeicao'
+end
 
 --paf
 delete parametro where codigo = 'CfgPastaArqMfd'
