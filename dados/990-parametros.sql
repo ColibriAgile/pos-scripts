@@ -1354,7 +1354,8 @@ exec sp_inserir_parametro
   @detalhes = 'Esconde todos os meios TEF cadastros e mostra os 3 meios TEF padrões do sistema, um para débito, uma para crédito e outro para voucher.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
-  @valor_default = '0'  
+  @valor_default = '0',
+  @altera_com_periodo_aberto = 0  
 go
 
 -----Autopagamento-------------------
