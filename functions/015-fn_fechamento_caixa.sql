@@ -46,6 +46,10 @@ as begin
   if @modos_venda = ''
     set @modos_venda = '0,1,2,3,4'
 
+  declare @TefSimplificado bit = 0
+  if exists(select * from parametro where codigo = 'CfgUsaTEFSimplificado' and valor = '1')
+    set @TefSimplificado = 1
+
   /*Tabelas auxiliares*/
   declare @turnos table
   (
@@ -222,6 +226,13 @@ as begin
       group by meio_pagamento_id, bandeira
     ) mc on mp.id = mc.meio_pagamento_id
     where id not in (-1,-2,-3)
+	  and ((tef = 0) or (
+           (tef = 1) and 
+           (
+               (id < 0 and @TefSimplificado = 1) or
+               (id > 0 and @TefSimplificado = 0)
+            )
+         )) 
   ) meios
   full join
   (
