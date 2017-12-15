@@ -219,12 +219,21 @@ as begin
       bandeira
     from meio_pagamento mp
     left join (
-      select 
-        meio_pagamento_id, 
-        bandeira = case when bandeira = '' then null else bandeira end 
-      from movimento_caixa  
-      group by meio_pagamento_id, bandeira
-    ) mc on mp.id = mc.meio_pagamento_id
+         select * from (
+            select 
+                meio_pagamento_id, 
+                bandeira = case when mc.bandeira = '' then null else mc.bandeira end 
+            from movimento_caixa mc 
+
+            union 
+
+            select meio_pagamento_id,
+                bandeira
+            from dbo.turno_conferencia tc
+            where tc.turno_id = 2200-- @turno_id
+         ) x
+         group by meio_pagamento_id, bandeira
+    ) mc on mp.id = mc.meio_pagamento_id	
     where id not in (-1,-2,-3)
 	  and ((tef = 0) or (
            (tef = 1) and 
@@ -312,15 +321,16 @@ as begin
       meio_pagamento_id,
       bndr = vl.bandeira,
       vl.vl_digitado
-    from @tbl
-    left join turno_conferencia vl on turno = turno_id
+    from turno_conferencia vl 
+	where turno_id = @turno_id
   )
   update @tbl
   set valor_informado = vl_digitado
   from conf
   where turno_id = turno
-    and meio_id = meio_pagamento_id
-    and isnull(bandeira, '') = isnull(conf.bndr,'');
+	and meio_id = meio_pagamento_id
+	and isnull(bandeira, '') = isnull(conf.bndr,'');
+
 
   /*Atualizando totais de trocos:
       - troco e repique são abatidos do dinheiro;
