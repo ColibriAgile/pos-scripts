@@ -680,28 +680,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgCaracterBipaFicha',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Caracter utilizado para ler a ficha no campo material',
-  @tipo_valor = 'string',
-  @tipo_param = 'V',
-  @valor_default = '',
-  @modovenda = '4'
-go
-
-exec sp_inserir_parametro
-  @codigo = 'CfgObrigarCaractereBipaFicha',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Obrigar digitação no código da ficha do caracter de identificação',
-  @tipo_valor = 'boolean',
-  @tipo_param = 'V',
-  @valor_default = '0',
-  @modovenda = '4'
-go
-
-exec sp_inserir_parametro
   @codigo = 'CfgImprimeConferenciaDeContaAoEnviar',
   @categoria = 'Modo',
   @subcategoria = 'Lançamento',
@@ -1478,3 +1456,5 @@ delete parametro where codigo = 'CfgPluginCEP'
 delete parametro where codigo = 'CfgPluginFiscal'
 delete parametro where codigo = 'CfgServidorDeLock'
 delete parametro where codigo = 'CfgPortaServidorDeLock'
+delete parametro where codigo = 'CfgCaracterBipaFicha'
+delete parametro where codigo = 'CfgObrigarCaractereBipaFicha'
