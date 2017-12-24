@@ -680,28 +680,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgCaracterBipaFicha',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Caracter utilizado para ler a ficha no campo material',
-  @tipo_valor = 'string',
-  @tipo_param = 'V',
-  @valor_default = '',
-  @modovenda = '4'
-go
-
-exec sp_inserir_parametro
-  @codigo = 'CfgObrigarCaractereBipaFicha',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Obrigar digitação no código da ficha do caracter de identificação',
-  @tipo_valor = 'boolean',
-  @tipo_param = 'V',
-  @valor_default = '0',
-  @modovenda = '4'
-go
-
-exec sp_inserir_parametro
   @codigo = 'CfgImprimeConferenciaDeContaAoEnviar',
   @categoria = 'Modo',
   @subcategoria = 'Lançamento',
@@ -1354,7 +1332,72 @@ exec sp_inserir_parametro
   @detalhes = 'Esconde todos os meios TEF cadastros e mostra os 3 meios TEF padrões do sistema, um para débito, uma para crédito e outro para voucher.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
-  @valor_default = '0'  
+  @valor_default = '0',
+  @altera_com_periodo_aberto = 0  
+go
+
+-----Autopagamento-------------------
+exec sp_inserir_parametro
+  @codigo = 'CfgFormaPagamentoCredito',
+  @categoria = 'Modo',
+  @subcategoria = 'Autopagamento',
+  @descr = 'Meio para crédito',
+  @detalhes = 'Meio de pagamento a ser utilizado para a opção crédito no autopagamento',
+  @tipo_valor = 'integer',
+  @tipo_param = 'K',
+  @valor_default = '-90',
+  @modovenda = '4',
+  @list_sql =
+    'select key_field = cast(id as varchar), list_field = descricao
+     from meio_pagamento
+     where tef = 1
+       and ((
+        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
+       ) or ( 
+        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
+       ))' 
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgFormaPagamentoDebito',
+  @categoria = 'Modo',
+  @subcategoria = 'Autopagamento',
+  @descr = 'Meio para débito',
+  @detalhes = 'Meio de pagamento a ser utilizado para a opção débito no autopagamento',
+  @tipo_valor = 'integer',
+  @tipo_param = 'K',
+  @valor_default = '-91',
+  @modovenda = '4',
+  @list_sql =
+    'select key_field = cast(id as varchar), list_field = descricao
+     from meio_pagamento
+     where tef = 1
+       and ((
+        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
+       ) or ( 
+        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
+       ))' 
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgFormaPagamentoVoucher',
+  @categoria = 'Modo',
+  @subcategoria = 'Autopagamento',
+  @descr = 'Meio para voucher',
+  @detalhes = 'Meio de pagamento a ser utilizado para a opção voucher no autopagamento',
+  @tipo_valor = 'integer',
+  @tipo_param = 'K',
+  @valor_default = '-92',
+  @modovenda = '4',
+  @list_sql =
+    'select key_field = cast(id as varchar), list_field = descricao
+     from meio_pagamento
+     where tef = 1
+       and ((
+        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
+       ) or ( 
+        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
+       ))' 
 go
 
 
@@ -1381,7 +1424,13 @@ delete parametro where codigo like 'CfgRelatorioDe%'
 
 delete parametro where codigo = 'CfgTEFUsaMeioUnico'
 delete parametro where codigo in ('CfgRedeAdquirenteDebito', 'CfgRedeAdquirenteCredito', 'CfgRedeAdquirenteRefeicao')
-delete parametro where codigo in ('CfgFormaPagamentoDebito', 'CfgFormaPagamentoCredito', 'CfgFormaPagamentoRefeicao')
+if exists(select * from dbo.parametro where codigo = 'CfgFormaPagamentoRefeicao')
+begin  
+  update parametro_modo set valor = (select valor from dbo.parametro where codigo = 'CfgFormaPagamentoRefeicao')
+  where codigo = 'CfgFormaPagamentoVoucher'
+
+  delete parametro where codigo = 'CfgFormaPagamentoRefeicao'
+end
 
 --paf
 delete parametro where codigo = 'CfgPastaArqMfd'
@@ -1407,3 +1456,5 @@ delete parametro where codigo = 'CfgPluginCEP'
 delete parametro where codigo = 'CfgPluginFiscal'
 delete parametro where codigo = 'CfgServidorDeLock'
 delete parametro where codigo = 'CfgPortaServidorDeLock'
+delete parametro where codigo = 'CfgCaracterBipaFicha'
+delete parametro where codigo = 'CfgObrigarCaractereBipaFicha'

@@ -46,6 +46,10 @@ as begin
   if @modos_venda = ''
     set @modos_venda = '0,1,2,3,4'
 
+  declare @TefSimplificado bit = 0
+  if exists(select * from parametro where codigo = 'CfgUsaTEFSimplificado' and valor = '1')
+    set @TefSimplificado = 1
+
   /*Tabelas auxiliares*/
   declare @turnos table
   (
@@ -130,7 +134,7 @@ as begin
       else tipo
     end,
     meio_id,
-    meio_nome = min(t.descricao) + isnull(' ' +bandeira,''),
+    meio_nome = min(t.descricao),
     bandeira,
     vl = sum(vl)
   from
@@ -211,17 +215,33 @@ as begin
   (
     select
       meio_id = id,
-      meio_nome = dbo.fn_capitalize (descricao, 0) + isnull(' ' + bandeira,''),
+      meio_nome = dbo.fn_capitalize (descricao, 0),
       bandeira
     from meio_pagamento mp
     left join (
-      select 
-        meio_pagamento_id, 
-        bandeira 
-      from movimento_caixa  
-      group by meio_pagamento_id, bandeira
-    ) mc on mp.id = mc.meio_pagamento_id
+         select * from (
+            select 
+                meio_pagamento_id, 
+                bandeira = case when mc.bandeira = '' then null else mc.bandeira end 
+            from movimento_caixa mc 
+
+            union 
+
+            select meio_pagamento_id,
+                bandeira
+            from dbo.turno_conferencia tc
+            where tc.turno_id = 2200-- @turno_id
+         ) x
+         group by meio_pagamento_id, bandeira
+    ) mc on mp.id = mc.meio_pagamento_id	
     where id not in (-1,-2,-3)
+	  and ((tef = 0) or (
+           (tef = 1) and 
+           (
+               (id < 0 and @TefSimplificado = 1) or
+               (id > 0 and @TefSimplificado = 0)
+            )
+         )) 
   ) meios
   full join
   (
@@ -253,7 +273,7 @@ as begin
       tur = turno,
       trec_id = meio_id,
       valor = sum(vl),
-      bndr = isnull(bandeira,'')
+      bndr = bandeira
     from @aux_totais_turno
     where meio_id not in (-1,-2,-3)
       and tipo = 'venda'
@@ -263,7 +283,7 @@ as begin
     and func_id = x.f_id
     and turno = x.tur
     and meio_id = x.trec_id
-    and isnull(bandeira,'') = x.bndr
+    and isnull(bandeira, '') = isnull(x.bndr,'')
 
   --Atualizando totais de créditos em conta assinada
   update @tbl
@@ -276,7 +296,7 @@ as begin
       tur = turno,
       trec_id = meio_id,
       valor = sum(vl),
-      bandeira
+      bndr = bandeira
     from @aux_totais_turno
     where meio_id not in (-1,-2,-3)
       and tipo = 'Conta Assinada'
@@ -290,7 +310,8 @@ as begin
   where data = x.dt
     and func_id = x.f_id
     and turno = x.tur
-    and meio_id = x.trec_id;
+    and meio_id = x.trec_id
+    and isnull(bandeira, '') = isnull(x.bndr,'');
 
   /*Atualizando o valor informado na conferência de caixa*/
   with conf as
@@ -300,15 +321,16 @@ as begin
       meio_pagamento_id,
       bndr = vl.bandeira,
       vl.vl_digitado
-    from @tbl
-    left join turno_conferencia vl on turno = turno_id
+    from turno_conferencia vl 
+	where turno_id = @turno_id
   )
   update @tbl
   set valor_informado = vl_digitado
   from conf
   where turno_id = turno
-    and meio_id = meio_pagamento_id
-    and isnull(bandeira,'') = isnull(bndr,'');
+	and meio_id = meio_pagamento_id
+	and isnull(bandeira, '') = isnull(conf.bndr,'');
+
 
   /*Atualizando totais de trocos:
       - troco e repique são abatidos do dinheiro;
