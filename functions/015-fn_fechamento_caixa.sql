@@ -227,10 +227,11 @@ as begin
 
             union 
 
-            select meio_pagamento_id,
+            select 
+                meio_pagamento_id,
                 bandeira
             from dbo.turno_conferencia tc
-            where tc.turno_id = 2200-- @turno_id
+            where tc.turno_id = @turno_id
          ) x
          group by meio_pagamento_id, bandeira
     ) mc on mp.id = mc.meio_pagamento_id	
