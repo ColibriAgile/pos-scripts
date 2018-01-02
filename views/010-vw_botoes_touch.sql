@@ -8,8 +8,14 @@ select
   layout_id = t.layout_id,
   id = m.id,
   codigo = m.codigo collate Latin1_General_CI_AI,
-  cor_botao = t.cor_botao collate Latin1_General_CI_AI,
-  cor_fonte = t.cor_fonte collate Latin1_General_CI_AI,
+  cor_botao = case  
+    when len(t.cor_botao) = 4 then replicate(substring(t.cor_botao,2,1), 2) + replicate(substring(t.cor_botao,3,1), 2) + replicate(substring(t.cor_botao,4,1), 2)
+    else substring(t.cor_botao, 2, 6)
+  end collate Latin1_General_CI_AI,
+  cor_fonte = case  
+    when len(t.cor_fonte) = 4 then replicate(substring(t.cor_fonte,2,1), 2) + replicate(substring(t.cor_fonte,3,1), 2) + replicate(substring(t.cor_fonte,4,1), 2)
+    else substring(t.cor_fonte, 2, 6)
+  end collate Latin1_General_CI_AI,
   ordem = t.ordem,
   img = m.imagem collate Latin1_General_CI_AI,
   tipo_botao = cast(t.tipo as varchar(1)) collate Latin1_General_CI_AI,
@@ -27,8 +33,14 @@ select
   t.layout_id,
   id = c.id,
   cast(c.codigo as varchar(20)) collate Latin1_General_CI_AI,
-  t.cor_botao collate Latin1_General_CI_AI,
-  t.cor_fonte collate Latin1_General_CI_AI,
+  cor_botao = case  
+    when len(t.cor_botao) = 4 then replicate(substring(t.cor_botao,2,1), 2) + replicate(substring(t.cor_botao,3,1), 2) + replicate(substring(t.cor_botao,4,1), 2)
+    else substring(t.cor_botao, 2, 6)
+  end collate Latin1_General_CI_AI,
+  cor_fonte = case  
+    when len(t.cor_fonte) = 4 then replicate(substring(t.cor_fonte,2,1), 2) + replicate(substring(t.cor_fonte,3,1), 2) + replicate(substring(t.cor_fonte,4,1), 2)
+    else substring(t.cor_fonte, 2, 6)
+  end collate Latin1_General_CI_AI,
   t.ordem,
   img = c.imagem collate Latin1_General_CI_AI,
   tipo_botao = cast(t.tipo as varchar(1)) collate Latin1_General_CI_AI,
@@ -46,8 +58,14 @@ select
   t.layout_id,
   id = c.id,
   cast(c.id as varchar(20)) collate Latin1_General_CI_AI,
-  t.cor_botao collate Latin1_General_CI_AI,
-  t.cor_fonte collate Latin1_General_CI_AI,
+  cor_botao = case  
+    when len(t.cor_botao) = 4 then replicate(substring(t.cor_botao,2,1), 2) + replicate(substring(t.cor_botao,3,1), 2) + replicate(substring(t.cor_botao,4,1), 2)
+    else substring(t.cor_botao, 2, 6)
+  end collate Latin1_General_CI_AI,
+  cor_fonte = case  
+    when len(t.cor_fonte) = 4 then replicate(substring(t.cor_fonte,2,1), 2) + replicate(substring(t.cor_fonte,3,1), 2) + replicate(substring(t.cor_fonte,4,1), 2)
+    else substring(t.cor_fonte, 2, 6)
+  end collate Latin1_General_CI_AI,
   t.ordem,
   img = c.imagem collate Latin1_General_CI_AI,
   tipo_botao = cast(t.tipo as varchar(1)) collate Latin1_General_CI_AI,
@@ -58,3 +76,5 @@ from config_touch as t
 join classe as c on t.item_id = c.id
 where t.tipo = 2
   and c.ativo = 1
+
+
