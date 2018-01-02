@@ -1,10 +1,10 @@
 {
   "arquivos":[],
   "dependencias" : {
-    "Master": "2.*"  
+    "Master": "2.2.*"  
   },
   "nome":"ColibriScripts",
-  "nome_exibicao": "NCR Colibri DB Update",
+  "nome_exibicao": "NCR Colibri DB Scripts",
   "versao": "1.0.0.0",
   "download_obrigatorio": true,
   "produto": "pos",
