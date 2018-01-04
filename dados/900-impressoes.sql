@@ -1,4 +1,4 @@
-exec dbo.sp_incluir_impressao
+ï»¿exec dbo.sp_incluir_impressao
   @nome = 'Canhoto de entrega',
   @balcao = 0,
   @mesa = 0,
@@ -8,7 +8,7 @@ exec dbo.sp_incluir_impressao
 go
 
 exec dbo.sp_incluir_impressao
-  @nome = 'Conferência de conta',
+  @nome = 'ConferÃªncia de conta',
   @balcao = 0,
   @mesa = 1,
   @ficha = 1,
@@ -17,16 +17,16 @@ exec dbo.sp_incluir_impressao
 go
 
 exec dbo.sp_incluir_impressao
-  @nome = 'Contra-vale',
+  @nome = 'Credito cliente',
   @balcao = 0,
   @mesa = 0,
   @ficha = 0,
   @entrega = 0,
-  @pasta = 'contra vale'
+  @pasta = 'credito cliente'
 go
 
 exec dbo.sp_incluir_impressao
-  @nome = 'Crédito em conta assinada',
+  @nome = 'CrÃ©dito em conta assinada',
   @balcao = 0,
   @mesa = 0,
   @ficha = 0,
@@ -53,7 +53,7 @@ exec dbo.sp_incluir_impressao
 go
 
 exec dbo.sp_incluir_impressao
-  @nome = 'Débito em conta assinada',
+  @nome = 'DÃ©bito em conta assinada',
   @balcao = 0,
   @mesa = 0,
   @ficha = 0,
