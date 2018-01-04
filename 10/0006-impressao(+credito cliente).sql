@@ -1,5 +1,5 @@
 ﻿update dbo.impressao set
-  nome = 'credito cliente',
+  nome = 'Crédito cliente',
   pasta = 'credito cliente',
   template = 'credito cliente'
 where nome = 'Contra-vale'
