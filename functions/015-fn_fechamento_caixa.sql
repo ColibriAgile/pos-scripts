@@ -222,14 +222,15 @@ as begin
          select * from (
             select 
                 meio_pagamento_id, 
-                bandeira = case when mc.bandeira = '' then null else mc.bandeira end 
+                bandeira = nullif(bandeira, '')
             from movimento_caixa mc 
+	    where mc.turno_id = @turno_id
 
             union 
 
             select 
                 meio_pagamento_id,
-                bandeira
+                bandeira = nullif(bandeira, '')
             from dbo.turno_conferencia tc
             where tc.turno_id = @turno_id
          ) x
