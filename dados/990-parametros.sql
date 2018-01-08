@@ -506,11 +506,11 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgPedeNumAutorizacaoDoCartao',
+  @codigo = 'CfgPedeDadosDoCartao',
   @categoria = 'Modo',
   @subcategoria = 'Recebimento',
-  @descr = 'Pede o número de autorização do cartão ao receber',
-  @detalhes = 'Ao realizar um recebimeno com cartão, (exceto TEF), pede o numero de autorização para ser gravado pelo sistema.' ,
+  @descr = 'Pedir dados do cartão ao receber',
+  @detalhes = 'Ao realizar um recebimeno com cartão, (exceto TEF), pede alguns dados para serem gravados pelo sistema, como credenciadora, numero de autorização bandeira.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -1431,6 +1431,8 @@ begin
 
   delete parametro where codigo = 'CfgFormaPagamentoRefeicao'
 end
+delete parametro_modo where codigo = 'CfgPedeNumAutorizacaoDoCartao'
+delete parametro where codigo = 'CfgPedeNumAutorizacaoDoCartao'
 
 --paf
 delete parametro where codigo = 'CfgPastaArqMfd'
