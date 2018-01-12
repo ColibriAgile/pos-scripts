@@ -69,7 +69,6 @@ insert into @meio_pagamento
 (-90, 0, 1, 'TEF debito', @ultimo_codigo + 1, 0, 1, 0, 1, 1, 'D', GetDate(), 'Padrão', 1, @loja_id, @rede_id),
 (-91, 0, 1, 'TEF credito', @ultimo_codigo + 2, 0, 1, 0, 1, 1, 'C', GetDate(), 'Padrão', 1, @loja_id, @rede_id),
 (-92, 0, 1, 'TEF voucher', @ultimo_codigo + 3, 0, 1, 0, 1, 1, 'V', GetDate(), 'Padrão', 1, @loja_id, @rede_id)
-
       
 SET IDENTITY_INSERT meio_pagamento on
 
@@ -82,12 +81,9 @@ update set
   target.troco_dinheiro = source.troco_dinheiro,
   target.troco_repique = source.troco_repique,
   target.troco_contravale = source.troco_contravale,
-  target.rede_id = source.rede_id,
   target.tef = source.tef,
   target.tipo_tef = source.tipo_tef,
-  target.ativo = source.ativo,
-  target.cartao = source.cartao,
-  target.loja_id = source.loja_id  
+  target.cartao = source.cartao
 when not matched then
 insert
 (
@@ -128,3 +124,5 @@ insert
 );
 
 SET IDENTITY_INSERT meio_pagamento off
+
+
