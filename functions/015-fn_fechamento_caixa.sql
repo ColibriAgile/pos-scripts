@@ -64,7 +64,7 @@ as begin
   if @turno_id > 0 begin
     insert into @turnos
     (
-      data, 
+      data,
       func_id,
       turno_id
     )
@@ -72,13 +72,13 @@ as begin
       dt_contabil,
       func_id,
       turno_id = cx.turno_id
-    from turno cx 
+    from turno cx
     where cx.turno_id = @turno_id
   end
   else if @func_id <> '-1' and @apenas_ultimo_fechamento = 1 begin
     insert into @turnos
     (
-      data, 
+      data,
       func_id,
       turno_id
     )
@@ -98,8 +98,8 @@ as begin
   else begin
     insert into @turnos
     (
-      data, 
-      func_id, 
+      data,
+      func_id,
       turno_id
     )
     select
@@ -155,7 +155,7 @@ as begin
       x.data = o.dt_contabil and
       x.func_id = m.func_recebeu_id and
       x.turno_id = m.turno_id
-    where m.cancelado = 0      
+    where m.cancelado = 0
       and isnull(ov.modo_venda_id, 0) in (select id from dbo.fn_list2lines(@modos_venda, ''))
 
     union all
@@ -176,16 +176,16 @@ as begin
       x.data = o.dt_contabil and
       x.func_id = m.func_recebeu_id and
       x.turno_id = m.turno_id
-    where m.cancelado = 0      
+    where m.cancelado = 0
       and isnull(ov.modo_venda_id, 0) in (select id from dbo.fn_list2lines(@modos_venda, ''))
 
   )x
   left join meio_pagamento t on t.id = meio_id
-  group by 
-    data, 
-    turno, 
-    func_id, 
-    tipo, 
+  group by
+    data,
+    turno,
+    func_id,
+    tipo,
     meio_id,
   bandeira
 
@@ -193,12 +193,12 @@ as begin
   usuário quer ver também as formas que não foram praticadas no período.*/
   insert into @tbl
   (
-    data, 
-    turno, 
-    func_id, 
-    dt_hr_abertura, 
-    dt_hr_fechamento, 
-    meio_id, 
+    data,
+    turno,
+    func_id,
+    dt_hr_abertura,
+    dt_hr_fechamento,
+    meio_id,
     meio_nome,
     bandeira
   )
@@ -220,30 +220,30 @@ as begin
     from meio_pagamento mp
     left join (
          select * from (
-            select 
-                meio_pagamento_id, 
+            select
+                meio_pagamento_id,
                 bandeira = nullif(bandeira, '')
-            from movimento_caixa mc 
-	    where mc.turno_id = @turno_id
+            from movimento_caixa mc
+	          where mc.turno_id = @turno_id or @turno_id = 0
 
-            union 
+            union
 
-            select 
+            select
                 meio_pagamento_id,
                 bandeira = nullif(bandeira, '')
             from dbo.turno_conferencia tc
             where tc.turno_id = @turno_id
          ) x
          group by meio_pagamento_id, bandeira
-    ) mc on mp.id = mc.meio_pagamento_id	
+    ) mc on mp.id = mc.meio_pagamento_id
     where id not in (-1,-2,-3)
 	  and ((tef = 0) or (
-           (tef = 1) and 
+           (tef = 1) and
            (
                (id < 0 and @TefSimplificado = 1) or
                (id > 0 and @TefSimplificado = 0)
             )
-         )) 
+         ))
   ) meios
   full join
   (
@@ -256,18 +256,18 @@ as begin
     from @turnos t
     join dbo.turno a on a.turno_id = t.turno_id
   ) dtFunc on 0=0
-  order by 
-    data, 
-    func_id, 
+  order by
+    data,
+    func_id,
     turno_id,
     dt_hr_abertura,
-    dt_hr_fechamento, 
+    dt_hr_fechamento,
     meio_id;
 
   --Atualizando totais da venda
   update @tbl
   set valor_venda = x.valor
-  from 
+  from
   (
     select
       dt = data,
@@ -290,7 +290,7 @@ as begin
   --Atualizando totais de créditos em conta assinada
   update @tbl
   set credito_assinada = x.valor
-  from 
+  from
   (
     select
       dt = data,
@@ -302,10 +302,10 @@ as begin
     from @aux_totais_turno
     where meio_id not in (-1,-2,-3)
       and tipo = 'Conta Assinada'
-    group by 
-      data, 
-      func_id, 
-      turno, 
+    group by
+      data,
+      func_id,
+      turno,
       meio_id,
       bandeira
   ) x
@@ -323,7 +323,7 @@ as begin
       meio_pagamento_id,
       bndr = vl.bandeira,
       vl.vl_digitado
-    from turno_conferencia vl 
+    from turno_conferencia vl
 	where turno_id = @turno_id
   )
   update @tbl
@@ -368,10 +368,10 @@ as begin
       from @aux_totais_turno
       where meio_id in (-1,-2,-3)
     )x
-    group by 
-      dt, 
-      f_id, 
-      tur, 
+    group by
+      dt,
+      f_id,
+      tur,
       trec_id
   )
   update @tbl
@@ -448,11 +448,11 @@ as begin
 
   --Apaga meios inativos com valor 0
   delete @tbl
-  where valor_calculado = 0 
-    and meio_id in 
+  where valor_calculado = 0
+    and meio_id in
     (
-      select id 
-      from dbo.meio_pagamento 
+      select id
+      from dbo.meio_pagamento
       where ativo = 0
     )
 
