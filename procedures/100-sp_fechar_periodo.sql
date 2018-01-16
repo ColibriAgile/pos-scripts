@@ -150,6 +150,10 @@ where h.operacao_id in (select id from #opers)'
 	  delete from dbo.historico_operacao
     where operacao_id in (select id from #opers union select id from #opers_orig)
 
+    /*cache.slot_rodizio*/
+    delete from cache.slot_rodizio
+    where venda_id in (select id from #vendas)
+
     /*venda_item*/
     delete from venda_item
     where venda_id in (select id from #vendas)
