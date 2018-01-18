@@ -53,6 +53,18 @@ alter table operacao_venda add foreign key
   ) on update  no action
    on delete  no action
 go
+
+alter table operacao_venda add foreign key
+  (
+    desconto_id
+  ) references desconto
+  (
+    id
+  )  on update no action
+    on delete no action
+go
+
+
 alter table operacao_venda_geral add foreign key
   (
   operacao_id
