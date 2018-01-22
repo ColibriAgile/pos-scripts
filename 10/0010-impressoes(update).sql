@@ -8,6 +8,6 @@ update dbo.impressao
 set nome = 'Credito cliente',
   pasta = 'credito cliente',
   template = 'credito vale'
-where pasta = 'contra vale'
+where pasta = 'contra cliente'
 
 go
