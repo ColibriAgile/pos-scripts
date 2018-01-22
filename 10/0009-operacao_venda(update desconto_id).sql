@@ -6,7 +6,6 @@
 
 update dbo.operacao_venda 
 set desconto_id = null
-where isnull(desconto_id, 0) > 0
-  and desconto_id not in (
+where isnull(desconto_id, 0) not in (
       select id from desconto
   ) 
