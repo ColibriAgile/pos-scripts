@@ -1423,6 +1423,7 @@ delete parametro where codigo = 'CfgSeparaTrocoNoPrePagamento'
 delete parametro where codigo like 'CfgRelatorioDe%'
 
 delete parametro where codigo = 'CfgTEFUsaMeioUnico'
+delete parametro_modo where codigo in ('CfgFormaPagamentoDebito', 'CfgFormaPagamentoCredito', 'CfgFormaPagamentoRefeicao')
 delete parametro where codigo in ('CfgRedeAdquirenteDebito', 'CfgRedeAdquirenteCredito', 'CfgRedeAdquirenteRefeicao')
 if exists(select * from dbo.parametro where codigo = 'CfgFormaPagamentoRefeicao')
 begin  
