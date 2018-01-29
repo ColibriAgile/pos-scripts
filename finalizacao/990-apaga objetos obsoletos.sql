@@ -219,9 +219,6 @@ if object_id('log') is not null  -- a sp_apagar_tabela da erro ao tentar apagar 
   exec('drop table log')         -- por isso usei um drop table 
 go
 
-execute sp_apagar_tabela 'launcher.script'
-go
-
 /**************************************
  *** Chaves primárias indesejadas
  **************************************/
@@ -1113,8 +1110,6 @@ execute sp_apagar 'procedure', 'sp_increl'
 go
 execute sp_apagar 'procedure', 'sp_ajustaconfigio'
 go
-execute sp_apagar 'procedure', 'launcher.sp_inserir_botao_layout'
-go
 
 /**************************************
  Tipos de usuario
@@ -1254,4 +1249,12 @@ Schemas
 IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'launcher')
 BEGIN
 	execute sp_apagar_schema 'launcher'
+END
+IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'ma')
+BEGIN
+	execute sp_apagar_schema 'ma'
+END
+IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'guard')
+BEGIN
+	execute sp_apagar_schema 'guard'
 END
