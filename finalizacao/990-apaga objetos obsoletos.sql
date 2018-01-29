@@ -1258,3 +1258,11 @@ IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'guard')
 BEGIN
 	execute sp_apagar_schema 'guard'
 END
+IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'catalog')
+BEGIN
+	execute sp_apagar_schema 'catalog'
+END
+IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'config')
+BEGIN
+	execute sp_apagar_schema 'config'
+END
