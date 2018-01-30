@@ -53,6 +53,18 @@ alter table operacao_venda add foreign key
   ) on update  no action
    on delete  no action
 go
+
+alter table operacao_venda add foreign key
+  (
+    desconto_id
+  ) references desconto
+  (
+    id
+  )  on update no action
+    on delete no action
+go
+
+
 alter table operacao_venda_geral add foreign key
   (
   operacao_id
@@ -514,8 +526,25 @@ go
 /******************************
 movimento_caixa
 *******************************/
+
 exec dbo.sp_apagar_relacionamentos 'movimento_caixa'
 
 alter table dbo.movimento_caixa add 
 constraint ri_movimento_caixa$turno_id__turno$turno_id
     foreign key (turno_id) references dbo.turno (turno_id)
+
+/******************************
+cache.slot_rodizio
+*******************************/
+
+exec dbo.sp_apagar_relacionamentos 'cache.slot_rodizio'
+go
+  alter table cache.slot_rodizio add foreign key
+    (
+    venda_id
+    ) references dbo.venda
+    (
+    venda_id
+    ) on update  no action
+     on delete  no action
+go
