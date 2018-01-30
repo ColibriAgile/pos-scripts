@@ -1,5 +1,5 @@
 ﻿if object_id('dbo.sp_apagar_constraint') is not null
-    drop procedure dbo.sp_apagar_constraint
+  drop procedure dbo.sp_apagar_constraint
 go
 
 create procedure dbo.sp_apagar_constraint(@nome sysname)
