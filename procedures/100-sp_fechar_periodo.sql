@@ -137,7 +137,8 @@ where h.operacao_id in (select id from #opers)'
       venda_id = null,
       cliente_id = null,
       dt_hr_abertura = null,
-      limite_consumo = null
+      limite_consumo = null,
+      saiu = null
     where estado in ('finalizado', 'aberto', 'livre', 'checkout','cancelado')
 
     --atribuindo apelido_origem para apelido das fichas
