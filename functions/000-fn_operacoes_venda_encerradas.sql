@@ -43,6 +43,7 @@ begin
   from periodo h with (nolock)
   order by h.dt_contabil desc
 
+
   /*
   Só pesquisa as tabelas do dia se a data final for maior que o dia aberto.
   Ainda preciso do filtro pq pode ter varios encerramentos com datas diferentes
@@ -76,7 +77,7 @@ begin
             (o.comprovante_status = 'Cancelado' and o.cancelada = 1) then 'Cancelada'
           else 'Ok'
         end,
-        diaria = case when o.dt_contabil = @dtcontabil then 1 else 0 end,
+        diaria = 1,
         transferida
       from operacao_venda ov with(nolock)
       join operacao o with(nolock) on o.operacao_id = ov.operacao_id
@@ -152,7 +153,7 @@ begin
         when (o.cancelada = 1) then 'Cancelada'
         else 'Ok'
       end,
-      diaria = case when o.dt_contabil = @dtcontabil then 1 else 0 end,
+      diaria = 0,
       transferida
     from operacao_venda_geral ov with(nolock)
     join operacao_geral o with(nolock) on o.operacao_id = ov.operacao_id
