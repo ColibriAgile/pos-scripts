@@ -1233,6 +1233,20 @@ when not matched by source and target.cloud = 1 then
 set identity_insert dbo.promocao off
 
 /* promocao dia */
+delete dia
+from dbo.promocao_dia dia
+join dbo.promocao promo on promo.id = dia.promocao_id
+where
+  promo.cloud = 1
+  and not exists
+  (
+    select *
+    from cloud_v1_0.promocao_dia temp
+    join cloud_v1_0.promocao temp_p on temp_p.id = temp.promocao 
+    where temp.id = dia.id and temp_p.cliente_id = promo.id
+  )
+
+
 set identity_insert dbo.promocao_dia on
 merge dbo.promocao_dia as target
 using
@@ -1264,18 +1278,6 @@ when not matched then
     source.hr_fim,
     source.promocao_id
   );
-
-delete dia
-from dbo.promocao_dia dia
-join dbo.promocao promo on promo.id = dia.promocao_id
-where
-  promo.cloud = 1
-  and not exists
-  (
-    select *
-    from cloud_v1_0.promocao_dia temp
-    where temp.id = dia.id and temp.promocao = promo.id
-  )
 
 set identity_insert dbo.promocao_dia off
 
