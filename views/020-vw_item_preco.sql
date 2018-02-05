@@ -8,6 +8,7 @@ select
   t.id,
   t.nome,
   t.dt_vigencia,
+  t.modo_venda_id,
   t.modo_venda,
   t.situacao,
   i.material_id,
