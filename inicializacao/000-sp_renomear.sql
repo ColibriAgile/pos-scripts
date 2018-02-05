@@ -28,13 +28,13 @@ as
 	  select 
 	    @campo = parsename(@nome, 1),
 	    @tabela = parsename(@nome, 2),
-	    @schema = isnull(parsename(@nome, 3), '')
+	    @schema = isnull(parsename(@nome, 3), 'dbo')
 	  
 	  if not exists(
 		  select * 
 		  from syscolumns 
 		  where name = @campo
-			  and id=object_id(quotename(@schema) + '.' + quotename(@tabela))
+			  and id = object_id(quotename(@schema) + '.' + quotename(@tabela))
 		) return 0
   
     exec sys.sp_rename @nome, @novo_nome, @tipo
