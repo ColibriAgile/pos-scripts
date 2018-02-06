@@ -10,7 +10,6 @@
       "functions",
       "procedures",
       "views",
-      "functions_with_view",
       "dados",
       "migracao",
       "finalizacao"
