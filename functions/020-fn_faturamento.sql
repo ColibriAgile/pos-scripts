@@ -108,7 +108,7 @@ as begin
     join movimento_caixa_geral m with (nolock) on
       m.operacao_id = o.operacao_id
     join @turnos t on t.turno_id = m.turno_id
-    where o.cancelada = 0      
+    where o.cancelada = 0
       and ((m.func_recebeu_id = @func_id) or (@func_id <= 0))
       and ov.modo_venda_id in (select id from dbo.fn_list2lines(@modos_venda, ''))
     group by o.operacao_id, dt_contabil
@@ -128,7 +128,7 @@ as begin
     join movimento_caixa m with (nolock) on
       m.operacao_id = ov.operacao_id
     join @turnos t on t.turno_id = m.turno_id
-    where o.cancelada = 0      
+    where o.cancelada = 0
       and ((m.func_recebeu_id = @func_id) or (@func_id <= 0))
       and ov.modo_venda_id in (select id from dbo.fn_list2lines(@modos_venda, ''))
     group by o.operacao_id, dt_contabil
@@ -252,7 +252,7 @@ as begin
     data,
     grupo = 3,
     sessao = 'Indicadores',
-    item = 'Contra-vale recebido',
+    item = 'Crédito cliente recebido',
     vl = sum(valor_venda + credito_assinada)
   from @aux_totais_caixa
   where meio_id = 3
@@ -264,30 +264,30 @@ as begin
     data,
     grupo = 3,
     sessao = 'Indicadores',
-    descr = 'Contra-vale emitido',
+    descr = 'Crédito cliente emitido',
     vl = sum(contra_vale)
   from @aux_totais_caixa
   group by data
   order by data
-  insert into @tbl 
-  (data, grupo, sessao, descricao, valor) 
-  select 
-    data, 
-    grupo = 3, 
-    sessao = 'Indicadores', 
-    descr = 'Suprimento', 
-    vl = sum(suprimento) 
-  from @aux_totais_caixa 
-  group by data 
-  order by data 
-  insert into @tbl 
-  (data, grupo, sessao, descricao, valor) 
-  select 
-    data, 
-    grupo = 3, 
-    sessao = 'Indicadores', 
-    descr = 'Sangria', 
-    vl = abs(sum(sangria)) 
+  insert into @tbl
+  (data, grupo, sessao, descricao, valor)
+  select
+    data,
+    grupo = 3,
+    sessao = 'Indicadores',
+    descr = 'Suprimento',
+    vl = sum(suprimento)
+  from @aux_totais_caixa
+  group by data
+  order by data
+  insert into @tbl
+  (data, grupo, sessao, descricao, valor)
+  select
+    data,
+    grupo = 3,
+    sessao = 'Indicadores',
+    descr = 'Sangria',
+    vl = abs(sum(sangria))
   from @aux_totais_caixa
   group by data
   order by data
