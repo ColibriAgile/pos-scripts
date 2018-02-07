@@ -8,7 +8,7 @@ select
 	id=row_number() over(order by dt_alt asc),
 	ativo=ativo,
 	nome=nome,
-        dt_vigencia = cast(dt_vigencia as date),
+  dt_vigencia = cast(dt_vigencia as date),
 	modo_venda=case
 	  when modo_venda = 0 then null
 	  else modo_venda
