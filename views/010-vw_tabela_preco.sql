@@ -8,6 +8,7 @@ select
   id = t.id,
   nome = t.nome,
   t.dt_vigencia,
+  modo_venda_id = isnull(t.modo_venda, 0),
   modo_venda = isnull(m.nome, '(geral)'),
   situacao =   case  
     when t.dt_vigencia = t2.dt_vigencia then 'vigente'
