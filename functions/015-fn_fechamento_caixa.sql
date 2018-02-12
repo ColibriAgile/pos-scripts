@@ -27,7 +27,7 @@ returns @tbl table
   --conferência
   valor_calculado as (valor_venda + credito_assinada + troco + repique + sangria + suprimento),
   valor_informado money,
-  diferenca as (valor_informado - (valor_venda + credito_assinada + troco + repique + sangria + suprimento)),
+  diferenca as (isnull(valor_informado,0) - isnull(valor_venda + credito_assinada + troco + repique + sangria + suprimento,0)),
 
   --totais do movimento de caixa
   valor_venda money default 0,
