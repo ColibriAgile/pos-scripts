@@ -52,6 +52,10 @@ begin
       @rede_id
     );
 
+  if not exists (select * from dbo.local_producao where id = 0)
+    insert dbo.local_producao (id, nome, dt_alt, loja_id, rede_id) values
+      (0, 'nenhum', getdate(), @loja_id, @rede_id)
+
   set identity_insert dbo.local_producao off
 
 /* grupo material */
