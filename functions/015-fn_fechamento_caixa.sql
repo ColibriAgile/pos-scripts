@@ -111,6 +111,9 @@ as begin
       and (func_id = @func_id or @func_id = '-1')
   end
 
+--------------------------------------------------------------
+--------------------------------------------------------------
+
   declare @aux_totais_turno table
   (
     data datetime,
@@ -189,6 +192,7 @@ as begin
     meio_id,
   bandeira
 
+  --------------------------------------------------------------------------
   /*Inserindo formas de recebimentos ativas para cada dia e funcionário, o
   usuário quer ver também as formas que não foram praticadas no período.*/
   insert into @tbl
@@ -285,7 +289,7 @@ as begin
     and func_id = x.f_id
     and turno = x.tur
     and meio_id = x.trec_id
-    and isnull(bandeira, '') = isnull(x.bndr,'')
+    and isnull(bandeira, x.bndr) = isnull(x.bndr,'')
 
   --Atualizando totais de créditos em conta assinada
   update @tbl
