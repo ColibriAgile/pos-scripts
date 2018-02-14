@@ -175,18 +175,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgUsaPontoDeVenda',
-  @categoria = '#.Geral',
-  @subcategoria = 'Venda',
-  @descr = 'Utiliza ponto de venda',
-  @tipo_valor = 'boolean',
-  @tipo_param = 'V',
-  @valor_default = '1',
-  @altera_com_periodo_aberto = 0
-go
-
-
-exec sp_inserir_parametro
   @codigo = 'CfgNaoArredondarValoresNoCombo',
   @categoria = '#.Geral',
   @subcategoria = 'Combo',
@@ -1434,6 +1422,7 @@ begin
 end
 delete parametro_modo where codigo = 'CfgPedeNumAutorizacaoDoCartao'
 delete parametro where codigo = 'CfgPedeNumAutorizacaoDoCartao'
+delete parametro where codigo = 'CfgUsaPontoDeVenda'
 
 --paf
 delete parametro where codigo = 'CfgPastaArqMfd'
