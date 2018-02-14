@@ -1321,6 +1321,7 @@ exec sp_inserir_parametro
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
+  @visivel = 0,
   @altera_com_periodo_aberto = 0  
 go
 
@@ -1392,6 +1393,7 @@ go
 /**************************************
  Parametros obsoletos
  ***************************************/
+delete parametro where codigo = 'CfgUsaPontoDeVenda'
 delete parametro_modo where codigo = 'CfgPedeGarcomNaVenda' 
 delete parametro where codigo = 'CfgPedeGarcomNaVenda'
 delete parametro_modo where codigo = 'CfgAliquotaDeServico'
@@ -1402,14 +1404,13 @@ delete parametro_modo where codigo = 'CfgAliquotaDeEntrada'
 delete parametro where codigo = 'CfgAliquotaDeEntrada'
 delete parametro_modo where codigo = 'CfgAliquotaDeTaxaDeEntrega'
 delete parametro where codigo = 'CfgAliquotaDeTaxaDeEntrega'
-
 delete parametro where codigo = 'CfgBloquearSangriaQuandoExcederSaldoDoCaixa'
-
 delete parametro where codigo = 'CfgBloquearObservacoesDigitadasQuandoHouverCadastro'
 delete parametro_modo where codigo = 'CfgSeparaTrocoNoPrePagamento'
 delete parametro where codigo = 'CfgSeparaTrocoNoPrePagamento'
 delete parametro where codigo like 'CfgRelatorioDe%'
 
+--TEF
 delete parametro where codigo = 'CfgTEFUsaMeioUnico'
 delete parametro_modo where codigo in ('CfgRedeAdquirenteDebito', 'CfgRedeAdquirenteCredito', 'CfgRedeAdquirenteRefeicao')
 delete parametro where codigo in ('CfgRedeAdquirenteDebito', 'CfgRedeAdquirenteCredito', 'CfgRedeAdquirenteRefeicao')
@@ -1422,7 +1423,6 @@ begin
 end
 delete parametro_modo where codigo = 'CfgPedeNumAutorizacaoDoCartao'
 delete parametro where codigo = 'CfgPedeNumAutorizacaoDoCartao'
-delete parametro where codigo = 'CfgUsaPontoDeVenda'
 
 --paf
 delete parametro where codigo = 'CfgPastaArqMfd'
@@ -1437,7 +1437,6 @@ delete parametro where codigo = 'CfgPastaTabProd'
 delete parametro where codigo = 'CfgPastaVendasPeriodoEFD'
 delete parametro where codigo = 'CfgPastaVendasPeriodoSintegra'
 delete parametro where codigo = 'CfgCotepe1704'
-
 delete parametro where codigo = 'CfgNFSerie'
 delete parametro where codigo = 'CfgNFSubSerie'
 delete parametro where codigo = 'CfgConcessaoDeCreditos'
