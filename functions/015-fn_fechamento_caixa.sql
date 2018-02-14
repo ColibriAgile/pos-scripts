@@ -148,7 +148,7 @@ as begin
       func_id = m.func_recebeu_id,
       tipo = o.tipo,
       meio_id = m.meio_pagamento_id,
-      bandeira = m.bandeira,
+      bandeira = nullif(m.bandeira,''),
       vl = m.vl_recebido
     from operacao o with (nolock)
     left join dbo.operacao_venda ov with (nolock) on ov.operacao_id = o.operacao_id
@@ -169,7 +169,7 @@ as begin
       func_id = m.func_recebeu_id,
       tipo = o.tipo,
       meio_id = m.meio_pagamento_id,
-      bandeira = m.bandeira,
+      bandeira = nullif(m.bandeira,''),
       vl = m.vl_recebido
     from operacao_geral o with (nolock)
     left join dbo.operacao_venda_geral ov with (nolock) on ov.operacao_id = o.operacao_id
@@ -237,6 +237,11 @@ as begin
                 bandeira = nullif(bandeira, '')
             from dbo.turno_conferencia tc
             where tc.turno_id = @turno_id
+
+			union
+
+			select meio_id, bandeira
+			from @aux_totais_turno
          ) x
          group by meio_pagamento_id, bandeira
     ) mc on mp.id = mc.meio_pagamento_id
@@ -289,8 +294,8 @@ as begin
     and func_id = x.f_id
     and turno = x.tur
     and meio_id = x.trec_id
-    and isnull(bandeira, x.bndr) = isnull(x.bndr,'')
-
+	and isnull(bandeira,'') = isnull(x.bndr,'')
+    
   --Atualizando totais de créditos em conta assinada
   update @tbl
   set credito_assinada = x.valor
