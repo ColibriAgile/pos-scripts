@@ -1,4 +1,4 @@
-declare 
+Ôªødeclare 
   @loja_id int,
   @rede_id int,
   @ultimo_codigo int
@@ -57,18 +57,18 @@ insert into @meio_pagamento
   loja_id,  
   rede_id
 ) values
-(1, 1, 1, 'Dinheiro', 1, 1, 0, 0, 1, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
-(2, 2, 1, 'Cheque', 2, 0, 1, 0, 1, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
-(3, 3, 1, 'Credito cliente', 3, 0, 0, 1, 1, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
-(4, 4, 1, 'Conta assinada', 99, 0, 1, 0, 0, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
+(1, 1, 1, 'Dinheiro', 1, 1, 0, 0, 1, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
+(2, 2, 1, 'Cheque', 2, 0, 1, 0, 1, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
+(3, 3, 1, 'Credito cliente', 3, 0, 0, 1, 1, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
+(4, 4, 1, 'Conta assinada', 99, 0, 1, 0, 0, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
 --trocos
-(-1, 1, 1, 'Troco dinheiro', -1, 1, 0, 0, 0, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
-(-2, 2, 1, 'Troco credito', -2, 0, 0, 1, 0, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
-(-3, 3, 1, 'Troco repique', -3, 0, 1, 0, 0, 0, null, GetDate(), 'Padr„o', 0, @loja_id, @rede_id),
+(-1, 1, 1, 'Troco dinheiro', -1, 1, 0, 0, 0, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
+(-2, 2, 1, 'Troco credito', -2, 0, 0, 1, 0, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
+(-3, 3, 1, 'Troco repique', -3, 0, 1, 0, 0, 0, null, GetDate(), 'Padr√£o', 0, @loja_id, @rede_id),
 --Meios TEF
-(-90, 0, 1, 'TEF debito', @ultimo_codigo + 1, 0, 1, 0, 1, 1, 'D', GetDate(), 'Padr„o', 1, @loja_id, @rede_id),
-(-91, 0, 1, 'TEF credito', @ultimo_codigo + 2, 0, 1, 0, 1, 1, 'C', GetDate(), 'Padr„o', 1, @loja_id, @rede_id),
-(-92, 0, 1, 'TEF voucher', @ultimo_codigo + 3, 0, 1, 0, 1, 1, 'V', GetDate(), 'Padr„o', 1, @loja_id, @rede_id)
+(-90, 0, 1, 'TEF debito', @ultimo_codigo + 1, 0, 1, 0, 1, 1, 'D', GetDate(), 'Padr√£o', 1, @loja_id, @rede_id),
+(-91, 0, 1, 'TEF credito', @ultimo_codigo + 2, 0, 1, 0, 1, 1, 'C', GetDate(), 'Padr√£o', 1, @loja_id, @rede_id),
+(-92, 0, 1, 'TEF voucher', @ultimo_codigo + 3, 0, 1, 0, 1, 1, 'V', GetDate(), 'Padr√£o', 1, @loja_id, @rede_id)
       
 SET IDENTITY_INSERT meio_pagamento on
 
@@ -123,6 +123,10 @@ insert
   ,source.rede_id
 );
 
+
 SET IDENTITY_INSERT meio_pagamento off
 
-
+update dbo.meio_pagamento
+set cartao = 1
+where tef = 1 
+and (cartao is null or cartao = 0);
