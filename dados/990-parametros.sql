@@ -18,7 +18,6 @@
  S - senha
  ***************************/
 
-
 -----Geral-----------------
 
 exec sp_inserir_parametro
@@ -37,6 +36,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Cliente',
   @descr = 'Permitir duplicidade na identificação de cliente',
+  @detalhes = 'Define se o sistema aceita a mesma identificação para vários clientes. Ao consultar esta identificação o sistema exibe uma lista desses clientes para seleção.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -47,7 +47,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Etiquetas',
   @descr = 'Quantidade de dígitos no código de barras reservada para o código do material',
-  @detalhes = 'Normalmente reserva-se 4 digitos no código de barras para o código do material. Ajuste o valor deste parâmetro se precisar de mais digitos.',
+  @detalhes = 'Normalmente reserva-se 4 digitos no código de barras para o código do material. Ajuste o valor deste parâmetro se precisar de mais dígitos.',
   @tipo_valor = 'integer',
   @tipo_param = 'L',
   @lista = '4
@@ -61,6 +61,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Etiquetas',
   @descr = 'Etiquetas de balança possuem o valor ao invés da quantidade/peso.',
+  @detalhes = 'Algumas balanças podem gerar etiquetas com valor total ao invés do peso. Ajuste este parâmetro para que o sistema consiga ler essas etiquetas corretamente.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1'
@@ -71,6 +72,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Impressão remotas',
   @descr = 'Separar quantidade na impressão remota',
+  @detalhes = 'Quanto ativado o sistema não agrupa itens na geração da remota, ou seja, um item lançado com quantidade 4 gera 4 remotas com quantidade 1.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -80,7 +82,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgImprimeCanceladosNaRemota',
   @categoria = '#.Geral',
   @subcategoria = 'Impressão remotas',
-  @descr = 'Imprimir itens cancelados na impressão remota',
+  @descr = 'Incluir itens cancelados na impressão remota',
+  @detalhes = 'Determina se itens cancelados após produção serão enviados para as remotas.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -1317,7 +1320,7 @@ exec sp_inserir_parametro
   @categoria = '8.TEF',
   @subcategoria = '',
   @descr = 'Usar meio de pagamento TEF simplificado',
-  @detalhes = 'Esconde todos os meios TEF cadastros e mostra os 3 meios TEF padrões do sistema, um para débito, uma para crédito e outro para voucher.',
+  @detalhes = 'Esconde todos os meios TEF cadastrados e mostra os 3 meios TEF padrões do sistema (TEF débito, TEF crédito e TEF voucher).',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -1337,14 +1340,19 @@ exec sp_inserir_parametro
   @valor_default = '-90',
   @modovenda = '4',
   @list_sql =
-    'select key_field = cast(id as varchar), list_field = descricao
-     from meio_pagamento
-     where tef = 1
-       and ((
-        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
-       ) or ( 
-        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
-       ))' 
+'
+select
+  key_field = cast(id as varchar), 
+  list_field = descricao
+from meio_pagamento
+where tef = 1
+  and 
+  (
+    ((id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1''))
+    or 
+    ((id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0''))
+  )
+' 
 go
 
 exec sp_inserir_parametro
@@ -1358,14 +1366,19 @@ exec sp_inserir_parametro
   @valor_default = '-91',
   @modovenda = '4',
   @list_sql =
-    'select key_field = cast(id as varchar), list_field = descricao
-     from meio_pagamento
-     where tef = 1
-       and ((
-        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
-       ) or ( 
-        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
-       ))' 
+'
+select 
+  key_field = cast(id as varchar), 
+  list_field = descricao
+from meio_pagamento
+where tef = 1
+  and 
+  (
+    ((id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')) 
+    or 
+    ((id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0''))
+  )
+' 
 go
 
 exec sp_inserir_parametro
@@ -1379,36 +1392,24 @@ exec sp_inserir_parametro
   @valor_default = '-92',
   @modovenda = '4',
   @list_sql =
-    'select key_field = cast(id as varchar), list_field = descricao
-     from meio_pagamento
-     where tef = 1
-       and ((
-        (id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')
-       ) or ( 
-        (id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0'')
-       ))' 
+'
+select 
+  key_field = cast(id as varchar), 
+  list_field = descricao
+from meio_pagamento
+where tef = 1
+  and 
+  (
+    ((id < 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''1'')) 
+    or 
+    ((id > 0) and exists(select * from parametro where codigo = ''CfgUsaTEFSimplificado'' and valor = ''0''))
+  )
+' 
 go
-
 
 /**************************************
  Parametros obsoletos
  ***************************************/
-delete parametro where codigo = 'CfgUsaPontoDeVenda'
-delete parametro_modo where codigo = 'CfgPedeGarcomNaVenda' 
-delete parametro where codigo = 'CfgPedeGarcomNaVenda'
-delete parametro_modo where codigo = 'CfgAliquotaDeServico'
-delete parametro where codigo = 'CfgAliquotaDeServico'
-delete parametro_modo where codigo = 'CfgAliquotaDeConsumacao'
-delete parametro where codigo = 'CfgAliquotaDeConsumacao'
-delete parametro_modo where codigo = 'CfgAliquotaDeEntrada'
-delete parametro where codigo = 'CfgAliquotaDeEntrada'
-delete parametro_modo where codigo = 'CfgAliquotaDeTaxaDeEntrega'
-delete parametro where codigo = 'CfgAliquotaDeTaxaDeEntrega'
-delete parametro where codigo = 'CfgBloquearSangriaQuandoExcederSaldoDoCaixa'
-delete parametro where codigo = 'CfgBloquearObservacoesDigitadasQuandoHouverCadastro'
-delete parametro_modo where codigo = 'CfgSeparaTrocoNoPrePagamento'
-delete parametro where codigo = 'CfgSeparaTrocoNoPrePagamento'
-delete parametro where codigo like 'CfgRelatorioDe%'
 
 --TEF
 delete parametro where codigo = 'CfgTEFUsaMeioUnico'
@@ -1443,6 +1444,24 @@ delete parametro where codigo = 'CfgConcessaoDeCreditos'
 delete parametro where codigo = 'CfgUsaNFe'
 delete parametro where codigo = 'CfgConfiguracaoDeNFe'
 delete parametro where codigo = 'CfgIntegracaoComPulse'
+
+--geral
+delete parametro where codigo = 'CfgUsaPontoDeVenda'
+delete parametro_modo where codigo = 'CfgPedeGarcomNaVenda' 
+delete parametro where codigo = 'CfgPedeGarcomNaVenda'
+delete parametro_modo where codigo = 'CfgAliquotaDeServico'
+delete parametro where codigo = 'CfgAliquotaDeServico'
+delete parametro_modo where codigo = 'CfgAliquotaDeConsumacao'
+delete parametro where codigo = 'CfgAliquotaDeConsumacao'
+delete parametro_modo where codigo = 'CfgAliquotaDeEntrada'
+delete parametro where codigo = 'CfgAliquotaDeEntrada'
+delete parametro_modo where codigo = 'CfgAliquotaDeTaxaDeEntrega'
+delete parametro where codigo = 'CfgAliquotaDeTaxaDeEntrega'
+delete parametro where codigo = 'CfgBloquearSangriaQuandoExcederSaldoDoCaixa'
+delete parametro where codigo = 'CfgBloquearObservacoesDigitadasQuandoHouverCadastro'
+delete parametro_modo where codigo = 'CfgSeparaTrocoNoPrePagamento'
+delete parametro where codigo = 'CfgSeparaTrocoNoPrePagamento'
+delete parametro where codigo like 'CfgRelatorioDe%'
 delete parametro where codigo = 'CfgPluginCEP'
 delete parametro where codigo = 'CfgPluginFiscal'
 delete parametro where codigo = 'CfgServidorDeLock'
