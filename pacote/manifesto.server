@@ -1,7 +1,7 @@
 {
   "arquivos":[],
   "dependencias" : {
-    "Master": "2.2.*"  
+    "Master": "2.2.1.*"  
   },
   "nome":"ColibriScripts",
   "nome_exibicao": "NCR Colibri DB Scripts",
