@@ -121,6 +121,13 @@ where venda_id in (select id from #vendas)'
 where h.operacao_id in (select id from #opers)'
     )
 
+    /*comprovante
+    copia todos os comprovantes de operações do dia que já foram finalizadas ou canceladas*/
+    set @cmd = dbo.fn_insert_para_fechamento('comprovante', 'c')
+    exec(@cmd + '
+where c.operacao_id in (select id from #opers)'
+    )
+
     /*LIMPANDO AS TABELAS DIÁRIAS*/
 
     /*TICKET
@@ -162,6 +169,10 @@ where h.operacao_id in (select id from #opers)'
     /*venda*/
     delete from venda
     where venda_id in (select id from #vendas)
+
+	/*comprovante*/
+    delete from comprovante
+    where operacao_id in (select id from #opers union select id from #opers_orig)
 
     /*operacao_venda*/
     delete from operacao_venda

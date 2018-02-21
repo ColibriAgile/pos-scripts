@@ -451,6 +451,11 @@ execute sp_apagar_campo 'venda_item_geral', 'nu_subconta'
 go
 execute sp_apagar_campo 'venda_item_geral', 'seq_dest'
 go
+execute sp_apagar_campos 'operacao', 'comprovante', 'comprovante_chave', 'comprovante_status', 'comprovante_ressalva'
+go
+execute sp_apagar_campos 'operacao_geral', 'comprovante', 'comprovante_chave', 'comprovante_status', 'comprovante_ressalva'
+go
+
 
 /**************************************
  *** Triggers
@@ -1246,23 +1251,23 @@ go
 /********************************
 Schemas
 ********************************/
-IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'launcher')
-BEGIN
+if exists (select * from sys.schemas where name = 'launcher')
+begin
 	execute sp_apagar_schema 'launcher'
-END
-IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'ma')
-BEGIN
+end
+if exists (select * from sys.schemas where name = 'ma')
+begin
 	execute sp_apagar_schema 'ma'
-END
-IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'guard')
-BEGIN
+end
+if exists (select * from sys.schemas where name = 'guard')
+begin
 	execute sp_apagar_schema 'guard'
-END
-IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'catalog')
-BEGIN
+end
+if exists (select * from sys.schemas where name = 'catalog')
+begin
 	execute sp_apagar_schema 'catalog'
-END
-IF EXISTS (SELECT * FROM sys.schemas WHERE name = 'config')
-BEGIN
+end
+if exists (select * from sys.schemas where name = 'config')
+begin
 	execute sp_apagar_schema 'config'
-END
+end
