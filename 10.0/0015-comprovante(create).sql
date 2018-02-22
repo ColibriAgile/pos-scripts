@@ -21,14 +21,14 @@ if dbo.fn_existe('dbo.operacao.comprovante') = 1
 	insert into comprovante
 	select 
 		o.operacao_id, 
-		consumidor = c.string_value, 
-		comprovante, 
+		consumidor = isnull(nullif(c.string_value, ''''),''(nao informado)''), 
+	    comprovante, 
 		comprovante_chave, 
 		comprovante_status, 
 		comprovante_ressalva
 	from operacao o 
 	left join operacao_venda ov on o.operacao_id = ov.operacao_id
-	cross apply dbo.fn_parse_json(isnull(case when consumidor = '' then null else consumidor end,''{"cpf":"(nao informado)"}'')) c
+	cross apply dbo.fn_parse_json(isnull(nullif(consumidor, ''''),''{"cpf":"(nao informado)"}'')) c
 	where c.name = ''cpf''
 ')
 go
@@ -56,14 +56,14 @@ exec('
 	insert into comprovante_geral
 	select 
 	  o.operacao_id, 
-	  consumidor = c.string_value, 
+	  consumidor = isnull(nullif(c.string_value, ''''),''(nao informado)''), 
 	  comprovante, 
 	  comprovante_chave, 
 	  comprovante_status, 
 	  comprovante_ressalva
 	from operacao_geral o 
 	left join operacao_venda_geral ov on o.operacao_id = ov.operacao_id
-	cross apply dbo.fn_parse_json(isnull(case when consumidor = '' then null else consumidor end,''{"cpf":"(nao informado)"}'')) c
+	cross apply dbo.fn_parse_json(isnull(nullif(consumidor, ''''),''{"cpf":"(nao informado)"}'')) c
 	where c.name = ''cpf''
 ')
 go
