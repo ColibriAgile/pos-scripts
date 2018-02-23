@@ -295,7 +295,7 @@ as begin
     and turno = x.tur
     and meio_id = x.trec_id
 	and isnull(bandeira,'') = isnull(x.bndr,'')
-    
+
   --Atualizando totais de créditos em conta assinada
   update @tbl
   set credito_assinada = x.valor
@@ -439,7 +439,7 @@ as begin
   (
     select
       tur = turno,
-      totInfo = sum(valor_informado)
+      totInfo = sum(isnull(valor_informado,0))
     from @tbl
     group by turno
   )
