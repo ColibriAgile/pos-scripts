@@ -111,9 +111,6 @@ as begin
       and (func_id = @func_id or @func_id = '-1')
   end
 
---------------------------------------------------------------
---------------------------------------------------------------
-
   declare @aux_totais_turno table
   (
     data datetime,
@@ -126,7 +123,9 @@ as begin
     vl money
   )
 
+  ---------------------------------------------------------------------------
   --Inserindo totais do caixa, por data, funcionário e meio de recebimento
+  ---------------------------------------------------------------------------
   insert into @aux_totais_turno
   select
     data,
@@ -151,9 +150,10 @@ as begin
       bandeira = nullif(m.bandeira,''),
       vl = m.vl_recebido
     from operacao o with (nolock)
-    left join dbo.operacao_venda ov with (nolock) on ov.operacao_id = o.operacao_id
+    left join dbo.operacao_venda ov with (nolock) on 
+      ov.operacao_id = o.operacao_id
     join dbo.movimento_caixa m with (nolock) on
-      o.operacao_id = m.operacao_id
+      m.operacao_id = o.operacao_id
     join @turnos x on
       x.data = o.dt_contabil and
       x.func_id = m.func_recebeu_id and
@@ -172,17 +172,17 @@ as begin
       bandeira = nullif(m.bandeira,''),
       vl = m.vl_recebido
     from operacao_geral o with (nolock)
-    left join dbo.operacao_venda_geral ov with (nolock) on ov.operacao_id = o.operacao_id
+    left join dbo.operacao_venda_geral ov with (nolock) on 
+      ov.operacao_id = o.operacao_id
     join movimento_caixa_geral m with (nolock) on
-      o.operacao_id = m.operacao_id
+      m.operacao_id = o.operacao_id
     join @turnos x on
       x.data = o.dt_contabil and
       x.func_id = m.func_recebeu_id and
       x.turno_id = m.turno_id
     where m.cancelado = 0
       and isnull(ov.modo_venda_id, 0) in (select id from dbo.fn_list2lines(@modos_venda, ''))
-
-  )x
+  ) x
   left join meio_pagamento t on t.id = meio_id
   group by
     data,
@@ -190,11 +190,12 @@ as begin
     func_id,
     tipo,
     meio_id,
-  bandeira
+    bandeira
 
-  --------------------------------------------------------------------------
-  /*Inserindo formas de recebimentos ativas para cada dia e funcionário, o
-  usuário quer ver também as formas que não foram praticadas no período.*/
+  ---------------------------------------------------------------------------
+  -- Inserindo formas de recebimentos ativas para cada dia e funcionário, o
+  -- usuário quer ver também as formas que não foram praticadas no período.
+  ---------------------------------------------------------------------------
   insert into @tbl
   (
     data,
@@ -222,48 +223,62 @@ as begin
       meio_nome = dbo.fn_capitalize (descricao, 0),
       bandeira
     from meio_pagamento mp
-    left join (
-         select * from (
-            select
-                meio_pagamento_id,
-                bandeira = nullif(bandeira, '')
-            from movimento_caixa mc
-	          where mc.turno_id = @turno_id or @turno_id = 0
+    left join 
+    (
+      select * 
+      from 
+      (
+        select
+          meio_pagamento_id,
+          bandeira = nullif(bandeira, '')
+        from movimento_caixa mc
+        where mc.turno_id = @turno_id 
+           or @turno_id = 0
 
-            union
+        union
 
-            select
-                meio_pagamento_id,
-                bandeira = nullif(bandeira, '')
-            from dbo.turno_conferencia tc
-            where tc.turno_id = @turno_id
+        select
+          meio_pagamento_id,
+          bandeira = nullif(bandeira, '')
+        from dbo.turno_conferencia tc
+        where tc.turno_id = @turno_id
 
-			union
+        union
 
-			select meio_id, bandeira
-			from @aux_totais_turno
-         ) x
-         group by meio_pagamento_id, bandeira
-    ) mc on mp.id = mc.meio_pagamento_id
+        select 
+          meio_id,
+          bandeira
+        from @aux_totais_turno
+      ) x
+      group by 
+        meio_pagamento_id, 
+        bandeira
+    ) mc on 
+      mp.id = mc.meio_pagamento_id
     where id not in (-1,-2,-3)
-	  and ((tef = 0) or (
-           (tef = 1) and
-           (
-               (id < 0 and @TefSimplificado = 1) or
-               (id > 0 and @TefSimplificado = 0)
-            )
-         ))
+      and 
+      (
+        (tef = 0) or 
+        (
+          (tef = 1) and
+          (
+            (id < 0 and @TefSimplificado = 1) or
+            (id > 0 and @TefSimplificado = 0)
+          )
+        )
+      )
   ) meios
   full join
   (
-  select distinct
-    data,
-    t.turno_id,
-    t.func_id,
-    a.dt_hr_abertura,
-    a.dt_hr_fechamento
+    select distinct
+      data,
+      t.turno_id,
+      t.func_id,
+      a.dt_hr_abertura,
+      a.dt_hr_fechamento
     from @turnos t
-    join dbo.turno a on a.turno_id = t.turno_id
+    join dbo.turno a on 
+      a.turno_id = t.turno_id
   ) dtFunc on 0=0
   order by
     data,
@@ -288,13 +303,18 @@ as begin
     from @aux_totais_turno
     where meio_id not in (-1,-2,-3)
       and tipo = 'venda'
-    group by data, func_id, turno, meio_id, bandeira
-  )x
+    group by 
+      data,
+      func_id,
+      turno, 
+      meio_id, 
+      bandeira
+  ) x
   where data = x.dt
     and func_id = x.f_id
     and turno = x.tur
     and meio_id = x.trec_id
-	and isnull(bandeira,'') = isnull(x.bndr,'')
+    and isnull(bandeira,'') = isnull(x.bndr,'')
 
   --Atualizando totais de créditos em conta assinada
   update @tbl
@@ -333,19 +353,18 @@ as begin
       bndr = vl.bandeira,
       vl.vl_digitado
     from turno_conferencia vl
-	where turno_id = @turno_id
+    where turno_id = @turno_id
   )
   update @tbl
   set valor_informado = vl_digitado
   from conf
   where turno_id = turno
-	and meio_id = meio_pagamento_id
-	and isnull(bandeira, '') = isnull(conf.bndr,'');
-
+    and meio_id = meio_pagamento_id
+    and isnull(bandeira, '') = isnull(conf.bndr,'');
 
   /*Atualizando totais de trocos:
-      - troco e repique são abatidos do dinheiro;
-      - troco em contra-vale será abatido do contra-vale;
+    - troco e repique são abatidos do dinheiro;
+    - troco em contra-vale será abatido do contra-vale;
 
     troco dinheiro -1
     contra vale    -2
@@ -376,7 +395,7 @@ as begin
         repique = case when meio_id = -3 then (vl) else 0 end
       from @aux_totais_turno
       where meio_id in (-1,-2,-3)
-    )x
+    ) x
     group by
       dt,
       f_id,
@@ -415,7 +434,7 @@ as begin
         suprimento = case when tipo = 'Suprimento' then vl else 0 end
       from @aux_totais_turno
       where tipo in ('Sangria','Suprimento')
-    )x
+    ) x
     group by dt, f_id, tur, trec_id
   )
   update @tbl
@@ -453,7 +472,6 @@ as begin
   set valor_informado = 0
   where valor_informado is null
     and cfgConfereCaixa = 1
-
 
   --Apaga meios inativos com valor 0
   delete @tbl
