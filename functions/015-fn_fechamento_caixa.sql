@@ -1,4 +1,4 @@
-if (object_id('fn_fechamento_caixa') is not null)
+Ôªøif (object_id('fn_fechamento_caixa') is not null)
   drop function fn_fechamento_caixa
 go
 
@@ -10,10 +10,10 @@ create function fn_fechamento_caixa
   @apenas_ultimo_fechamento bit,
   @turno_id int = 0,
   @modos_venda varchar(10) = ''
-)
+)                                
 returns @tbl table
 (
-  --identificaÁ„o
+  --identifica√ß√£o
   data datetime,
   turno int,
   func_id int,
@@ -24,7 +24,7 @@ returns @tbl table
   meio_nome varchar(30),
   bandeira varchar(50),
 
-  --conferÍncia
+  --confer√™ncia
   valor_calculado as (valor_venda + credito_assinada + troco + repique + sangria + suprimento),
   valor_informado money,
   diferenca as (isnull(valor_informado,0) - isnull(valor_venda + credito_assinada + troco + repique + sangria + suprimento,0)),
@@ -124,7 +124,7 @@ as begin
   )
 
   ---------------------------------------------------------------------------
-  --Inserindo totais do caixa, por data, funcion·rio e meio de recebimento
+  --Inserindo totais do caixa, por data, funcion√°rio e meio de recebimento
   ---------------------------------------------------------------------------
   insert into @aux_totais_turno
   select
@@ -193,8 +193,8 @@ as begin
     bandeira
 
   ---------------------------------------------------------------------------
-  -- Inserindo formas de recebimentos ativas para cada dia e funcion·rio, o
-  -- usu·rio quer ver tambÈm as formas que n„o foram praticadas no perÌodo.
+  -- Inserindo formas de recebimentos ativas para cada dia e funcion√°rio, o
+  -- usu√°rio quer ver tamb√©m as formas que n√£o foram praticadas no per√≠odo.
   ---------------------------------------------------------------------------
   insert into @tbl
   (
@@ -242,6 +242,7 @@ as begin
           bandeira = nullif(bandeira, '')
         from dbo.turno_conferencia tc
         where tc.turno_id = @turno_id
+           or @turno_id = 0
 
         union
 
@@ -316,7 +317,7 @@ as begin
     and meio_id = x.trec_id
     and isnull(bandeira,'') = isnull(x.bndr,'')
 
-  --Atualizando totais de crÈditos em conta assinada
+  --Atualizando totais de cr√©ditos em conta assinada
   update @tbl
   set credito_assinada = x.valor
   from
@@ -344,7 +345,7 @@ as begin
     and meio_id = x.trec_id
     and isnull(bandeira, '') = isnull(x.bndr,'');
 
-  /*Atualizando o valor informado na conferÍncia de caixa*/
+  /*Atualizando o valor informado na confer√™ncia de caixa*/
   with conf as
   (
     select
@@ -354,6 +355,7 @@ as begin
       vl.vl_digitado
     from turno_conferencia vl
     where turno_id = @turno_id
+       or @turno_id = 0
   )
   update @tbl
   set valor_informado = vl_digitado
@@ -363,8 +365,8 @@ as begin
     and isnull(bandeira, '') = isnull(conf.bndr,'');
 
   /*Atualizando totais de trocos:
-    - troco e repique s„o abatidos do dinheiro;
-    - troco em contra-vale ser· abatido do contra-vale;
+    - troco e repique s√£o abatidos do dinheiro;
+    - troco em contra-vale ser√° abatido do contra-vale;
 
     troco dinheiro -1
     contra vale    -2
@@ -453,7 +455,7 @@ as begin
     from funcionario f
     where func_id = f.id;
 
-  --ConfiguraÁ„o de conferencia de caixa
+  --Configura√ß√£o de conferencia de caixa
   with cfg as
   (
     select
