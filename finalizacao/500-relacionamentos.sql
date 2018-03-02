@@ -200,6 +200,24 @@ go
     ) on update  no action
      on delete  no action
 go
+  alter table venda_item add foreign key
+    (
+    ponto_venda_id
+    ) references ponto_venda
+    (
+    id
+    ) on update  no action
+     on delete  no action
+go
+  alter table venda_item_geral add foreign key
+    (
+    ponto_venda_id
+    ) references ponto_venda
+    (
+    id
+    ) on update  no action
+     on delete  no action
+go
 
 /***************************************
  material
