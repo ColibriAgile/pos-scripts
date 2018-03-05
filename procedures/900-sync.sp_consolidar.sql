@@ -566,7 +566,13 @@ set identity_insert dbo.motivo_cancelamento off
 set identity_insert dbo.ponto_venda on
 
 merge dbo.ponto_venda as target
-using sync.pontovenda as source with (nolock) on target.id = source.pontovenda_id
+using (
+  select 
+    pontovenda_id = min(pontovenda_id), 
+    nm_pontovenda 
+  from sync.pontovenda with (nolock)
+  group by nm_pontovenda
+) as source on target.id = source.pontovenda_id
 when matched then
   update set
     nome = source.nm_pontovenda,
