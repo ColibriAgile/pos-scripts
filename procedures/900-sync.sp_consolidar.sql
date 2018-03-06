@@ -563,6 +563,17 @@ when not matched by source then
 set identity_insert dbo.motivo_cancelamento off
 
 /* pontovenda */
+
+--renomeia e desativa pontos de venda com o mesmo nome
+--para evitar erro de chave única
+update dbo.ponto_venda set
+  nome = nome + cast(id as varchar(5)),
+  ativo = 0
+where nome in (
+  select distinct nm_pontovenda 
+  from sync.pontovenda
+)
+
 set identity_insert dbo.ponto_venda on
 
 merge dbo.ponto_venda as target
@@ -575,6 +586,7 @@ using (
 ) as source on target.id = source.pontovenda_id
 when matched then
   update set
+    ativo = 1,
     nome = source.nm_pontovenda,
     dt_alt = @getDate
 when not matched by target then
