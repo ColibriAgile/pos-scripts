@@ -569,8 +569,8 @@ set identity_insert dbo.motivo_cancelamento off
 update dbo.ponto_venda set
   nome = nome + cast(id as varchar(5)),
   ativo = 0
-where nome in (
-  select distinct nm_pontovenda 
+where nome collate Latin1_General_CI_AI in (
+  select distinct nm_pontovenda collate Latin1_General_CI_AI
   from sync.pontovenda
 )
 
