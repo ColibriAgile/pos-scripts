@@ -20,19 +20,20 @@ select
   @rede_id = rede_id
 from dbo.loja
 
-/* local_producao */
+/*************************************
+ local_producao 
+ *************************************/
+set identity_insert dbo.local_producao on
 
 if object_id('sync.localproducao') is not null
 begin
-  set identity_insert dbo.local_producao on
-
   merge dbo.local_producao as target
   using
   (
     select
-    id,
-    nome
-  from sync.localproducao
+      id,
+      nome
+    from sync.localproducao
   ) as source on
     target.id = source.id
   when not matched by target then
@@ -51,14 +52,46 @@ begin
       @loja_id,
       @rede_id
     );
+end
+else begin
+  merge dbo.local_producao as target
+  using
+  (
+    select distinct 
+      id = st_localimpressao,
+      nome = 'Local de produção '+ cast(st_localimpressao as varchar)
+    from sync.material
+    where st_localimpressao is not null 
+  ) as source on
+    target.id = source.id
+  when not matched by target then
+    insert
+    (
+      id,
+      nome,
+      dt_alt,
+      loja_id,
+      rede_id
+    ) values
+    (
+      source.id,
+      source.nome,
+      @getDate,
+      @loja_id,
+      @rede_id
+    );
+end
 
-  if not exists (select * from dbo.local_producao where id = 0)
-    insert dbo.local_producao (id, nome, dt_alt, loja_id, rede_id) values
-      (0, 'nenhum', getdate(), @loja_id, @rede_id)
+if not exists (select * from dbo.local_producao where id = 0)
+  insert dbo.local_producao 
+  (id, nome, dt_alt, loja_id, rede_id) values
+  (0, 'nenhum', getdate(), @loja_id, @rede_id)
 
-  set identity_insert dbo.local_producao off
+set identity_insert dbo.local_producao off
 
-/* grupo material */
+/*************************************
+ grupo material 
+ *************************************/
 set identity_insert dbo.grupo_material on
 
 merge dbo.grupo_material as target
@@ -102,7 +135,9 @@ when not matched by source then
 
 set identity_insert dbo.grupo_material OFF
 
-/* material */
+/*************************************
+ material 
+ *************************************/
 set identity_insert dbo.material on
 
 merge dbo.material as target
@@ -183,7 +218,9 @@ when not matched by source then
 
 set identity_insert dbo.material off
 
-/* classe */
+/*************************************
+ classe 
+ *************************************/
 set identity_insert dbo.classe on
 set concat_null_yields_null off
 
@@ -225,7 +262,9 @@ when not matched by source then
 set concat_null_yields_null on
 set identity_insert dbo.classe off
 
-/* combo */
+/*************************************
+ combos
+ *************************************/
 set identity_insert dbo.combo on
 
 merge dbo.combo as target
@@ -269,11 +308,14 @@ when not matched by source then
 
 set identity_insert dbo.combo off
 
-/* comboslot */
+/*************************************
+ comboslot 
+ *************************************/
 set identity_insert dbo.combo_slot on
 
 merge dbo.combo_slot as target
-using (
+using 
+(
   select
     slot_id = row_number() over (order by combo_id, slot_id),
     ordem,
@@ -338,7 +380,9 @@ when not matched by source then
 
 set identity_insert dbo.combo_slot off
 
-/* movclasse */
+/*************************************
+ movclasse 
+ *************************************/
 update sync.movclasse set IT_CLASSE = null where IT_CLASSE = 0
 update sync.movclasse set IT_MATERIAL = null where IT_MATERIAL = 0
 update sync.movclasse set IT_COMBO = null where IT_COMBO = 0
@@ -396,8 +440,9 @@ when not matched by target then
 when not matched by source then
   delete;
 
-
-/* fiscalmaterial */
+/*************************************
+ fiscal.material
+ *************************************/
 merge fiscal.material as target
 using sync.fiscalmaterial as source with (nolock) on target.material_id = source.material_id
 when not matched by target then
@@ -429,7 +474,9 @@ when not matched by target then
     '?'
   );
 
-/* codigodebarras */
+/*************************************
+ codigo_barra
+ *************************************/
 merge dbo.codigo_barra as target
 using sync.codigodebarras as source with (nolock) on
   target.material_id = source.material_id and
@@ -453,7 +500,9 @@ when not matched by target then
 when not matched by source then
   delete;
 
-/* observacao */
+/*************************************
+ observacao 
+ *************************************/
 set identity_insert dbo.observacao on
 
 merge dbo.observacao as target
@@ -485,7 +534,9 @@ when not matched by source then
 
 set identity_insert dbo.observacao off
 
-/* materialxobs */
+/*************************************
+ materialxobs 
+ *************************************/
 merge dbo.material_obs as target
 using
 (
@@ -524,7 +575,9 @@ when not matched by target then
 when not matched by source then
   delete;
 
-/* motivocanc */
+/*************************************
+ motivocanc 
+ *************************************/
 set identity_insert dbo.motivo_cancelamento on
 
 merge dbo.motivo_cancelamento as target
@@ -562,31 +615,15 @@ when not matched by source then
 
 set identity_insert dbo.motivo_cancelamento off
 
-/* pontovenda */
-
---renomeia e desativa pontos de venda com o mesmo nome
---para evitar erro de chave única
-update dbo.ponto_venda set
-  nome = nome + cast(id as varchar(5)),
-  ativo = 0
-where nome collate Latin1_General_CI_AI in (
-  select distinct nm_pontovenda collate Latin1_General_CI_AI
-  from sync.pontovenda
-)
-
+/*************************************
+ pontovenda 
+ *************************************/
 set identity_insert dbo.ponto_venda on
 
 merge dbo.ponto_venda as target
-using (
-  select 
-    pontovenda_id = min(pontovenda_id), 
-    nm_pontovenda 
-  from sync.pontovenda with (nolock)
-  group by nm_pontovenda
-) as source on target.id = source.pontovenda_id
+using sync.pontovenda as source with (nolock) on target.id = source.pontovenda_id
 when matched then
   update set
-    ativo = 1,
     nome = source.nm_pontovenda,
     dt_alt = @getDate
 when not matched by target then
@@ -608,8 +645,55 @@ when not matched by source then
 
 set identity_insert dbo.ponto_venda off
 
-/* tiporecebimento */
+/*************************************
+ corrigie terminais que estao apontando 
+ para pontos de venda inativos
+ *************************************/
 
+declare @pontovendamin int
+select @pontovendamin = min(id) 
+from ponto_venda
+where ativo = 1
+
+update maquina
+set ponto_balcao_id = @pontovendamin
+where ponto_balcao_id in
+(
+  select id
+  from ponto_venda
+  where ativo = 0
+)
+
+update maquina
+set ponto_mesa_id = @pontovendamin
+where ponto_mesa_id in
+(
+  select id
+  from ponto_venda
+  where ativo = 0
+)
+
+update maquina
+set ponto_ficha_id = @pontovendamin
+where ponto_ficha_id in
+(
+  select id
+  from ponto_venda
+  where ativo = 0
+)
+
+update maquina
+set ponto_entrega_id = @pontovendamin
+where ponto_entrega_id in
+(
+  select id
+  from ponto_venda
+  where ativo = 0
+)
+
+/*************************************
+ tiporecebimento 
+ *************************************/
 if object_id('sync.tiporecebimento') is not null
 begin
 
@@ -662,7 +746,7 @@ begin
       'C',
       source.bn_multiplo,
       source.nu_codigo,
-      'Padr�o',
+      'Padrao',
       @loja_id,
       @rede_id
     )
@@ -672,9 +756,12 @@ begin
   set identity_insert dbo.meio_pagamento off
 end
 
-/* tab_preco */
+/*************************************
+ tab_preco 
+ *************************************/
 merge dbo.tabela_preco as target
-using sync.loj_tabpreco as source with (nolock) on target.nome = source.nome collate Latin1_General_CI_AI
+using sync.loj_tabpreco as source with (nolock) on 
+  target.nome = source.nome collate Latin1_General_CI_AI
 when matched then
   update set
     target.dt_vigencia = source.DataIniValid,
@@ -706,20 +793,30 @@ when not matched by target then
 when not matched by source then
   update set ativo = 0;
 
-/* item_preco */
+/*************************************
+ item_preco 
+ *************************************/
 merge dbo.item_preco as target
 using
 (
-  select tp.id, nome = min(t.nome), t.codMerc, preco1 = max(t.preco1)
+  select 
+    tp.id, 
+    nome = min(t.nome), 
+    t.codMerc, 
+    preco1 = max(t.preco1)
   from sync.tabpreco t
-  join dbo.tabela_preco tp on tp.nome = t.Nome collate Latin1_General_CI_AI
+  join dbo.tabela_preco tp on 
+    tp.nome = t.Nome collate Latin1_General_CI_AI
   where codMerc in (select id from dbo.material)
-  group by tp.id, t.codMerc
+  group by 
+    tp.id, 
+    t.codMerc
 ) as source on
   target.tabela_id = source.id and
   target.material_id = source.codMerc
 when matched then
-  update set target.preco = source.preco1
+  update set 
+    target.preco = source.preco1
 when not matched by target then
   insert
   (
@@ -738,7 +835,4 @@ when not matched by target then
   )
 when not matched by source then
   delete;
-
-
-end
 go
