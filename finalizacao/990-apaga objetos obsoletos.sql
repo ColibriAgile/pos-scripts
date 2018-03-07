@@ -247,6 +247,9 @@ execute sp_apagar_constraint 'classe_rede_id_6addaab2_uniq'
 go
 execute sp_apagar_constraint 'observacao_rede_id_705f28e0_uniq'
 go
+execute sp_apagar_constraint 'un_ponto_venda$nome'
+execute sp_apagar_constraint 'ix_ponto_venda$nome'
+go
 
 /**************************************
  *** Campos
