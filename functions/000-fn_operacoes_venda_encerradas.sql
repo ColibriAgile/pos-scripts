@@ -70,6 +70,7 @@ begin
         [status] = case
           when
             (isnull(c.[status], '') = '' and ov.transferida = 0) or 
+			(c.[status] = 'Nao Emitido') or
             (c.[status] = 'Emitido' and o.cancelada = 1 and isnull(c.ressalva, '') = '') then 'Pendente'
           when
             (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
