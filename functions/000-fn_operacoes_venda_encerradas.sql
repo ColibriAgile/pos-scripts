@@ -157,7 +157,7 @@ begin
       transferida
     from operacao_venda_geral ov with(nolock)
     join operacao_geral o with(nolock) on o.operacao_id = ov.operacao_id
-    left join comprovante c with(nolock) on c.operacao_id = o.operacao_id
+    left join comprovante_geral c with(nolock) on c.operacao_id = o.operacao_id
     where ov.dt_hr_encerramento between @dtini and @dtfim
     --and ov.encerrada = 1 (Na tabela geral todas as operações estão encerradas)
   )
