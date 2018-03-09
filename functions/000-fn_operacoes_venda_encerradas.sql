@@ -69,14 +69,12 @@ begin
         o.dt_contabil,
         [status] = case
           when
-            (isnull(c.[status], '') = '' and ov.transferida = 0) or 
-			(c.[status] = 'Nao Emitido') or
-            (c.[status] = 'Emitido' and o.cancelada = 1 and isnull(c.ressalva, '') = '') then 'Pendente'
-          when
             (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
-          when
+		      when
             (c.[status] = 'Cancelado' and o.cancelada = 1) then 'Cancelada'
-          else 'Ok'
+          when
+            (c.[status] = 'Emitido' and o.cancelada = 0) then 'Ok'
+          else 'Pendente'
         end,
         diaria = 1,
         transferida
