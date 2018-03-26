@@ -20,7 +20,7 @@ with check add foreign key
 references [dbo].[operacao_geral] 
 ([operacao_id])
 
-if dbo.fn_existe('dbo.operacao.comprovante_geral') = 1
+if dbo.fn_existe('dbo.operacao_geral.comprovante_geral') = 1
   exec('
 insert into comprovante_geral
 select 
