@@ -24,7 +24,8 @@ if dbo.fn_existe('dbo.operacao_geral.comprovante') = 1
   exec('
 insert into comprovante_geral
 select 
-	o.operacao_id, 
+  id = (ROW_NUMBER() OVER(ORDER BY o.operacao_id ASC) * -1),
+  o.operacao_id, 
 	consumidor = isnull(nullif(c.string_value, ''''),''(nao informado)''), 
 	comprovante, 
 	comprovante_chave, 
