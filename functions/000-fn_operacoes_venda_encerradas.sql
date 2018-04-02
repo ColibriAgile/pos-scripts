@@ -71,9 +71,10 @@ begin
           when
             (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
 		      when
-            (c.[status] = 'Cancelado' and o.cancelada = 1) then 'Cancelada'
+            (c.[status] = 'Cancelado' and o.cancelada = 1) or
+            (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
           when
-            (c.[status] = 'Emitido' and o.cancelada = 0) then 'Ok'
+            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 0) then 'Ok'
           else 'Pendente'
         end,
         diaria = 1,
