@@ -74,7 +74,7 @@ begin
             (c.[status] = 'Cancelado' and o.cancelada = 1) or
             (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
           when
-            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 0) then 'Ok'
+            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 1) then 'Ok'
           else 'Pendente'
         end,
         diaria = 1,
@@ -83,7 +83,7 @@ begin
       join operacao o with(nolock) on o.operacao_id = ov.operacao_id
 	  left join comprovante c with(nolock) on c.operacao_id = o.operacao_id
       where ov.dt_hr_encerramento between @dtini and @dtfim
-        and ov.encerrada = 1        
+        and ov.encerrada = 1         
     )
     insert @tbl
     (
