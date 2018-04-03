@@ -1,4 +1,4 @@
-declare @id int = (select id from ponto_venda where nome = 'nenhum')
+declare @id int = (select id from ponto_venda where lower(nome) = 'nenhum')
 update maquina set ponto_balcao_id = null where ponto_balcao_id = @id
 update maquina set ponto_entrega_id = null where ponto_entrega_id = @id
 update maquina set ponto_mesa_id = null where ponto_mesa_id = @id
