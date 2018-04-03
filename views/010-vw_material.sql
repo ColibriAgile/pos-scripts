@@ -12,6 +12,7 @@ select
    m.descricao,
    m.descricao_touch,
    m.descricao_producao,
+   m.descricao_extra,
    m.tecla_prog,
    m.imagem,
    m.cod_externo,
