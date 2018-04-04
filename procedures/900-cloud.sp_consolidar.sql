@@ -344,7 +344,7 @@ set identity_insert dbo.combo on
 
 IF OBJECT_ID('dbo.ix_combo$rede_id$sub_rede_id$loja_id$codigo', 'UQ') is not null
   alter table dbo.combo drop constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo
-
+exec('
 merge dbo.combo as target
 using
   (
@@ -361,6 +361,7 @@ when matched then
     codigo = source.codigo,
     descricao_touch = source.descricao_touch,
     descricao_prod = source.descricao_prod,
+    descricao_extra = source.descricao_extra,
     requer_obs = source.requer_obs,
     ativo = source.ativo,
     imagem = source.imagem,
@@ -376,6 +377,7 @@ when not matched by target then
     codigo,
     descricao_touch,
     descricao_prod,
+    descricao_extra,
     requer_obs,
     vende_web,
     imagem,
@@ -391,16 +393,18 @@ when not matched by target then
     source.codigo,
     source.descricao_touch,
     source.descricao_prod,
+    source.descricao_extra,
     source.requer_obs,
     source.vende_web,
     source.imagem,
     source.local_id,
-    source.grupo_id,
-    @loja_id,
-    @rede_id
+    source.grupo_id,'
+    + @loja_id + ','
+    + @rede_id + '
   )
 when not matched by source then
-  update set target.ativo = 0;
+  update set target.ativo = 0;'
+)
 
 set identity_insert dbo.combo off
 
