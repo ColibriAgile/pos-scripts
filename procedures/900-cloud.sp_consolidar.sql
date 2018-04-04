@@ -149,93 +149,98 @@ IF OBJECT_ID('dbo.ix_material$rede_id$sub_rede_id$loja_id$codigo', 'UQ') IS NOT 
 
 set identity_insert dbo.material on
 
-merge dbo.material as target
-using
-(
-  select
-    grupo_id = grupo.cliente_id,
-    local_id = l.cliente_id,
-    mat.*
-  from cloud_v1_0.material mat
-  join cloud_v1_0.grupo_material grupo on mat.grupo = grupo.id
-  left join cloud_v1_0.local_producao l on l.id = mat.local_producao
-) as source on target.id = source.cliente_id
-when matched then
-  update set
-    ativo = source.ativo,
-    dt_alt = source.dt_alt,
-    codigo = source.codigo,
-    descricao = source.descricao,
-    descricao_touch = source.descricao_touch,
-    descricao_producao = source.descricao_producao,
-    tecla_prog = source.tecla_prog,
-    imagem = source.imagem,
-    cod_externo = source.cod_Externo,
-    unidade = source.unidade,
-    venda = source.venda,
-    servico = source.servico,
-    requer_obs = source.requer_obs,
-    qtde_frac = source.qtde_frac,
-    balanca = source.balanca,
-    consumacao = source.consumacao,
-    vende_web = source.vende_web,
-    vende_combo = source.vende_combo,
-    grupo_id = source.grupo_id,
-    local_producao_id = source.local_id
-when not matched by target then
-  insert
-  (
-    id,
-    ativo,
-    dt_alt,
-    codigo,
-    descricao,
-    descricao_touch,
-    descricao_producao,
-    tecla_prog,
-    imagem,
-    cod_externo,
-    unidade,
-    venda,
-    servico,
-    requer_obs,
-    qtde_frac,
-    balanca,
-    consumacao,
-    vende_combo,
-    vende_web,
-    grupo_id,
-    local_producao_id,
-    loja_id,
-    rede_id
-  ) values
-  (
-    source.cliente_id,
-    source.ativo,
-    source.dt_alt,
-    source.codigo,
-    source.descricao,
-    source.descricao_touch,
-    source.descricao_producao,
-    source.tecla_prog,
-    source.imagem,
-    source.codigo,
-    source.unidade,
-    source.venda,
-    source.servico,
-    source.requer_obs,
-    source.qtde_frac,
-    source.balanca,
-    source.consumacao,
-    source.vende_combo,
-    source.vende_web,
-    source.grupo_id,
-    source.local_id,
-    @loja_id,
-    @rede_id
-  )
-when not matched by source then
-  update set target.ativo = 0;
+exec(
+  'merge dbo.material as target
+    using
+    (
+      select
+        grupo_id = grupo.cliente_id,
+        local_id = l.cliente_id,
+        mat.*
+      from cloud_v1_0.material mat
+      join cloud_v1_0.grupo_material grupo on mat.grupo = grupo.id
+      left join cloud_v1_0.local_producao l on l.id = mat.local_producao
+    ) as source on target.id = source.cliente_id
+    when matched then
+      update set
+        ativo = source.ativo,
+        dt_alt = source.dt_alt,
+        codigo = source.codigo,
+        descricao = source.descricao,
+        descricao_touch = source.descricao_touch,
+        descricao_producao = source.descricao_producao,
+        descricao_extra = source.descricao_extra,
+        tecla_prog = source.tecla_prog,
+        imagem = source.imagem,
+        cod_externo = source.cod_Externo,
+        unidade = source.unidade,
+        venda = source.venda,
+        servico = source.servico,
+        requer_obs = source.requer_obs,
+        qtde_frac = source.qtde_frac,
+        balanca = source.balanca,
+        consumacao = source.consumacao,
+        vende_web = source.vende_web,
+        vende_combo = source.vende_combo,
+        grupo_id = source.grupo_id,
+        local_producao_id = source.local_id
+    when not matched by target then
+      insert
+      (
+        id,
+        ativo,
+        dt_alt,
+        codigo,
+        descricao,
+        descricao_touch,
+        descricao_producao,
+        descricao_extra,
+        tecla_prog,
+        imagem,
+        cod_externo,
+        unidade,
+        venda,
+        servico,
+        requer_obs,
+        qtde_frac,
+        balanca,
+        consumacao,
+        vende_combo,
+        vende_web,
+        grupo_id,
+        local_producao_id,
+        loja_id,
+        rede_id
+      ) values
+      (
+        source.cliente_id,
+        source.ativo,
+        source.dt_alt,
+        source.codigo,
+        source.descricao,
+        source.descricao_touch,
+        source.descricao_producao,
+        source.descricao_extra,
+        source.tecla_prog,
+        source.imagem,
+        source.codigo,
+        source.unidade,
+        source.venda,
+        source.servico,
+        source.requer_obs,
+        source.qtde_frac,
+        source.balanca,
+        source.consumacao,
+        source.vende_combo,
+        source.vende_web,
+        source.grupo_id,
+        source.local_id,'
+        + @loja_id + ','
+        + @rede_id + '
+      )
+    when not matched by source then
+      update set target.ativo = 0;'
+)
 
 set identity_insert dbo.material OFF
 
