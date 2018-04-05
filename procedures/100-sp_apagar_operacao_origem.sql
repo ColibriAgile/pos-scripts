@@ -25,6 +25,7 @@ begin
     and o.operacao_id = venda.operacao_id
     and o.encerrada = 1
 
+  delete comprovante where operacao_id in (select operacao_origem_id from @tmp_operacaoorigem)
   delete operacao_venda where operacao_id in (select operacao_origem_id from @tmp_operacaoorigem)
   delete operacao where operacao_id in (select operacao_origem_id from @tmp_operacaoorigem)
 
