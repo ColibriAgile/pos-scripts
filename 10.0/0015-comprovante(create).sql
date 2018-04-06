@@ -35,6 +35,7 @@ from operacao o
 left join operacao_venda ov on o.operacao_id = ov.operacao_id
 cross apply dbo.fn_parse_json(isnull(nullif(consumidor, ''''),''{"cpf":"(nao informado)"}'')) c
 where c.name = ''cpf''
+  and isnull(comprovante_status,'''') <> ''''
 ')
 go
 
