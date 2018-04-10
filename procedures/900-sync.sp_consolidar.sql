@@ -621,7 +621,7 @@ set identity_insert dbo.motivo_cancelamento off
 set identity_insert dbo.ponto_venda on
 
 merge dbo.ponto_venda as target
-using (select * from sync.pontovenda with (nolock) where nome <> 'nenhum') as source 
+using (select * from sync.pontovenda with (nolock) where nm_pontovenda <> 'nenhum') as source 
    on target.id = source.pontovenda_id
 when matched then
   update set
