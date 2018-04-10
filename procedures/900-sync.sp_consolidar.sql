@@ -7,6 +7,22 @@ if object_id('sync.sp_consolidar') is not null
   drop procedure sync.sp_consolidar
 go
 
+-- apaga todas as tabelas do schema
+while (
+select count(t.name)
+from sys.tables t
+join sys.schemas s on s.schema_id = t.schema_id
+where s.name = 'sync') > 0
+begin
+  declare @table varchar(50) = (select top 1 t.name
+    from sys.tables t
+    join sys.schemas s on s.schema_id = t.schema_id
+    where s.name = 'sync') 
+  print 'drop table sync.'+ @table
+  exec('drop table sync.'+ @table)
+end;
+go
+
 create procedure sync.sp_consolidar
 as
 
