@@ -9,5 +9,6 @@
   "download_obrigatorio": true,
   "produto": "pos",
   "empresa": "NCR",
-  "sigla_empresa": "ncr"
+  "sigla_empresa": "ncr",
+  "sistema": true
 }
