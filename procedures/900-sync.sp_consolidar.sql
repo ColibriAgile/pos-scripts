@@ -7,6 +7,22 @@ if object_id('sync.sp_consolidar') is not null
   drop procedure sync.sp_consolidar
 go
 
+-- apaga todas as tabelas do schema
+while (
+select count(t.name)
+from sys.tables t
+join sys.schemas s on s.schema_id = t.schema_id
+where s.name = 'sync') > 0
+begin
+  declare @table varchar(50) = (select top 1 t.name
+    from sys.tables t
+    join sys.schemas s on s.schema_id = t.schema_id
+    where s.name = 'sync') 
+  print 'drop table sync.'+ @table
+  exec('drop table sync.'+ @table)
+end;
+go
+
 create procedure sync.sp_consolidar
 as
 
@@ -621,7 +637,8 @@ set identity_insert dbo.motivo_cancelamento off
 set identity_insert dbo.ponto_venda on
 
 merge dbo.ponto_venda as target
-using sync.pontovenda as source with (nolock) on target.id = source.pontovenda_id
+using (select * from sync.pontovenda with (nolock) where nm_pontovenda <> 'nenhum') as source 
+   on target.id = source.pontovenda_id
 when matched then
   update set
     nome = source.nm_pontovenda,

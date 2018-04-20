@@ -6,7 +6,6 @@ create view [export].[observacao]
 as
 select
 	id=id,
-	codigo=id,
 	nome=nome,
 	ativo=1
 from [dbo].[observacao]

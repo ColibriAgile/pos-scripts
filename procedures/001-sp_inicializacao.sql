@@ -62,11 +62,6 @@ begin
       if exists(select * from syscolumns where name='admin_master' and id=object_id('funcionario'))
         exec ('update funcionario set admin_master = 1')
 
-    --Ponto venda
-      insert into ponto_venda
-      (nome,dt_alt) values
-      ('nenhum',getdate())
-
     --Regiao
       insert into regiao
       (nome, taxa, dt_alt) values

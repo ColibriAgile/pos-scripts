@@ -49,7 +49,7 @@ where nome = 'GARÇOM' or nome = 'ATENDENTE'
 
 if @ja_tem_atendente = 1
   update dbo.grupo_funcionario
-  set nome = 'ATENDENTE2'
+  set nome = 'ATENDENTE'+ case grupo_id when 4 then '' else cast(grupo_id as varchar) end
   where nome = 'ATENDENTE'
 
 alter table dbo.grupo_funcionario 
@@ -61,4 +61,3 @@ update grupo_funcionario
 set sistema = 1 
 where nome in (''SUPER USUARIO'', ''GERENTE'', ''CAIXA'', ''GARÇOM'')
 ')
-

@@ -29,7 +29,7 @@ begin
   if isnull(@dia, dbo.fn_eh_operacao_dia(@operacao_id)) = 1
     insert @tbl
     select 
-      operacao_id,
+      o.operacao_id,
       tipo,
       vl_total,
       cancelada,
@@ -41,17 +41,18 @@ begin
       func_cancelou_id,
       func_autorizou_id,
       dt_hr_cancelamento,
-      comprovante,
-      comprovante_chave,
-      comprovante_status,
-      comprovante_ressalva,
+      comprovante = c.numero,
+      comprovante_chave = c.chave,
+      comprovante_status = c.[status],
+      comprovante_ressalva = c.ressalva,
       dia = 1
-    from operacao with (nolock)
-    where operacao_id = @operacao_id
+    from dbo.operacao o with (nolock)
+	left join dbo.comprovante c on c.operacao_id = o.operacao_id
+    where o.operacao_id = @operacao_id
   else
     insert @tbl
     select 
-      operacao_id,
+      o.operacao_id,
       tipo,
       vl_total,
       cancelada,
@@ -63,13 +64,14 @@ begin
       func_cancelou_id,
       func_autorizou_id,
       dt_hr_cancelamento,
-      comprovante,
-      comprovante_chave,
-      comprovante_status,
-      comprovante_ressalva,
+      comprovante = c.numero,
+      comprovante_chave = c.chave,
+      comprovante_status = c.[status],
+      comprovante_ressalva = c.ressalva,
       dia = 0
-    from operacao_geral with (nolock) 
-    where operacao_id = @operacao_id  
+    from operacao_geral o with (nolock) 
+    left join dbo.comprovante_geral c on c.operacao_id = o.operacao_id
+    where o.operacao_id = @operacao_id  
 
   return
 end

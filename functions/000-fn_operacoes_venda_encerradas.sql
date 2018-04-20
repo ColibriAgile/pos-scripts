@@ -61,30 +61,29 @@ begin
         ov.maquina_encerrou_id,
         o.vl_total,
         o.cancelada,
-        consumidor = c.string_value,    
-        o.comprovante,
-        o.comprovante_chave,
-        o.comprovante_status,
-        o.comprovante_ressalva,
+        consumidor = c.consumidor,    
+        comprovante = c.numero,
+        comprovante_chave = c.chave,
+        comprovante_status = c.[status],
+        comprovante_ressalva = c.ressalva,
         o.dt_contabil,
         [status] = case
           when
-            (isnull(o.comprovante_status, '') = '' and ov.transferida = 0) or 
-            (o.comprovante_status = 'Emitido' and o.cancelada = 1 and isnull(o.comprovante_ressalva, '') = '') then 'Pendente'
+            (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
+		      when
+            (c.[status] = 'Cancelado' and o.cancelada = 1) or
+            (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
           when
-            (isnull(o.comprovante_ressalva, '') <> '') then 'Resolvido com ressalva'
-          when
-            (o.comprovante_status = 'Cancelado' and o.cancelada = 1) then 'Cancelada'
-          else 'Ok'
+            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 1) then 'Ok'
+          else 'Pendente'
         end,
         diaria = 1,
         transferida
       from operacao_venda ov with(nolock)
       join operacao o with(nolock) on o.operacao_id = ov.operacao_id
-      cross apply dbo.fn_parse_json(isnull(case when consumidor = '' then null else consumidor end,'{"cpf":""}')) c
+	  left join comprovante c with(nolock) on c.operacao_id = o.operacao_id
       where ov.dt_hr_encerramento between @dtini and @dtfim
-        and ov.encerrada = 1
-        and c.name = 'cpf'
+        and ov.encerrada = 1         
     )
     insert @tbl
     (
@@ -142,14 +141,14 @@ begin
       ov.maquina_encerrou_id,
       o.vl_total,
       o.cancelada,
-      consumidor = c.string_value,    
-      o.comprovante,
-      o.comprovante_chave,
-      o.comprovante_status,
-      o.comprovante_ressalva,
-      o.dt_contabil,
+      consumidor = c.consumidor,    
+      comprovante = c.numero,
+      comprovante_chave = c.chave,
+      comprovante_status = c.[status],
+      comprovante_ressalva = c.ressalva,
+      o.dt_contabil,      
       [status] = case
-        when (isnull(o.comprovante_ressalva, '') <> '') then 'Resolvido com ressalva'
+        when (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
         when (o.cancelada = 1) then 'Cancelada'
         else 'Ok'
       end,
@@ -157,9 +156,8 @@ begin
       transferida
     from operacao_venda_geral ov with(nolock)
     join operacao_geral o with(nolock) on o.operacao_id = ov.operacao_id
-    cross apply dbo.fn_parse_json(isnull(consumidor,'{"cpf":""}')) c
+    left join comprovante_geral c with(nolock) on c.operacao_id = o.operacao_id
     where ov.dt_hr_encerramento between @dtini and @dtfim
-      and c.name = 'cpf'
     --and ov.encerrada = 1 (Na tabela geral todas as operações estão encerradas)
   )
   insert @tbl

@@ -186,17 +186,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgServicoComoItem',
-  @categoria = '#.Geral',
-  @subcategoria = 'Serviço',
-  @descr = 'Trata serviço como um item',
-  @detalhes = 'Quanto ativado o serviço é lançado como um item que pode ter uma tributação diferenciada.',
-  @tipo_valor = 'boolean',
-  @tipo_param = 'V',
-  @valor_default = '0'
-go
-
-exec sp_inserir_parametro
   @codigo = 'CfgBloquearObsDigitadasQuandoHouverCadastro',
   @categoria = '#.Geral',
   @subcategoria = 'Venda',
@@ -1479,3 +1468,4 @@ delete parametro where codigo = 'CfgObrigarCaractereBipaFicha'
 delete parametro where codigo = 'CfgImprimeServicoDestacado'
 delete parametro_modo where codigo = 'CfgPermiteAlterarQuantidade'
 delete parametro where codigo = 'CfgPermiteAlterarQuantidade'
+delete parametro where codigo = 'CfgServicoComoItem'
