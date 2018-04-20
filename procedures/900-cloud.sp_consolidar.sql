@@ -1188,7 +1188,7 @@ using
 (
   select * from #temp_estat_item
 ) as source on
-  target.desconto_estrategia_id = source.desconto_estrategia and
+  target.desconto_estrategia_id = source.desconto_estrategia_id and
   target.tipo_item_id = source.tipo_id and
   target.item_id = source.cliente_item_id
 when not matched then
