@@ -15,8 +15,6 @@ declare @templates table (
   [nome] [varchar] (50), 
   [arquivo_template] [varchar] (80),
   [arquivo_sql] [varchar] (80),
-  [imprimir] [bit] null default (1),
-  [sistema] [bit] null default (1),
   [tipo] [varchar] (10)
 )
 
@@ -59,8 +57,7 @@ using
     nome,
     arquivo_template,
     arquivo_sql,
-    imprimir,
-    sistema,
+    grafico = 0,
     tipo 
   from @templates
 ) as source
@@ -70,8 +67,8 @@ on
 when matched then
   update set
     target.arquivo_template = source.arquivo_template,
-    target.arquivo_sql = source.arquivo_sql,    
-    target.sistema = source.sistema
+    target.arquivo_sql = source.arquivo_sql,
+    target.grafico = source.grafico
 when not matched by target then
   insert
   (
@@ -79,8 +76,7 @@ when not matched by target then
     nome,
     arquivo_template,
     arquivo_sql,
-    imprimir,
-    sistema,
+    grafico,    
     tipo
   ) values
   (
@@ -88,8 +84,7 @@ when not matched by target then
     source.nome,
     source.arquivo_template,
     source.arquivo_sql,
-    source.imprimir,
-    source.sistema,
+    source.grafico,
     source.tipo
   );
   
