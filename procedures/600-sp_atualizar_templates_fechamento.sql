@@ -15,7 +15,8 @@ declare @templates table (
   [nome] [varchar] (50), 
   [arquivo_template] [varchar] (80),
   [arquivo_sql] [varchar] (80),
-  [tipo] [varchar] (10)
+  [tipo] [varchar] (10),
+  [grafico] [bit] default 0
 )
 
 if (@tipo = 'caixa') or (isnull(@tipo, '') = '')
@@ -63,7 +64,8 @@ using
 ) as source
 on
   (target.nome = source.nome) and
-  (target.tipo = source.tipo)
+  (target.tipo = source.tipo) and 
+  (target.grafico = source.grafico)
 when matched then
   update set
     target.arquivo_template = source.arquivo_template,
