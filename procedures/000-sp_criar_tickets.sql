@@ -25,7 +25,7 @@ as
                       codigo,
                       praca_id,
                       ativo,
-                      pre_pago,
+					  pre_pago,
                       pct_servico )
             values
                     ( @modo,
@@ -33,7 +33,7 @@ as
                       @cod_inicial,
                       @praca_id,
                       @ativo,
-                      @pre_pago,
+					  @pre_pago,
                       @servico )
         set @cod_inicial = @cod_inicial + 1
     end
