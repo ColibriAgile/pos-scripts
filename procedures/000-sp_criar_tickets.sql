@@ -8,6 +8,7 @@ create procedure dbo.sp_criar_tickets
     @cod_final int,
     @servico numeric(8, 2),
     @ativo bit,
+    @pre_pago bit = 0,
     @praca_id int = null
 as
     while @cod_inicial <= @cod_final
@@ -24,6 +25,7 @@ as
                       codigo,
                       praca_id,
                       ativo,
+					  pre_pago,
                       pct_servico )
             values
                     ( @modo,
@@ -31,6 +33,7 @@ as
                       @cod_inicial,
                       @praca_id,
                       @ativo,
+					  @pre_pago,
                       @servico )
         set @cod_inicial = @cod_inicial + 1
     end
