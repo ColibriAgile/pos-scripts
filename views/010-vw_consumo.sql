@@ -73,7 +73,8 @@ select
     when h.operacao_origem_id is null then 0
     else 1
   end,
-  t.permite_reserva
+  t.permite_reserva,
+  t.pre_pago
 from operacao_venda o  with (nolock)
 join venda h with (nolock) on (h.operacao_id = o.operacao_id)
 left join funcionario f with (nolock) on (h.func_atendeu_id = f.id)
@@ -163,7 +164,8 @@ select
     when h.operacao_origem_id is null then 0
     else 1
   end,
-  t.permite_reserva
+  t.permite_reserva,
+  t.pre_pago
 from ticket t  with (nolock)
 left join perfil p with (noLock) on p.id = t.perfil_id
 left join ticket pai with (nolock) on (pai.ticket_id = t.ticket_pai_id)
