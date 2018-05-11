@@ -49,6 +49,7 @@ begin
     ,h.codigo_situacao
     ,permite_reserva
     ,t.saiu
+    ,t.pre_pago
   into #tmp
   from ticket t
   left join dbo.venda h on h.venda_id = t.venda_id
