@@ -511,6 +511,7 @@ go
     ) on update no action
      on delete cascade
 go
+
 /****************************
  cliente
 ****************************/
@@ -523,33 +524,40 @@ where desconto_id not in (select id from desconto)
 
 exec dbo.sp_apagar_relacionamentos @tabela='cliente'
 go
-  alter table cliente add foreign key
-    (
-    regiao_id
-    ) references regiao
-    (
-    id
-    ) on update  no action
-     on delete  no action
+alter table cliente add foreign key
+(
+  regiao_id
+) references regiao
+(
+  id
+) on update  no action
+  on delete  no action
 go
-  alter table cliente add foreign key
-    (
-    desconto_id
-    ) references desconto
-    (
-    id
-    ) on update  no action
-     on delete  no action
+
+alter table cliente add foreign key
+(
+  desconto_id
+) references desconto
+(
+  id
+) on update  no action
+  on delete  no action
           
 /******************************
 movimento_caixa
 *******************************/
 
 exec dbo.sp_apagar_relacionamentos 'movimento_caixa'
-
-alter table dbo.movimento_caixa add 
-constraint ri_movimento_caixa$turno_id__turno$turno_id
-    foreign key (turno_id) references dbo.turno (turno_id)
+go
+alter table dbo.movimento_caixa 
+add constraint ri_movimento_caixa$turno_id__turno$turno_id foreign key 
+(
+  turno_id
+) references dbo.turno 
+(
+  turno_id
+)
+go
 
 /******************************
 cache.slot_rodizio
@@ -557,12 +565,33 @@ cache.slot_rodizio
 
 exec dbo.sp_apagar_relacionamentos 'cache.slot_rodizio'
 go
-  alter table cache.slot_rodizio add foreign key
-    (
-    venda_id
-    ) references dbo.venda
-    (
-    venda_id
-    ) on update  no action
-     on delete  no action
+alter table cache.slot_rodizio add foreign key
+(
+  venda_id
+) references dbo.venda
+(
+  venda_id
+) on update  no action
+  on delete  no action
+go
+
+/******************************
+mt.terminal
+*******************************/
+
+update mt.terminal
+set ponto_venda_id = null
+where ponto_venda_id not in (select id from ponto_venda)
+go
+
+exec dbo.sp_apagar_relacionamentos 'mt.terminal'
+go
+alter table mt.terminal add foreign key
+(
+  ponto_venda_id
+) references ponto_venda
+(
+  id
+) on update  no action
+  on delete  no action
 go
