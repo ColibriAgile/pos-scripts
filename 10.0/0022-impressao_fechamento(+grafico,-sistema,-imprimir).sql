@@ -1,10 +1,11 @@
 exec dbo.sp_renomear 'dbo.impressao_fechamento.sistema', 'grafico', 'column'
 go
+delete from dbo.impressao_fechamento where imprimir=0
+go
 exec dbo.sp_apagar_campo 'dbo.impressao_fechamento', 'imprimir'
 go
 update impressao_fechamento set grafico = 0
 go
-
 
 exec sp_apagar_pk 'dbo.impressao_fechamento'
 
