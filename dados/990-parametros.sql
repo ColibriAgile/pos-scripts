@@ -569,6 +569,18 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
+  @codigo = 'CfgAbreTelaDePagamentoAposCheckin',
+  @categoria = 'Modo',
+  @subcategoria = 'Geral',
+  @descr = 'Abre a tela de pagamento após o check-in',
+  @tipo_valor = 'boolean',
+  @tipo_param = 'V',
+  @valor_default = '0',
+  @modovenda = '4'
+go
+
+
+exec sp_inserir_parametro
   @codigo = 'CfgPedeLocalDeEntregaDosItensVendidos',
   @categoria = 'Modo',
   @subcategoria = 'Lançamento',
