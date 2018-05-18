@@ -23,26 +23,26 @@ if (@tipo = 'caixa') or (isnull(@tipo, '') = '')
   insert @templates 
   (ordem, nome, arquivo_template, arquivo_sql, tipo) values
   (1, 'Faturamento', '_faturamento.template', 'sql\faturamento.sql', 'caixa'),
-  (2, 'Fechamento',  '_fechamento.template', 'sql\fechamento.sql', 'caixa'),
+  (2, 'Fechamento',  'fechamento de caixa\_fechamento.template', 'sql\fechamento.sql', 'caixa'),
   (3, 'Cancelamentos', '_cancelamentos.template', 'sql\cancelamentos.sql', 'caixa'),
   (4, 'Materiais', '_materiais.template', 'sql\materiais.sql', 'caixa'),
-  (5, 'Serviço', '_servico.template', 'sql\servico.sql', 'caixa'),
-  (6, 'Ticket médio', '_ticket_medio_analitico.template', 'sql\ticket_medio.sql', 'caixa'),
-  (7, 'Vendas sem comprovante', '_vendas_sem_comprovante.template', 'sql\vendas_sem_comprovante.sql', 'caixa')  
+  (5, 'Serviço', '_serviço.template', 'sql\serviço.sql', 'caixa'),
+  (6, 'Ticket médio analítico', '_ticket_médio_analítico.template', 'sql\ticket_médio_analítico.sql', 'caixa'),
+  (7, 'Vendas sem comprovante', 'fechamento de caixa\_vendas_sem_comprovante.template', 'sql\vendas_sem_comprovante.sql', 'caixa')  
 
 if (@tipo = 'periodo') or (isnull(@tipo, '') = '')
   insert @templates 
   (ordem, nome, arquivo_template, arquivo_sql, tipo) values
   (1, 'Faturamento', '_faturamento.template', 'sql\faturamento.sql', 'periodo'),
-  (2, 'Descontos', '_descontos.template', 'sql\descontos.sql', 'periodo'),
+  (2, 'Descontos', 'fechamento de periodo\_descontos.template', 'sql\descontos.sql', 'periodo'),
   (3, 'Cancelamentos', '_cancelamentos.template', 'sql\cancelamentos.sql', 'periodo'),
   (4, 'Materiais', '_materiais.template', 'sql\materiais.sql', 'periodo'),
-  (5, 'Grupo materiais', '_grupo_materiais.template', 'sql\grupo_materiais.sql', 'periodo'),
-  (6, 'Serviço', '_servico.template', 'sql\servico.sql', 'periodo'),
-  (7, 'Ticket médio', '_ticket_medio_analitico.template', 'sql\ticket_medio.sql', 'periodo'),
-  (8, 'Transferencia', '_transferencia.template', 'sql\transferencia.sql', 'periodo'),
-  (9, 'Mesas com mais de um fechamento', '_mesas_com_mais_de_um_fechamento.template', 'sql\mesas_com_mais_de_um_fechamento.sql', 'periodo'),
-  (10, 'Entregas', '_entregas.template', 'sql\entregas.sql', 'periodo')
+  (5, 'Grupo materiais', 'fechamento de periodo\_grupo_materiais.template', 'sql\grupo_materiais.sql', 'periodo'),
+  (6, 'Serviço', '_serviço.template', 'sql\serviço.sql', 'periodo'),
+  (7, 'Ticket médio analítico', '_ticket_médio_analítico.template', 'sql\ticket_médio_analítico.sql', 'periodo'),
+  (8, 'Transferência', 'fechamento de periodo\_transferência.template', 'sql\transferência.sql', 'periodo'),
+  (9, 'Mesas com mais de um fechamento', 'fechamento de periodo\_mesas_com_mais_de_um_fechamento.template', 'sql\mesas_com_mais_de_um_fechamento.sql', 'periodo'),
+  (10, 'Entregas', 'fechamento de periodo\_entregas.template', 'sql\entregas.sql', 'periodo')
 
 
 if @restaura_padrao = 1
