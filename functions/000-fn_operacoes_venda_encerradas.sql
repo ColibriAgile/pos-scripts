@@ -74,7 +74,7 @@ begin
             (c.[status] = 'Cancelado' and o.cancelada = 1) or
             (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
           when
-            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 1) then 'Ok'
+            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 1) or (o.vl_total = 0) then 'Ok'
           else 'Pendente'
         end,
         diaria = 1,
