@@ -2,37 +2,45 @@ if (object_id('sp_fechar_periodo') is not null)
   drop procedure sp_fechar_periodo
 go
 --------------------------------------------------------------------------------------------
-create procedure sp_fechar_periodo(@data datetime, @funcionario int, @libera_checkout bit)
+create procedure sp_fechar_periodo(@data datetime, @funcionario int, @libera_checkout bit, @debug bit = 0)
 as
 begin
 /*Try..catch incluido para interromper a execução 
   de outros comandos se algum apresentar falha*/
   begin try  
 
+    --SET NOCOUNT ON 
     begin transaction
     declare 
       @cmd varchar(max)    
 
-   --Garantindo que nenhum turno sem movimento fique aberto
+    if @debug = 1 
+      print '== FECHAMENTO DO PERIODO ' + cast(@data as varchar) + ' =='
+    if @debug = 1 
+      print '# Garantindo que nenhum turno sem movimento fique aberto'
     update turno
     set dt_hr_fechamento = getdate()
     where dt_hr_fechamento is null
 
+    if @debug = 1 print '  venda' 
     update venda
     set dt_contabil = @data
 
+    if @debug = 1 print '  venda_item' 
     update venda_item
     set dt_contabil = @data
 
+    if @debug = 1 print '  operacao' 
     update operacao
     set dt_contabil = @data
   
     truncate table cache.numero_chamada
 
-   /*Montando lista de IDs para operacao e venda*/
-
-   /*VENDA*/
-    --todas as vendas recebidas ou canceladas
+   if @debug = 1 
+     print '# Montando lista de IDs para operacao e venda'
+   
+    if @debug = 1 print '  vendas' 
+   --todas as vendas recebidas ou canceladas
     if object_id('tempdb.dbo.#vendas') is not null
       exec ('drop table #vendas')
 
@@ -45,6 +53,7 @@ begin
     where o.encerrada = 1
 
     --operacoes de origem das vendas recebidas ou canceladas
+    if @debug = 1 print '  operacoes origens' 
     if object_id('tempdb.dbo.#opers_orig') is not null
       exec ('drop table #opers_orig')
 
@@ -53,7 +62,7 @@ begin
     from venda
     where venda_id in (select id from #vendas)
 
-    /*OPERACAO*/
+    if @debug = 1 print '  operacoes' 
     --monta a lista dos ids das operações que não são de venda, ou que foram recebidas ou canceladas
     if object_id('tempdb.dbo.#opers') is not null
       exec ('drop table #opers')
@@ -67,14 +76,14 @@ begin
     /********************************************************************************
                                  INICIO DO FECHAMENTO
      ********************************************************************************/
-
-    /*movimento_caixa*/
+    if @debug = 1 print '# INICIO DO FECHAMENTO'   
+    if @debug = 1 print '  movimentocaixa'   
     set @cmd = dbo.fn_insert_para_fechamento('movimento_caixa', 'o')
     exec(@cmd + '
 where o.operacao_id in (select id from #opers)'
     )
 
-    --atribuindo o cliente do ticket à venda antes de desligar o ticket da venda
+    if @debug = 1 print '  atribuindo o cliente do ticket à venda antes de desligar o ticket da venda'   
     update venda
     set cliente_id =
     (
@@ -85,58 +94,58 @@ where o.operacao_id in (select id from #opers)'
     )
     where (modo_venda_id = 2)
 
-    /*operacao
-    Copia todas as operações que não são de venda ou que já foram finalizadas ou canceladas*/
+    if @debug = 1 print '  operacao'
     set @cmd = dbo.fn_insert_para_fechamento('operacao', 'o')
     exec(@cmd + '
 where o.operacao_id in (select id from #opers)'
     )
 
-    /*operacao_venda
-    copia todas as operações de venda do dia que já foram finalizadas ou canceladas*/
+    if @debug = 1 print '  operacao_venda'
     set @cmd = dbo.fn_insert_para_fechamento('operacao_venda', 'o')
     exec(@cmd + '
 where o.operacao_id in (select id from #opers)'
     )
 
-    --limpa as operacões de origem dos tickets agrupados
+    if @debug = 1 print '  limpando as operacões de origem dos tickets agrupados'
     exec sp_apagar_operacao_origem --revisar se está apagando somente das operações recebidas!
 
-    /*venda
-    copia todos as vendas recebidas ou canceladas*/
+    if @debug = 1 print '  venda'
     set @cmd = dbo.fn_insert_para_fechamento('venda', '')
     exec(@cmd + '
 where venda_id in (select id from #vendas)'
     )
 
-    /*venda_item*/
+    if @debug = 1 print '  venda_item'
     set @cmd = dbo.fn_insert_para_fechamento('venda_item', '')
     exec(@cmd + '
 where venda_id in (select id from #vendas)'
     )
 
-   /*HistoricoDaOperacao*/
+    if @debug = 1 print '  historico_operacao'
     set @cmd = dbo.fn_insert_para_fechamento('historico_operacao', 'h')
     exec(@cmd+ '
 where h.operacao_id in (select id from #opers)'
     )
 
-    /*comprovante
-    copia todos os comprovantes de operações do dia que já foram finalizadas ou canceladas*/
+    if @debug = 1 print '  comprovante'
     set @cmd = dbo.fn_insert_para_fechamento('comprovante', 'c')
     exec(@cmd + '
 where c.operacao_id in (select id from #opers)'
     )
 
-    /*LIMPANDO AS TABELAS DIÁRIAS*/
-
-    /*TICKET
-    apaga os ticket de entrega*/
+    if @debug = 1 
+      print '# LIMPANDO AS TABELAS DIÁRIAS'
+    
+    if @debug = 1 
+      print '  apagando os ticket de entrega'
+        
     delete from ticket
     where modo_venda_id = 2
       and estado in ('livre','finalizado','cancelado')
 
-    --voltando o estado para livre dos tickets que não foram reaproveitados ou utilizados
+    if @debug = 1 
+      print '  voltando o estado para livre dos tickets que não foram reaproveitados ou utilizados'
+
     update ticket
     set
       estado = case when estado <> 'checkout' or @libera_checkout = 1 then 'livre' else estado end,
@@ -148,48 +157,52 @@ where c.operacao_id in (select id from #opers)'
       saiu = null
     where estado in ('finalizado', 'aberto', 'livre', 'checkout','cancelado')
 
-    --atribuindo apelido_origem para apelido das fichas
+    if @debug = 1 
+      print '  atribuindo apelido_origem para apelido das fichas'
+
     update ticket
     set apelido = apelido_origem
     where modo_venda_id in (3, 4)
       and estado = 'livre'
 
-    /*Historico*/
+    if @debug = 1 print '  historico_operacao'
+   
 	  delete from dbo.historico_operacao
     where operacao_id in (select id from #opers union select id from #opers_orig)
 
-    /*cache.slot_rodizio*/
+    if @debug = 1 print '  cache.slot_rodizio'
     delete from cache.slot_rodizio
     where venda_id in (select id from #vendas)
 
-    /*venda_item*/
+    if @debug = 1 print '  venda_item'
     delete from venda_item
     where venda_id in (select id from #vendas)
 
-    /*venda*/
+    if @debug = 1 print '  venda'
     delete from venda
     where venda_id in (select id from #vendas)
 
-	/*comprovante*/
+	  if @debug = 1 print '  comprovante'
     delete from comprovante
     where operacao_id in (select id from #opers union select id from #opers_orig)
 
-    /*operacao_venda*/
+    if @debug = 1 print '  operacao_venda'
     delete from operacao_venda
     where operacao_id in (select id from #opers union select id from #opers_orig)
 
-    /*OPERACAO*/
+    if @debug = 1 print '  operacao'
     delete from operacao
     where operacao_id in (select id from #opers union select id from #opers_orig)
 
-    /*movimento_caixa*/
+    if @debug = 1 print '  movimento_caixa'
     delete from movimento_caixa
     where operacao_id in (select id from #opers union select id from #opers_orig)
 
    /********************************************************************
                                 FINALIZANDO
    *********************************************************************/
-
+   if @debug = 1 print '# FINALIZANDO'
+    
     declare 
       @transferediaseguinte bit
     
@@ -202,9 +215,12 @@ where c.operacao_id in (select id from #opers)'
     where codigo = 'CfgTransfereMovimentoPendente'
 
     if (@transferediaseguinte = 0) begin
+      if @debug = 1 print '  CfgTransfereMovimentoPendente = 0'   
+      if @debug = 1 print '  limpando venda_id da tabela ticket'   
       update ticket 
       set venda_id = null
 
+      if @debug = 1 print '  apagando todos os registros das tabelas diarias'   
       delete movimento_caixa
       delete venda_item
       delete venda
@@ -212,30 +228,32 @@ where c.operacao_id in (select id from #opers)'
       delete operacao
     end
     
-    /* atualiza o periodo */
+    if @debug = 1 print '  atualizando periodo'   
     update periodo
     set
       dt_hr_fechamento = getdate(),
       func_fechou_id = @funcionario
     where dt_contabil = @data
 
+    if @debug = 1 print '  apagando cache.data_contabil'   
     delete cache.data_contabil
 
-    /*Limpa e reinicia o contador identity*/
+    if @debug = 1 print '  apagando cache.numero_chamada_seq'   
     truncate table cache.numero_chamada_seq
 
-	  /*Reinicia contador do numero da venda*/
-	  declare @num_venda int = (select isnull(max(numero_venda),0) from venda)
+	  if @debug = 1 print '  reiniciando o contador do numero de venda'   
+    declare @num_venda int = (select isnull(max(numero_venda),0) from venda)
 	  DBCC CheckIdent ('venda',reseed, @num_venda )
 
-    /*Reinicia o sequencial dos tickets*/
+    if @debug = 1 print '  reiniciando o sequencial dos tickets'
     delete cache.proximo_ticket
 
-    --apagando as tabelas temporárias
+    if @debug = 1 print '  apagando as tabelas temporárias'
     drop table #vendas
     drop table #opers
     drop table #opers_orig
 
+    if @debug = 1 print '== FIM =='
     commit
   end try
 
@@ -252,4 +270,6 @@ where c.operacao_id in (select id from #opers)'
 
     raiserror(@errmsg, @errseverity, 1)
   end catch
+
+  SET NOCOUNT OFF 
 end
