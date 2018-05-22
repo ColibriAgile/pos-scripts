@@ -1,4 +1,4 @@
-exec dbo.sp_renomear 'dbo.impressao_fechamento.sistema', 'grafico', 'column'
+﻿exec dbo.sp_renomear 'dbo.impressao_fechamento.sistema', 'grafico', 'column'
 go
 
 if dbo.fn_existe('dbo.impressao_fechamento.imprimir') = 1
@@ -49,7 +49,7 @@ where arquivo_template = '_ticket_medio_analitico.template'
 
 update impressao_fechamento set 
   arquivo_template = '_serviço.template',
-  arquivo_sql = 'sql\servico.sql'
+  arquivo_sql = 'sql\serviço.sql'
 where arquivo_template = '_servico.template' 
 
 update impressao_fechamento set 
