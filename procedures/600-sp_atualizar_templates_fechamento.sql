@@ -1,4 +1,4 @@
-if (object_id('sp_atualizar_templates_fechamento') is not null)
+ï»¿if (object_id('sp_atualizar_templates_fechamento') is not null)
   drop procedure dbo.sp_atualizar_templates_fechamento
 go
 
@@ -13,8 +13,8 @@ set nocount on
 declare @templates table (
   [ordem] [int],
   [nome] [varchar] (50), 
-  [arquivo_template] [varchar] (80),
-  [arquivo_sql] [varchar] (80),
+  [arquivo_template] [varchar] (200),
+  [arquivo_sql] [varchar] (200),
   [tipo] [varchar] (10),
   [grafico] [bit] default 0
 )
@@ -22,27 +22,27 @@ declare @templates table (
 if (@tipo = 'caixa') or (isnull(@tipo, '') = '')
   insert @templates 
   (ordem, nome, arquivo_template, arquivo_sql, tipo) values
-  (1, 'Faturamento', '_faturamento.template', 'sql\faturamento.sql', 'caixa'),
-  (2, 'Fechamento',  'fechamento de caixa\_fechamento.template', 'sql\fechamento.sql', 'caixa'),
-  (3, 'Cancelamentos', '_cancelamentos.template', 'sql\cancelamentos.sql', 'caixa'),
-  (4, 'Materiais', '_materiais.template', 'sql\materiais.sql', 'caixa'),
-  (5, 'Serviço', '_serviço.template', 'sql\serviço.sql', 'caixa'),
-  (6, 'Ticket médio analítico', '_ticket_médio_analítico.template', 'sql\ticket_médio_analítico.sql', 'caixa'),
-  (7, 'Vendas sem comprovante', 'fechamento de caixa\_vendas_sem_comprovante.template', 'sql\vendas_sem_comprovante.sql', 'caixa')  
+  (1, 'Faturamento', 'templates\fechamento\_faturamento.template', 'templates\fechamento\sql\faturamento.sql', 'caixa'),
+  (2, 'Fechamento',  'templates\fechamento\fechamento de caixa\_fechamento.template', 'templates\fechamento\sql\fechamento.sql', 'caixa'),
+  (3, 'Cancelamentos', 'templates\fechamento\_cancelamentos.template', 'templates\fechamento\sql\cancelamentos.sql', 'caixa'),
+  (4, 'Materiais', 'templates\fechamento\_materiais.template', 'templates\fechamento\sql\materiais.sql', 'caixa'),
+  (5, 'ServiÃ§o', 'templates\fechamento\_serviÃ§o.template', 'templates\fechamento\sql\serviÃ§o.sql', 'caixa'),
+  (6, 'Ticket mÃ©dio analÃ­tico', 'templates\fechamento\_ticket_mÃ©dio_analÃ­tico.template', 'templates\fechamento\sql\ticket_mÃ©dio_analÃ­tico.sql', 'caixa'),
+  (7, 'Vendas sem comprovante', 'templates\fechamento\fechamento de caixa\_vendas_sem_comprovante.template', 'templates\fechamento\sql\vendas_sem_comprovante.sql', 'caixa')  
 
 if (@tipo = 'periodo') or (isnull(@tipo, '') = '')
   insert @templates 
   (ordem, nome, arquivo_template, arquivo_sql, tipo) values
-  (1, 'Faturamento', '_faturamento.template', 'sql\faturamento.sql', 'periodo'),
-  (2, 'Descontos', 'fechamento de periodo\_descontos.template', 'sql\descontos.sql', 'periodo'),
-  (3, 'Cancelamentos', '_cancelamentos.template', 'sql\cancelamentos.sql', 'periodo'),
-  (4, 'Materiais', '_materiais.template', 'sql\materiais.sql', 'periodo'),
-  (5, 'Grupo materiais', 'fechamento de periodo\_grupo_materiais.template', 'sql\grupo_materiais.sql', 'periodo'),
-  (6, 'Serviço', '_serviço.template', 'sql\serviço.sql', 'periodo'),
-  (7, 'Ticket médio analítico', '_ticket_médio_analítico.template', 'sql\ticket_médio_analítico.sql', 'periodo'),
-  (8, 'Transferência', 'fechamento de periodo\_transferência.template', 'sql\transferência.sql', 'periodo'),
-  (9, 'Mesas com mais de um fechamento', 'fechamento de periodo\_mesas_com_mais_de_um_fechamento.template', 'sql\mesas_com_mais_de_um_fechamento.sql', 'periodo'),
-  (10, 'Entregas', 'fechamento de periodo\_entregas.template', 'sql\entregas.sql', 'periodo')
+  (1, 'Faturamento', 'templates\fechamento\_faturamento.template', 'templates\fechamento\sql\faturamento.sql', 'periodo'),
+  (2, 'Descontos', 'templates\fechamento\fechamento de periodo\_descontos.template', 'templates\fechamento\sql\descontos.sql', 'periodo'),
+  (3, 'Cancelamentos', 'templates\fechamento\_cancelamentos.template', 'templates\fechamento\sql\cancelamentos.sql', 'periodo'),
+  (4, 'Materiais', 'templates\fechamento\_materiais.template', 'templates\fechamento\sql\materiais.sql', 'periodo'),
+  (5, 'Grupo materiais', 'templates\fechamento\fechamento de periodo\_grupo_materiais.template', 'templates\fechamento\sql\grupo_materiais.sql', 'periodo'),
+  (6, 'ServiÃ§o', 'templates\fechamento\_serviÃ§o.template', 'templates\fechamento\sql\serviÃ§o.sql', 'periodo'),
+  (7, 'Ticket mÃ©dio analÃ­tico', 'templates\fechamento\_ticket_mÃ©dio_analÃ­tico.template', 'templates\fechamento\sql\ticket_mÃ©dio_analÃ­tico.sql', 'periodo'),
+  (8, 'TransferÃªncia', 'templates\fechamento\fechamento de periodo\_transferÃªncia.template', 'templates\fechamento\sql\transferÃªncia.sql', 'periodo'),
+  (9, 'Mesas com mais de um fechamento', 'templates\fechamento\fechamento de periodo\_mesas_com_mais_de_um_fechamento.template', 'templates\fechamento\sql\mesas_com_mais_de_um_fechamento.sql', 'periodo'),
+  (10, 'Entregas', 'templates\fechamento\fechamento de periodo\_entregas.template', 'templates\fechamento\sql\entregas.sql', 'periodo')
 
 
 if @restaura_padrao = 1
