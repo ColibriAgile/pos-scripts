@@ -70,7 +70,7 @@ where arquivo_template = '_grupo_materiais.template'
 
 update impressao_fechamento set 
   arquivo_template = 'fechamento de periodo\_transferência.template',
-  arquivo_sql = 'sql\_transferência.template'
+  arquivo_sql = 'sql\transferência.sql'
 where arquivo_template = '_transferencia.template' 
 
 update impressao_fechamento set 
