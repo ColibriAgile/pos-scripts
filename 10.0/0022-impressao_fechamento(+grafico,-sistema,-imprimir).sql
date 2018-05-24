@@ -43,8 +43,8 @@ go
 
 --Arruma a pasta e o nome de alguns templates
 update impressao_fechamento set 
-  arquivo_template = '_ticket_médio_analítico.template',
-  arquivo_sql = 'sql\ticket_médio_analítico.sql'
+  arquivo_template = '_ticket_médio.template',
+  arquivo_sql = 'sql\ticket_médio.sql'
 where arquivo_template = '_ticket_medio_analitico.template' 
 
 update impressao_fechamento set 
@@ -93,7 +93,7 @@ insert impressao_fechamento
   (3, 'Cancelamentos', '_cancelamentos.template', 'sql\cancelamentos.sql', 'caixa'),
   (4, 'Materiais', '_materiais.template', 'sql\materiais.sql', 'caixa'),
   (5, 'Serviço', '_serviço.template', 'sql\serviço.sql', 'caixa'),
-  (6, 'Ticket médio analítico', '_ticket_médio_analítico.template', 'sql\ticket_médio_analítico.sql', 'caixa'),
+  (6, 'Ticket médio', '_ticket_médio.template', 'sql\ticket_médio.sql', 'caixa'),
   (7, 'Vendas sem comprovante', 'fechamento de caixa\_vendas_sem_comprovante.template', 'sql\vendas_sem_comprovante.sql', 'caixa'),
 
   (1, 'Faturamento', '_faturamento.template', 'sql\faturamento.sql', 'periodo'),
@@ -102,7 +102,7 @@ insert impressao_fechamento
   (4, 'Materiais', '_materiais.template', 'sql\materiais.sql', 'periodo'),
   (5, 'Grupo materiais', 'fechamento de periodo\_grupo_materiais.template', 'sql\grupo_materiais.sql', 'periodo'),
   (6, 'Serviço', '_serviço.template', 'sql\serviço.sql', 'periodo'),
-  (7, 'Ticket médio analítico', '_ticket_médio_analítico.template', 'sql\ticket_médio_analítico.sql', 'periodo'),
+  (7, 'Ticket médio', '_ticket_médio.template', 'sql\ticket_médio.sql', 'periodo'),
   (8, 'Transferência', 'fechamento de periodo\_transferência.template', 'sql\transferência.sql', 'periodo'),
   (9, 'Mesas com mais de um fechamento', 'fechamento de periodo\_mesas_com_mais_de_um_fechamento.template', 'sql\mesas_com_mais_de_um_fechamento.sql', 'periodo'),
   (10, 'Entregas', 'fechamento de periodo\_entregas.template', 'sql\entregas.sql', 'periodo')

@@ -27,7 +27,7 @@ if (@tipo = 'caixa') or (isnull(@tipo, '') = '')
   (3, 'Cancelamentos', 'templates\fechamento\_cancelamentos.template', 'templates\fechamento\sql\cancelamentos.sql', 'caixa'),
   (4, 'Materiais', 'templates\fechamento\_materiais.template', 'templates\fechamento\sql\materiais.sql', 'caixa'),
   (5, 'Serviço', 'templates\fechamento\_serviço.template', 'templates\fechamento\sql\serviço.sql', 'caixa'),
-  (6, 'Ticket médio analítico', 'templates\fechamento\_ticket_médio_analítico.template', 'templates\fechamento\sql\ticket_médio_analítico.sql', 'caixa'),
+  (6, 'Ticket médio', 'templates\fechamento\_ticket_médio.template', 'templates\fechamento\sql\ticket_médio.sql', 'caixa'),
   (7, 'Vendas sem comprovante', 'templates\fechamento\fechamento de caixa\_vendas_sem_comprovante.template', 'templates\fechamento\sql\vendas_sem_comprovante.sql', 'caixa')  
 
 if (@tipo = 'periodo') or (isnull(@tipo, '') = '')
@@ -39,7 +39,7 @@ if (@tipo = 'periodo') or (isnull(@tipo, '') = '')
   (4, 'Materiais', 'templates\fechamento\_materiais.template', 'templates\fechamento\sql\materiais.sql', 'periodo'),
   (5, 'Grupo materiais', 'templates\fechamento\fechamento de periodo\_grupo_materiais.template', 'templates\fechamento\sql\grupo_materiais.sql', 'periodo'),
   (6, 'Serviço', 'templates\fechamento\_serviço.template', 'templates\fechamento\sql\serviço.sql', 'periodo'),
-  (7, 'Ticket médio analítico', 'templates\fechamento\_ticket_médio_analítico.template', 'templates\fechamento\sql\ticket_médio_analítico.sql', 'periodo'),
+  (7, 'Ticket médio', 'templates\fechamento\_ticket_médio.template', 'templates\fechamento\sql\ticket_médio.sql', 'periodo'),
   (8, 'Transferência', 'templates\fechamento\fechamento de periodo\_transferência.template', 'templates\fechamento\sql\transferência.sql', 'periodo'),
   (9, 'Mesas com mais de um fechamento', 'templates\fechamento\fechamento de periodo\_mesas_com_mais_de_um_fechamento.template', 'templates\fechamento\sql\mesas_com_mais_de_um_fechamento.sql', 'periodo'),
   (10, 'Entregas', 'templates\fechamento\fechamento de periodo\_entregas.template', 'templates\fechamento\sql\entregas.sql', 'periodo')
