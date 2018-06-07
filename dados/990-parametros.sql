@@ -1175,6 +1175,28 @@ exec sp_inserir_parametro
 Com valor 0 (zero) o sistema não força o fechamento.'
 go
 
+exec sp_inserir_parametro
+  @codigo = 'CfgFitaFechamentoCaixaEmModoGrafico',
+  @categoria = '5.Fechamento',
+  @subcategoria = 'Template',
+  @tipo_valor = 'boolean',
+  @tipo_param = 'V',
+  @valor_default = '0',
+  @visivel = 0
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgFitaFechamentoPeriodoEmModoGrafico',
+  @categoria = '5.Fechamento',
+  @subcategoria = 'Template',
+  @tipo_valor = 'boolean',
+  @tipo_param = 'V',
+  @valor_default = '0',
+  @visivel = 0
+go
+
+
+
 -----Imagens---------------
 exec sp_inserir_parametro
   @codigo = 'CfgImagemTicketConsumindo',
