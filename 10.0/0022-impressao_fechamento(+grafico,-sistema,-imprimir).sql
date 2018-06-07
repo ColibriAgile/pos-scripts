@@ -45,7 +45,7 @@ go
 update impressao_fechamento set 
   arquivo_template = '_ticket_médio.template',
   arquivo_sql = 'sql\ticket_médio.sql'
-where arquivo_template = '_ticket_medio_analitico.template' 
+where arquivo_template in ('_ticket_medio_analitico.template', '_ticket_medio.template')
 
 update impressao_fechamento set 
   arquivo_template = '_serviço.template',
