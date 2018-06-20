@@ -78,9 +78,6 @@ using @meio_pagamento as source on
 when matched then
 update set
   target.descricao = source.descricao,
-  target.troco_dinheiro = source.troco_dinheiro,
-  target.troco_repique = source.troco_repique,
-  target.troco_contravale = source.troco_contravale,
   target.tef = source.tef,
   target.tipo_tef = source.tipo_tef,
   target.cartao = source.cartao
