@@ -64,7 +64,8 @@ as begin
     contra_vale,
     sangria,
     suprimento
-  from dbo.fn_fechamento_caixa(
+  from dbo.fn_fechamento_caixa
+  (
     @dt_ini,
     @dt_fim,
     @func_id,
@@ -80,7 +81,7 @@ as begin
     vl_servico_recebido money,
     vl_entrada_recebido money,
     vl_diferenca_consumacao money,
-	vl_taxa_de_entrega money
+    vl_taxa_de_entrega money
   )
   /**/
 
@@ -92,7 +93,7 @@ as begin
     vl_servico_recebido = sum(vl_servico_recebido),
     vl_entrada_recebido = sum(vl_entrada_recebido),
     vl_diferenca_consumacao = sum(vl_diferenca_consumacao),
-	vl_taxa_entrega = sum(vl_taxa_de_entrega)
+    vl_taxa_entrega = sum(vl_taxa_de_entrega)
   from
   (
     select
@@ -101,17 +102,20 @@ as begin
       vl_servico_recebido = max(isnull(ov.vl_servico, 0)),
       vl_entrada_recebido = max(isnull(ov.vl_entrada, 0)),
       vl_diferenca_consumacao = max(isnull(ov.vl_diferenca_consumacao, 0)),
-	  vl_taxa_de_entrega = max(isnull(ov.vl_taxa_de_entrega,0))
+      vl_taxa_de_entrega = max(isnull(ov.vl_taxa_de_entrega,0))
     from operacao_geral o with (nolock)
     join operacao_venda_geral ov with (nolock) on
       ov.operacao_id = o.operacao_id
     join movimento_caixa_geral m with (nolock) on
       m.operacao_id = o.operacao_id
     join @turnos t on t.turno_id = m.turno_id
-    where o.cancelada = 0
+    where o.dt_contabil between @dt_ini and @dt_fim
+      and o.cancelada = 0
       and ((m.func_recebeu_id = @func_id) or (@func_id <= 0))
       and ov.modo_venda_id in (select id from dbo.fn_list2lines(@modos_venda, ''))
-    group by o.operacao_id, dt_contabil
+    group by 
+      o.operacao_id, 
+      o.dt_contabil
 
     union all
 
@@ -121,18 +125,21 @@ as begin
       vl_servico_recebido = max(isnull(ov.vl_servico, 0)),
       vl_entrada_recebido = max(isnull(ov.vl_entrada, 0)),
       vl_diferenca_consumacao = max(isnull(ov.vl_diferenca_consumacao, 0)),
-	  vl_taxa_de_entrega = max(isnull(ov.vl_taxa_de_entrega,0))
+      vl_taxa_de_entrega = max(isnull(ov.vl_taxa_de_entrega,0))
     from operacao o with (nolock)
     join operacao_venda ov with (nolock) on
       ov.operacao_id = o.operacao_id
     join movimento_caixa m with (nolock) on
       m.operacao_id = ov.operacao_id
     join @turnos t on t.turno_id = m.turno_id
-    where o.cancelada = 0
+    where o.dt_contabil between @dt_ini and @dt_fim
+      and o.cancelada = 0
       and ((m.func_recebeu_id = @func_id) or (@func_id <= 0))
       and ov.modo_venda_id in (select id from dbo.fn_list2lines(@modos_venda, ''))
-    group by o.operacao_id, dt_contabil
-  )x
+    group by 
+      o.operacao_id, 
+      dt_contabil
+  ) x
   group by data;
 
   /**/
