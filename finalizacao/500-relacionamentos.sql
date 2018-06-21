@@ -56,6 +56,11 @@ alter table dbo.operacao_venda add foreign key
   on delete  no action
 go
 
+update dbo.operacao_venda
+set desconto_id = null
+where desconto_id not in (select id from desconto)
+go
+
 alter table dbo.operacao_venda add foreign key
 (
   desconto_id
@@ -80,6 +85,11 @@ alter table dbo.operacao_venda_geral add foreign key
   operacao_id
 ) on update no action
   on delete no action
+go
+
+update dbo.operacao_venda_geral
+set desconto_id = null
+where desconto_id not in (select id from desconto)
 go
 
 alter table dbo.operacao_venda_geral add foreign key
