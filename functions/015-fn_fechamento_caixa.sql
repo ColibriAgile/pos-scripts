@@ -158,7 +158,8 @@ as begin
       x.data = o.dt_contabil and
       x.func_id = m.func_recebeu_id and
       x.turno_id = m.turno_id
-    where m.cancelado = 0
+    where o.dt_contabil between @dt_ini and @dt_fim
+      and m.cancelado = 0
       and isnull(ov.modo_venda_id, 0) in (select id from dbo.fn_list2lines(@modos_venda, ''))
 
     union all
@@ -180,7 +181,8 @@ as begin
       x.data = o.dt_contabil and
       x.func_id = m.func_recebeu_id and
       x.turno_id = m.turno_id
-    where m.cancelado = 0
+    where o.dt_contabil between @dt_ini and @dt_fim
+      and m.cancelado = 0
       and isnull(ov.modo_venda_id, 0) in (select id from dbo.fn_list2lines(@modos_venda, ''))
   ) x
   left join meio_pagamento t on t.id = meio_id
