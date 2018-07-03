@@ -28,6 +28,7 @@ begin
     where modo_venda_id = @modoVenda
       and estado = 'livre'
       and codigo >= @codigoInicial
+      and ativo = 1
 
     select top 1 @codigo = codigo 
     from @tmp
@@ -43,7 +44,7 @@ begin
       cliente_id = null,
       dt_hr_abertura = null,
       limite_consumo = null
-    where estado = 'checkout'
+    where estado = 'checkout'      
 
     update top(1) ticket with (readpast)
     set
@@ -54,6 +55,7 @@ begin
     where modo_venda_id = @modoVenda
       and estado = 'livre'
       and codigo >= @codigoInicial
+      and ativo = 1
 
     select top 1 @codigo = codigo 
     from @tmp
