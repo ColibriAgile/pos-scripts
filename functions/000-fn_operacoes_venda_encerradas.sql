@@ -71,8 +71,11 @@ begin
           when
             (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
 		      when
-            (c.[status] = 'Cancelado' and o.cancelada = 1) or
-            (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
+            (o.cancelada = 1) and
+            (
+              (c.[status] = 'Cancelado' and isnull(c.numero,'') <> '') or
+              (isnull(c.[status], '') = '' and o.vl_total = 0)
+            ) then 'Cancelada'
           when
             (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 1) or (o.vl_total = 0) then 'Ok'
           else 'Pendente'
