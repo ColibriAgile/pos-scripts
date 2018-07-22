@@ -1,8 +1,8 @@
-if (object_id('fn_operacoes_venda_encerradas2') is not null)
-  drop function fn_operacoes_venda_encerradas2
+if (object_id('fn_operacoes_venda_encerradas') is not null)
+  drop function fn_operacoes_venda_encerradas
 go
 
-create function fn_operacoes_venda_encerradas2
+create function fn_operacoes_venda_encerradas
 (
   @dt_ini date,        --inicio do periodo de consulta
   @dt_fim date,        --fim do periodo de consulta
