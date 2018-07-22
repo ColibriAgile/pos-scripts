@@ -110,11 +110,25 @@ begin
       comprovante_status = c.[status],
       comprovante_ressalva = c.ressalva,
       [status] = case
+        /*
+        Se tem texto de ressalva foi resolvido com ressalva*/
         when (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
-        when (c.[status] = 'Cancelado' and o.cancelada = 1) 
-          or (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
+        /*
+        Se operacao foi cancelada tem que verificar se o comprovante tb o foi */
+        when (o.cancelada = 1) 
+         and 
+         (
+           (c.[status] = 'Cancelado' and isnull(c.numero,'') <> '') 
+	         or
+           (isnull(c.[status], '') = '' and o.vl_total = 0)
+         ) then 'Cancelada'
+        /*
+        Comprovante emitido ou venda tranferida ou recebida com valor 0, consideramos OK */
         when (c.[status] = 'Emitido' and o.cancelada = 0) 
-          or (ov.transferida = 1) or (o.vl_total = 0) then 'Ok'
+          or (ov.transferida = 1) 
+	        or (o.vl_total = 0) then 'Ok'
+        /*
+        Nenhuma das situações anteriores, entao tem alguma pendencia */
         else 'Pendente'
       end,
       diaria = 1,
