@@ -41,13 +41,14 @@ begin
   /*
   Obtem a data do periodo aberto. Se o periodo 
   esta fechado, utiliza uma data no futuro para 
-  não consultar as tabelas do dia*/
+  nao consultar as tabelas do dia*/
   select @dt_contabil = isnull(valor, '20990101')
   from cache.data_contabil
 
   /*
-  Verifica e ajusta hora inicial e final. 
-  A hora final deve ser ser hh:mm */
+  Verifica e ajusta hora inicial e final.
+  A hora final deve ser ser hh:mm e no final 
+  fica hh:mm:59.999 */
   if (@hr_ini is null) 
     set @hr_ini = '00:00'
   if (@hr_fim is null) 
@@ -56,11 +57,11 @@ begin
 
   /* 
   Aumenta 1 dia na data final para garantir que pega 
-  todas vendas mesmo considerando o horário */
+  todas vendas mesmo considerando o horario */
   set @dt_fim = dateadd(day, 1, @dt_fim)
 
   /*
-  Otimizaçao para verificar se consulta 
+  Otimizacao para verificar se consulta 
   somente as tabelas do dia aberto */
   if (@dt_fim > @dt_contabil) 
     set @inclui_diaria = 1
@@ -68,7 +69,7 @@ begin
     set @somente_diaria = 1
 
   /*
-  Só pesquisa as tabelas do dia se a data final for maior que o dia aberto.
+  So pesquisa as tabelas do dia se a data final for maior que o dia aberto.
   Ainda preciso do filtro pq pode ter varios encerramentos com datas diferentes
   para a mesma data contabil */
   if (@inclui_diaria = 1) begin
@@ -123,12 +124,12 @@ begin
            (isnull(c.[status], '') = '' and o.vl_total = 0)
          ) then 'Cancelada'
         /*
-        Comprovante emitido ou venda tranferida ou recebida com valor 0, consideramos OK */
+        Comprovante emitido ou venda transferida ou recebida com valor 0, consideramos OK */
         when (c.[status] = 'Emitido' and o.cancelada = 0) 
           or (ov.transferida = 1) 
 	        or (o.vl_total = 0) then 'Ok'
         /*
-        Nenhuma das situações anteriores, entao tem alguma pendencia */
+        Nenhuma das situacoes anteriores, entao tem alguma pendencia */
         else 'Pendente'
       end,
       diaria = 1,
@@ -142,7 +143,7 @@ begin
   end;
 
   /*
-  OTIMIZACAO: Só roda esta consulta se o periodo 
+  OTIMIZACAO: So roda esta consulta se o periodo 
   informado abrange data anterior ao periodo aberto */
   if (@somente_diaria = 0) begin
     insert @tbl
