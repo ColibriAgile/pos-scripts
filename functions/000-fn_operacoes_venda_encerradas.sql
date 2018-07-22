@@ -45,7 +45,7 @@ begin
 
 
   /*
-  Só pesquisa as tabelas do dia se a data final for maior que o dia aberto.
+  Sï¿½ pesquisa as tabelas do dia se a data final for maior que o dia aberto.
   Ainda preciso do filtro pq pode ter varios encerramentos com datas diferentes
   para a mesma data contabil */
   if (@dtfim > @dtcontabil) begin
@@ -68,20 +68,18 @@ begin
         comprovante_ressalva = c.ressalva,
         o.dt_contabil,
         [status] = case
-          when
-            (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
-		      when
-            (c.[status] = 'Cancelado' and o.cancelada = 1) or
-            (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
-          when
-            (c.[status] = 'Emitido' and o.cancelada = 0) or (ov.transferida = 1) or (o.vl_total = 0) then 'Ok'
+          when (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
+          when (c.[status] = 'Cancelado' and o.cancelada = 1) 
+            or (isnull(c.[status], '') = '' and o.cancelada = 1 and o.vl_total = 0) then 'Cancelada'
+          when (c.[status] = 'Emitido' and o.cancelada = 0) 
+            or (ov.transferida = 1) or (o.vl_total = 0) then 'Ok'
           else 'Pendente'
         end,
         diaria = 1,
         transferida
       from operacao_venda ov with(nolock)
       join operacao o with(nolock) on o.operacao_id = ov.operacao_id
-	  left join comprovante c with(nolock) on c.operacao_id = o.operacao_id
+      left join comprovante c with(nolock) on c.operacao_id = o.operacao_id
       where ov.dt_hr_encerramento between @dtini and @dtfim
         and ov.encerrada = 1         
     )
@@ -158,7 +156,7 @@ begin
     join operacao_geral o with(nolock) on o.operacao_id = ov.operacao_id
     left join comprovante_geral c with(nolock) on c.operacao_id = o.operacao_id
     where ov.dt_hr_encerramento between @dtini and @dtfim
-    --and ov.encerrada = 1 (Na tabela geral todas as operações estão encerradas)
+    --and ov.encerrada = 1 (Na tabela geral todas as operaï¿½ï¿½es estï¿½o encerradas)
   )
   insert @tbl
   (
