@@ -4,132 +4,40 @@ if object_id('dbo.fn_item_preco') is not null
 go
 
 create function fn_item_preco( )
-returns @itens table 
+returns table 
+as return
 (
-  material_id int not null,
-  preco_geral money,
-  preco_balcao money,
-  preco_mesa money,
-  preco_ficha money,
-  preco_entrega money
-)
-as
-begin
-  declare @modo_venda int
-  
-  insert @itens
-  (material_id)
-  select m.id
-  from material m
+  select 
+    material_id = m.id,
+    preco_geral = isnull(t.preco, 0),
+    preco_balcao = isnull(tb.preco, 0),
+    preco_mesa = isnull(tm.preco, 0),
+    preco_ficha = isnull(tf.preco, 0),
+    preco_entrega = isnull(te.preco, 0)
+  from dbo.material m
+  left join dbo.vw_item_preco t on
+    t.modo_venda_id = 0 and 
+    t.material_id = m.id and 
+    t.situacao = 'vigente'
+  left join dbo.vw_item_preco tb on
+    tb.modo_venda_id = 1 and 
+    tb.material_id = m.id and 
+    tb.situacao = 'vigente'
+  left join dbo.vw_item_preco te on
+    te.modo_venda_id = 2 and 
+    te.material_id = m.id and 
+    te.situacao = 'vigente'
+  left join dbo.vw_item_preco tm on
+    tm.modo_venda_id = 3 and 
+    tm.material_id = m.id and 
+    tm.situacao = 'vigente'
+  left join dbo.vw_item_preco tf on
+    tf.modo_venda_id = 4 and 
+    tf.material_id = m.id and 
+    tf.situacao = 'vigente'
   where m.ativo = 1
     and m.venda = 1
-
---tabela de preço geral  
-  set @modo_venda = 0
-  if (dbo.fn_existe_tabela_preco(@modo_venda) = 1) 
-  begin
-    with tabela (mat_id, preco) as
-    (
-      select 
-        i.material_id,
-        t.preco
-      from @itens i 
-      left join vw_item_preco t on 
-         t.modo_venda_id = @modo_venda and
-         t.material_id = i.material_id and
-         t.situacao = 'vigente'
-    )
-      update @itens
-      set preco_geral = preco
-      from tabela
-      where material_id = tabela.mat_id
-  end
-
---tabela de preço balcao
-  set @modo_venda = 1
-  if (dbo.fn_existe_tabela_preco(@modo_venda) = 1)
-  begin
-    with tabela (mat_id, preco) as
-    (
-      select 
-        i.material_id,
-        t.preco
-      from @itens i 
-      left join vw_item_preco t on 
-         t.modo_venda_id = @modo_venda and
-         t.material_id = i.material_id and
-         t.situacao = 'vigente'
-    )
-      update @itens
-      set preco_balcao = preco
-      from tabela
-      where material_id = tabela.mat_id
-  end
-
---tabela de preço entrega
-  set @modo_venda = 2
-  if (dbo.fn_existe_tabela_preco(@modo_venda) = 1)
-  begin
-    with tabela (mat_id, preco) as
-    (
-      select 
-        i.material_id,
-        t.preco
-      from @itens i 
-      left join vw_item_preco t on 
-         t.modo_venda_id = @modo_venda and
-         t.material_id = i.material_id and
-         t.situacao = 'vigente'
-    )
-      update @itens
-      set preco_entrega = preco
-      from tabela
-      where material_id = tabela.mat_id
-  end
-
---tabela de preço mesa
-  set @modo_venda = 3
-  if (dbo.fn_existe_tabela_preco(@modo_venda) = 1)
-  begin
-    with tabela (mat_id, preco) as
-    (
-      select 
-        i.material_id,
-        t.preco
-      from @itens i 
-      left join vw_item_preco t on 
-         t.modo_venda_id = @modo_venda and
-         t.material_id = i.material_id and
-         t.situacao = 'vigente'
-    )
-      update @itens
-      set preco_mesa = preco
-      from tabela
-      where material_id = tabela.mat_id
-  end
-
---tabela de preço ficha
-  set @modo_venda = 4
-  if (dbo.fn_existe_tabela_preco(@modo_venda) = 1)
-  begin
-    with tabela (mat_id, preco) as
-    (
-      select 
-        i.material_id,
-        t.preco
-      from @itens i 
-      left join vw_item_preco t on 
-         t.modo_venda_id = @modo_venda and
-         t.material_id = i.material_id and
-         t.situacao = 'vigente'
-    )
-      update @itens
-      set preco_ficha = preco
-      from tabela
-      where material_id = tabela.mat_id
-  end
-  return
-end
+)
 go
 
 
