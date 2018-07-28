@@ -5,23 +5,23 @@ go
 create procedure sp_apagar_relacionamentos(@tabela varchar(100) = '', @campo varchar(100) = '', @tabela_referencia bit = 0, @debug bit = 0)
 as
 begin
-  declare @nome varchar(250)
-  declare @pai varchar(250)
-  declare @sql nvarchar(max)
-  declare @schema sysname
-  declare @schema_id int
+  declare 
+    @nome varchar(250),
+    @pai varchar(250),
+    @sql nvarchar(max),
+    @schema sysname,
+    @schema_id int
 
   select
     @schema = isnull(parsename(@tabela, 2), 'dbo'),
     @tabela = parsename(@tabela, 1)
-
 
   select
     @schema_id = s.schema_id
   from sys.schemas s
   where s.name = @schema
 
-  declare cur_relacionamentos cursor for
+  declare cur_relacionamentos cursor local forward_only read_only for
   select distinct
     nome = o.name,
     tabela = pai.name /*,
