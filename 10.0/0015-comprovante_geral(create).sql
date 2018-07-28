@@ -26,14 +26,16 @@ insert into comprovante_geral
 select 
   id = (ROW_NUMBER() OVER(ORDER BY o.operacao_id ASC) * -1),
   o.operacao_id, 
-	consumidor = isnull(nullif(c.string_value, ''''),''(nao informado)''), 
-	comprovante, 
-	comprovante_chave, 
-	comprovante_status, 
-	comprovante_ressalva
+	consumidor = cast(isnull(nullif(c.string_value, ''''),''(nao informado)'') as varchar(30)), 
+	cast(comprovante as varchar(20)), 
+	cast(comprovante_chave as varchar(150)), 
+	cast(comprovante_status as varchar(20)), 
+	cast(comprovante_ressalva as varchar(150))
 from operacao_geral o 
 left join operacao_venda_geral ov on o.operacao_id = ov.operacao_id
 cross apply dbo.fn_parse_json(isnull(nullif(consumidor, ''''),''{"cpf":"(nao informado)"}'')) c
 where c.name = ''cpf''
 ')
 go
+
+
