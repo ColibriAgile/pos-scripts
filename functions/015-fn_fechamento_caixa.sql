@@ -1,7 +1,6 @@
 ﻿if (object_id('fn_fechamento_caixa') is not null)
   drop function fn_fechamento_caixa
 go
-
 create function fn_fechamento_caixa
 (
   @dt_ini datetime,
@@ -360,7 +359,7 @@ as begin
        or @turno_id = 0
   )
   update @tbl
-  set valor_informado = vl_digitado
+  set valor_informado = nullif(vl_digitado, 0)
   from conf
   where turno_id = turno
     and meio_id = meio_pagamento_id
@@ -462,7 +461,7 @@ as begin
   (
     select
       tur = turno,
-      totInfo = sum(isnull(valor_informado,0))
+      totInfo = nullif(sum(isnull(valor_informado,0)), 0)
     from @tbl
     group by turno
   )
