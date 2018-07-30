@@ -2,19 +2,20 @@ if (object_id('sp_fechar_periodo') is not null)
   drop procedure sp_fechar_periodo
 go
 --------------------------------------------------------------------------------------------
-create procedure sp_fechar_periodo(@data datetime, @funcionario int, @libera_checkout bit)
+create procedure sp_fechar_periodo(@data datetime, @funcionario int, @libera_checkout bit, @debug bit = 0)
 as
 begin
-/*Try..catch incluido para interromper a execução 
+/*Try..catch incluido para interromper a execuï¿½ï¿½o 
   de outros comandos se algum apresentar falha*/
   begin try  
 
+    --SET NOCOUNT ON 
     begin transaction
     declare 
       @cmd varchar(max)    
 
 /*-------------------------------------------------------
-  Inicializações
+  Inicializaï¿½ï¿½es
   -------------------------------------------------------*/
     print 'Garante que nenhum turno sem movimento fique aberto'
     update dbo.turno
@@ -35,8 +36,8 @@ begin
     truncate table cache.numero_chamada
 
 /*-------------------------------------------------------
-  Tabelas auxiliares. Não dá para usar 'table' devido
-  ao comandos exec('') que não detectam as variaveis.
+  Tabelas auxiliares. Nï¿½o dï¿½ para usar 'table' devido
+  ao comandos exec('') que nï¿½o detectam as variaveis.
   -------------------------------------------------------*/
     print 'Apaga as tabelas auxiliares'
 
@@ -83,7 +84,7 @@ begin
     into #opers
     from #vendas v
 
-    print 'Coleta os IDs de operacoes que não são de venda'
+    print 'Coleta os IDs de operacoes que nï¿½o sï¿½o de venda'
     insert #opers
     select operacao_id
     from dbo.operacao
@@ -93,20 +94,20 @@ begin
  INICIO DO FECHAMENTO
  -------------------------------------------*/
 
-    print 'Atribui o cliente do ticket à venda antes de desvincular o ticket da venda'
+    print 'Atribui o cliente do ticket ï¿½ venda antes de desvincular o ticket da venda'
     update dbo.venda
     set cliente_id = t.cliente_id
     from dbo.ticket t
     where venda.modo_venda_id = 2
       and venda.venda_id = t.venda_id
 
-    print 'Copia as operações de venda encerradas e outras operacoes'
+    print 'Copia as operaï¿½ï¿½es de venda encerradas e outras operacoes'
     set @cmd = dbo.fn_insert_para_fechamento('operacao', 'o')
     exec(@cmd + '
 where o.operacao_id in (select operacao_id from #opers)'
     )
 
-    print 'Copia as operações de venda encerradas'
+    print 'Copia as operaï¿½ï¿½es de venda encerradas'
     set @cmd = dbo.fn_insert_para_fechamento('operacao_venda', 'o')
     exec(@cmd + '
 where o.operacao_id in (select operacao_id from #opers)'
@@ -118,8 +119,8 @@ where o.operacao_id in (select operacao_id from #opers)'
 where o.operacao_id in (select operacao_id from #opers)'
     )
 
-    print 'Limpa as operacões de origem dos tickets agrupados'
-    exec dbo.sp_apagar_operacao_origem --revisar se está apagando somente das operações recebidas!
+    print 'Limpa as operacï¿½es de origem dos tickets agrupados'
+    exec dbo.sp_apagar_operacao_origem --revisar se estï¿½ apagando somente das operaï¿½ï¿½es recebidas!
 
     print 'Copia as vendas pagas ou canceladas'
     set @cmd = dbo.fn_insert_para_fechamento('venda', 'v')
@@ -154,7 +155,7 @@ where c.operacao_id in (select operacao_id from #opers)'
     where modo_venda_id = 2
       and estado in ('livre','finalizado','cancelado')
 
-    print 'Volta para "livre" os tickets que não foram reaproveitados ou utilizados'
+    print 'Volta para "livre" os tickets que nï¿½o foram reaproveitados ou utilizados'
     update dbo.ticket
     set
       estado = case 
@@ -176,7 +177,7 @@ where c.operacao_id in (select operacao_id from #opers)'
       and estado = 'livre'
 
 /*------------------------------------------
- LIMPANDO AS TABELAS DIÁRIAS
+ LIMPANDO AS TABELAS DIï¿½RIAS
  -------------------------------------------*/
 
     print 'Apaga dbo.historico_operacao'
@@ -271,6 +272,7 @@ where c.operacao_id in (select operacao_id from #opers)'
       func_fechou_id = @funcionario
     where dt_contabil = @data
 
+    if @debug = 1 print '  apagando cache.data_contabil'   
     delete cache.data_contabil
 
     print 'Reinicia contador do numero de chamada'
@@ -283,11 +285,12 @@ where c.operacao_id in (select operacao_id from #opers)'
     print 'Reinicia o sequencial dos tickets'
     delete cache.proximo_ticket
 
-    print 'Apagando as tabelas temporárias'
+    print 'Apagando as tabelas temporï¿½rias'
     drop table #vendas
     drop table #opers
     drop table #opers_orig
 
+    if @debug = 1 print '== FIM =='
     commit
   end try
 
@@ -299,9 +302,11 @@ where c.operacao_id in (select operacao_id from #opers)'
       @errseverity int
 
     select
-      @errmsg = 'Falha no fechamento do período. ' + error_message(),
+      @errmsg = 'Falha no fechamento do perï¿½odo. ' + error_message(),
       @errseverity = error_severity()
 
     raiserror(@errmsg, @errseverity, 1)
   end catch
+
+  SET NOCOUNT OFF 
 end

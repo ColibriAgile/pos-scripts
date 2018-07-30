@@ -14,21 +14,36 @@ begin
     @dthrAbertura datetime = null;
 
   begin try
-    if (@abre = 1) begin
+    if (@abre = 1) 
+    begin
       set @estado = 'consumindo'
       set @dthrAbertura = getdate()
     end
 
-    update top(1) ticket with (readpast)
+    /*
+      Garante que retorne o menor código livre
+      usando o order by codigo
+    */
+    ;with ticket_ordenado as (
+      select top(1) 
+        estado,
+        dt_hr_abertura,
+        codigo,         
+        ticket_id
+      from ticket with (nolock)
+      where modo_venda_id = @modoVenda
+        and estado = 'livre'
+        and codigo >= @codigoInicial
+        and ativo = 1
+      order by codigo
+    )
+    update ticket_ordenado with (readpast)
     set
       estado = @estado,
       dt_hr_abertura = @dthrAbertura
     output inserted.codigo
     into @tmp
-    where modo_venda_id = @modoVenda
-      and estado = 'livre'
-      and codigo >= @codigoInicial
-
+    
     select top 1 @codigo = codigo 
     from @tmp
     
@@ -43,17 +58,27 @@ begin
       cliente_id = null,
       dt_hr_abertura = null,
       limite_consumo = null
-    where estado = 'checkout'
+    where estado = 'checkout'      
 
-    update top(1) ticket with (readpast)
+    ;with ticket_ordenado as (
+      select top(1) 
+        estado,
+        dt_hr_abertura,
+        codigo,         
+        ticket_id
+      from ticket with (nolock)
+      where modo_venda_id = @modoVenda
+        and estado = 'livre'
+        and codigo >= @codigoInicial
+        and ativo = 1
+      order by codigo
+    )
+    update ticket_ordenado with (readpast)
     set
       estado = @estado,
       dt_hr_abertura = @dthrAbertura
     output inserted.codigo
-    into @tmp
-    where modo_venda_id = @modoVenda
-      and estado = 'livre'
-      and codigo >= @codigoInicial
+    into @tmp    
 
     select top 1 @codigo = codigo 
     from @tmp

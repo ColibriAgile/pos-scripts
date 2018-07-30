@@ -57,10 +57,10 @@ insert into @meio_pagamento
   loja_id,  
   rede_id
 ) values
-(1, 1, 1, 'Dinheiro', 1, 1, 0, 0, 1, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
-(2, 2, 1, 'Cheque', 2, 0, 1, 0, 1, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
-(3, 3, 1, 'Credito cliente', 3, 0, 0, 1, 1, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
-(4, 4, 1, 'Conta assinada', 99, 0, 1, 0, 0, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
+(1, 1, 1, 'Dinheiro', 1, 1, 1, 1, 1, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
+(2, 2, 1, 'Cheque', 2, 0, 1, 1, 1, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
+(3, 3, 1, 'Credito cliente', 3, 0, 1, 1, 1, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
+(4, 4, 1, 'Conta assinada', 99, 0, 1, 1, 0, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
 --trocos
 (-1, 1, 1, 'Troco dinheiro', -1, 1, 0, 0, 0, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
 (-2, 2, 1, 'Troco credito', -2, 0, 0, 1, 0, 0, null, GetDate(), 'Padrão', 0, @loja_id, @rede_id),
@@ -78,9 +78,6 @@ using @meio_pagamento as source on
 when matched then
 update set
   target.descricao = source.descricao,
-  target.troco_dinheiro = source.troco_dinheiro,
-  target.troco_repique = source.troco_repique,
-  target.troco_contravale = source.troco_contravale,
   target.tef = source.tef,
   target.tipo_tef = source.tipo_tef,
   target.cartao = source.cartao

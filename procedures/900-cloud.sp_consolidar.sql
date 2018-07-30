@@ -523,7 +523,7 @@ when not matched by target then
     source.quantificador
   )
 when not matched by source then
-  update set target.ativo = 0;
+  delete;
 
 set identity_insert dbo.combo_slot off
 
