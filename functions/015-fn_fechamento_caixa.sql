@@ -476,15 +476,18 @@ as begin
   where valor_informado is null
     and cfgConfereCaixa = 1
 
-  --Apaga meios inativos com valor 0
-  delete @tbl
-  where valor_calculado = 0
-    and meio_id in
-    (
-      select id
-      from dbo.meio_pagamento
-      where ativo = 0
-    )
+   --Apaga meios inativos com valor 0
+   delete @tbl
+   where valor_calculado = 0
+     and meio_id in
+     (
+       select id
+       from dbo.meio_pagamento
+       where ativo = 0
+     )
+     and meio_id not in (3) --credito cliente
+
+
 
   return
 end
