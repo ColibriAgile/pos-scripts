@@ -204,3 +204,12 @@ exec dbo.sp_incluir_impressao
   @entrega = 0,
   @pasta = 'remota'
 go
+
+exec dbo.sp_incluir_impressao
+  @nome = 'TEF',
+  @balcao = 0,
+  @mesa = 0,
+  @ficha = 0,
+  @entrega = 0,
+  @pasta = 'tef'
+go
