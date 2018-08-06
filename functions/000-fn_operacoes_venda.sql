@@ -1,4 +1,4 @@
-if (object_id('fn_operacoes_venda') is not null)
+﻿if (object_id('fn_operacoes_venda') is not null)
   drop function fn_operacoes_venda
 go
 
@@ -16,6 +16,9 @@ returns @tbl table
   modo_venda_id int,
   qtd_pessoas int,
   vl_total money,
+  vl_desconto money,
+  desconto varchar(60),
+  pct_desconto money,
   cancelada bit,
   encerrada bit,
   dt_hr_encerramento datetime,
@@ -37,7 +40,7 @@ begin
   ) set @tabelasDoDia = 1
 
   /*
-  S� pesquisa as tabelas do dia se a data final for maior que o dia aberto.*/
+  Só pesquisa as tabelas do dia se a data final for maior que o dia aberto.*/
   if (@tabelasDoDia = 1) begin
     with oper as
     (
@@ -48,6 +51,9 @@ begin
         ov.modo_venda_id,
         ov.qtd_pessoas,
         o.vl_total,
+        ov.vl_desconto,
+        ov.desconto,
+        ov.pct_desconto,
         o.cancelada,
         ov.encerrada,
         ov.dt_hr_encerramento,
@@ -73,6 +79,9 @@ begin
       modo_venda_id,
       qtd_pessoas,
       vl_total,
+      vl_desconto,
+      desconto,
+      pct_desconto,
       cancelada,
       encerrada,
       dt_hr_encerramento,
@@ -88,6 +97,9 @@ begin
       oper.modo_venda_id,
       oper.qtd_pessoas,
       oper.vl_total,
+      oper.vl_desconto,
+      oper.desconto,
+      oper.pct_desconto,
       oper.cancelada,
       oper.encerrada,
       oper.dt_hr_encerramento,
@@ -107,6 +119,9 @@ begin
       ov.modo_venda_id,
       ov.qtd_pessoas,
       o.vl_total,
+      ov.vl_desconto,
+      ov.desconto,
+      ov.pct_desconto,
       o.cancelada,
       ov.encerrada,
       ov.dt_hr_encerramento,
@@ -128,6 +143,9 @@ begin
     modo_venda_id,
     qtd_pessoas,
     vl_total,
+    vl_desconto,
+    desconto,
+    pct_desconto,
     cancelada,
     encerrada,
     dt_hr_encerramento,
@@ -143,6 +161,9 @@ begin
     oper.modo_venda_id,
     oper.qtd_pessoas,
     oper.vl_total,
+    oper.vl_desconto,
+    oper.desconto,
+    oper.pct_desconto,
     oper.cancelada,
     oper.encerrada,
     oper.dt_hr_encerramento,
