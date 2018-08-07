@@ -19,6 +19,7 @@ returns @tbl table
   vl_desconto money,
   desconto varchar(60),
   pct_desconto money,
+  desconto_id int,
   cancelada bit,
   encerrada bit,
   dt_hr_encerramento datetime,
@@ -53,7 +54,8 @@ begin
         o.vl_total,
         ov.vl_desconto,
         ov.desconto,
-        ov.pct_desconto,
+        pct_desconto = case when ov.pct_desconto = 0 then d.valor else ov.pct_desconto end,
+        ov.desconto_id,
         o.cancelada,
         ov.encerrada,
         ov.dt_hr_encerramento,
@@ -63,6 +65,7 @@ begin
         ov.maquina_encerrou_id
       from operacao o with(nolock)
       join operacao_venda ov with(nolock) on o.operacao_id = ov.operacao_id
+      left join desconto d with(nolock) on d.id = ov.desconto_id
       where (o.tipo = 'venda')
         and (@modoVenda = 0 or ov.modo_venda_id = @modoVenda)
         and o.operacao_id in
@@ -82,6 +85,7 @@ begin
       vl_desconto,
       desconto,
       pct_desconto,
+      desconto_id,
       cancelada,
       encerrada,
       dt_hr_encerramento,
@@ -100,6 +104,7 @@ begin
       oper.vl_desconto,
       oper.desconto,
       oper.pct_desconto,
+      oper.desconto_id,
       oper.cancelada,
       oper.encerrada,
       oper.dt_hr_encerramento,
@@ -121,7 +126,8 @@ begin
       o.vl_total,
       ov.vl_desconto,
       ov.desconto,
-      ov.pct_desconto,
+      pct_desconto = case when ov.pct_desconto = 0 then d.valor else ov.pct_desconto end,
+      ov.desconto_id,
       o.cancelada,
       ov.encerrada,
       ov.dt_hr_encerramento,
@@ -131,6 +137,7 @@ begin
       ov.maquina_encerrou_id
     from operacao_geral o with(nolock)
     join operacao_venda_geral ov with(nolock) on o.operacao_id = ov.operacao_id
+    left join desconto d with(nolock) on d.id = ov.desconto_id
     where (o.dt_contabil between @dtContabilIni and @dtContabilFim)
       and (o.tipo = 'venda')
       and (@modoVenda = 0 or ov.modo_venda_id = @modoVenda)
@@ -146,6 +153,7 @@ begin
     vl_desconto,
     desconto,
     pct_desconto,
+    desconto_id,
     cancelada,
     encerrada,
     dt_hr_encerramento,
@@ -164,6 +172,7 @@ begin
     oper.vl_desconto,
     oper.desconto,
     oper.pct_desconto,
+    oper.desconto_id,
     oper.cancelada,
     oper.encerrada,
     oper.dt_hr_encerramento,
