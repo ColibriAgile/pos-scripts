@@ -116,13 +116,8 @@ begin
         when (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
         /*
         Se operacao foi cancelada tem que verificar se o comprovante tb o foi */
-        when (o.cancelada = 1) 
-         and 
-         (
-           (c.[status] = 'Cancelado' and isnull(c.numero,'') <> '') 
-	         or
-           (isnull(c.[status], '') = '' and o.vl_total = 0)
-         ) then 'Cancelada'
+        when (o.cancelada = 1 and c.[status] = 'Cancelado') 
+	        or (o.cancelada = 1 and isnull(c.[status], '') = '' and o.vl_total = 0) then 'Cancelada'
         /*
         Comprovante emitido ou venda transferida ou recebida com valor 0, consideramos OK */
         when (c.[status] = 'Emitido' and o.cancelada = 0) 
