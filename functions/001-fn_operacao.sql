@@ -21,8 +21,7 @@ returns @tbl table
   comprovante_chave varchar(150),
   comprovante_status varchar(20),
   comprovante_ressalva varchar(250),
-  dia bit,
-  primary key clustered(operacao_id)
+  dia bit
 )
 as 
 begin  
