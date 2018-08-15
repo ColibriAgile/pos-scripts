@@ -134,7 +134,8 @@ begin
     left join comprovante c with(nolock) on c.operacao_id = o.operacao_id
     where ov.dt_hr_encerramento between @dt_ini and @dt_fim --usar este campo devido ao indice
       and ov.hr_encerramento between @hr_ini and @hr_fim
-      and ov.encerrada = 1         
+      and ov.encerrada = 1   
+      and ov.transferida = 0       
   end;
 
   /*
@@ -191,6 +192,7 @@ begin
     where ov.dt_hr_encerramento between @dt_ini and @dt_fim --usar este campo devido ao indice
       and ov.hr_encerramento between @hr_ini and @hr_fim
     --and ov.encerrada = 1 (Na tabela geral todas as operacoes estao encerradas)
+      and ov.transferida = 0
   end;
 
   return
