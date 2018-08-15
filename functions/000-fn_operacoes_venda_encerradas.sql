@@ -115,17 +115,17 @@ begin
         Se tem texto de ressalva foi resolvido com ressalva*/
         when (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
         /*
+        Fica pendente em 2 situações:
+        - Venda NÃO cancelada e SEM comprovante
+        - Venda cancelada e com comprovante NÃO cancelado*/
+        when (o.cancelada = 0 and isnull(c.[status],'') = '')
+          or (o.cancelada = 1 and c.[status] = 'Emitido') then 'Pendente'
+        /* 
         Se operacao foi cancelada tem que verificar se o comprovante tb o foi */
-        when (o.cancelada = 1 and c.[status] = 'Cancelado') 
-	        or (o.cancelada = 1 and isnull(c.[status], '') = '' and o.vl_total = 0) then 'Cancelada'
+        when (o.cancelada = 1 and isnull(c.[status],'') <> 'Emitido') then 'Cancelada'
         /*
-        Comprovante emitido ou venda transferida ou recebida com valor 0, consideramos OK */
-        when (c.[status] = 'Emitido' and o.cancelada = 0) 
-          or (ov.transferida = 1) 
-	        or (o.vl_total = 0) then 'Ok'
-        /*
-        Nenhuma das situacoes anteriores, entao tem alguma pendencia */
-        else 'Pendente'
+        Nenhuma das situações anteriores, consideramos OK */
+        else 'Ok'
       end,
       diaria = 1,
       transferida
