@@ -28,7 +28,7 @@ returns @tbl table
   codigo_ticket varchar(10),
   dt_hr_abertura datetime,
   numero_venda int,
-  situacao varchar(10),
+  situacao varchar(15), 
   cancelado bit,
   transferido bit,
   ticket varchar(20),
