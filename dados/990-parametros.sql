@@ -581,6 +581,20 @@ exec sp_inserir_parametro
   @modovenda = '4'
 go
 
+exec sp_inserir_parametro
+  @codigo = 'CfgSaldoExcedenteNoCheckout',
+  @categoria = 'Modo',
+  @subcategoria = 'Geral',
+  @descr = 'Destino do saldo excedente de uma ficha no checkout*',
+  @tipo_valor = 'string',
+  @tipo_param = 'L',
+  @valor_default = 'repique',
+  @lista = 'repique
+crédito do cliente',
+  @detalhes = '* Quando o cliente NÃO for informado, o saldo sempre irá para repique',
+  @modovenda = '4'
+go
+
 
 exec sp_inserir_parametro
   @codigo = 'CfgPedeLocalDeEntregaDosItensVendidos',
