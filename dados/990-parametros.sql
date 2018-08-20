@@ -582,7 +582,7 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgFichaSaldoPrePagoComoRepique',
+  @codigo = 'CfgSaldoPrePagoComoRepique',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
   @descr = 'Sempre transferir saldo positivo da ficha pré-paga para repique da casa.',
