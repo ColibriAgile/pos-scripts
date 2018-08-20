@@ -582,16 +582,14 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgSaldoExcedenteNoCheckout',
+  @codigo = 'CfgFichaSaldoPrePagoComoRepique',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr = 'Destino do saldo excedente de uma ficha no checkout*',
-  @tipo_valor = 'string',
-  @tipo_param = 'L',
-  @valor_default = 'repique',
-  @lista = 'repique
-crédito do cliente',
-  @detalhes = '* Quando o cliente NÃO for informado, o saldo sempre irá para repique',
+  @descr = 'Sempre transferir saldo positivo da ficha pré-paga para repique da casa.',
+  @tipo_valor = 'boolean',
+  @tipo_param = 'V',
+  @valor_default = '1',
+  @detalhes = 'Indica se o sistema deve transferir o saldo positivo na ficha pre-paga para repique da casa ou se deve deixar na conta do cliente para uso futuro. Este parâmetro afeta somente fichas que tem cliente associado. Caso a ficha não tenha cliente, o saldo vai sempre para repique.',
   @modovenda = '4'
 go
 
