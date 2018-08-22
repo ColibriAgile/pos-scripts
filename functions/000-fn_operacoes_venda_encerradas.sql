@@ -116,10 +116,11 @@ begin
         when (isnull(c.ressalva, '') <> '') then 'Resolvido com ressalva'
         /*
         Fica pendente em 2 situações:
-        - Venda NÃO cancelada e SEM comprovante
-        - Venda cancelada e com comprovante NÃO cancelado*/
-        when (o.cancelada = 0 and isnull(c.[status],'') = '')
-          or (o.cancelada = 1 and c.[status] = 'Emitido') then 'Pendente'
+        - Venda com valor NÃO cancelada e SEM comprovante
+        - Venda com valor cancelada e com comprovante NÃO cancelado*/
+        when (o.vl_total > 0) 
+          and ((o.cancelada = 0 and isnull(c.[status],'') = '')
+            or (o.cancelada = 1 and c.[status] = 'Emitido')) then 'Pendente'
         /* 
         Se operacao foi cancelada tem que verificar se o comprovante tb o foi */
         when (o.cancelada = 1 and isnull(c.[status],'') <> 'Emitido') then 'Cancelada'
