@@ -845,19 +845,13 @@ exec sp_inserir_parametro
   @codigo = 'CfgPedeAtendenteNaVenda',
   @categoria = 'Modo',
   @subcategoria = 'Lançamento',
-  @descr = 'Pede atendente no lançamento quando o terminal também está configurado para tal.',
-  @detalhes = 'Quando ativado solicita a escolha de um atendente ao fazer um lançamento. Útil para quando o lançamento é feito pelo caixa a pedido do garçom.
-Para este parâmetro funcionar deve-se ativar também o parâmetro "Nº do atendente na venda" nas configurações do terminal.',
+  @descr = 'Pede atendente no lançamento de itens (o terminal também deve estar configurado)',
+  @detalhes = 'Quando ativado obriga a escolha de um atendente ao fazer o lançamento. Útil quando o lançamento é feito pelo caixa a pedido do garçom. ATENÇÃO! Para funcionar deve-se ativar também o parâmetro "Nº do atendente na venda" nas configurações do terminal.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
   @modovenda = '3,4'
 go
-
-update parametro_modo
-  set valor = '1'
-  where codigo = 'CfgPedeAtendenteNaVenda'
-  and modo_venda_id = 3
 
 exec sp_inserir_parametro
   @codigo = 'CfgHabilitarRecebimentoParcial',
