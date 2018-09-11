@@ -845,9 +845,9 @@ exec sp_inserir_parametro
   @codigo = 'CfgPedeAtendenteNaVenda',
   @categoria = 'Modo',
   @subcategoria = 'Lançamento',
-  @descr = 'Pede atendente na venda',
+  @descr = 'Pede atendente no lançamento quando o terminal também está configurado para tal.',
   @detalhes = 'Quando ativado solicita a escolha de um atendente ao fazer um lançamento. Útil para quando o lançamento é feito pelo caixa a pedido do garçom.
-Este parâmetro deve ser utilizado em conjunto com o parâmetro "Nº do atendente na venda" nas configurações do terminal.',
+Para este parâmetro funcionar deve-se ativar também o parâmetro "Nº do atendente na venda" nas configurações do terminal.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
