@@ -6,17 +6,23 @@ create function dbo.fn_obter_preco(@material_id int, @modo_venda_id int, @dataHo
 returns @tbl table
 (
   preco money,
-  origem varchar(100)
+  origem varchar(100),
+  tipo varchar(10),
+  nome varchar(80)
 )
 as
 begin  
   declare 
     @preco money,
-    @origem varchar(100)
-  
+    @origem varchar(100),
+    @tipo varchar(10),
+    @nome varchar(80)
+
   select top 1 
     @preco = preco, 
-    @origem = 'tabela de preço "' +tp.nome + '"'
+    @origem = 'tabela de preço "' +tp.nome + '"',
+    @tipo = 'tabela',
+    @nome = tp.nome
   from dbo.item_preco ip with (nolock)
   join dbo.tabela_preco tp on tp.id = ip.tabela_id 
   where ip.ativo = 1 
@@ -38,7 +44,9 @@ begin
       when 'fixo' then  i.valor
       when 'perc' then @preco - (@preco * (i.valor / 100))
     end, 
-    @origem = 'promoção "' +rtrim(p.descricao) +'"'
+    @origem = 'promoção "' +rtrim(p.descricao) +'"',
+    @tipo = 'promocao',
+    @nome = p.descricao
   from promocao p with (nolock)
   left join promocao_item i with (nolock) on i.promocao_id = p.id 
   left join promocao_dia d with (nolock) on d.promocao_id = p.id
@@ -60,7 +68,7 @@ begin
     )
   
   insert into @tbl
-  values (@preco, @origem)
+  values (@preco, @origem, @tipo, @nome)
     
   return
 end
