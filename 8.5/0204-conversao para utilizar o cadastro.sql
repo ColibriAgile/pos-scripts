@@ -922,6 +922,7 @@ create table [tmp_rg_xx_combo]
 go
 set identity_insert [tmp_rg_xx_combo] on
 go
+
 insert into [tmp_rg_xx_combo]
 (
   [id], 
@@ -934,6 +935,7 @@ insert into [tmp_rg_xx_combo]
   [local_producao], 
   [requer_obs], 
   [vende_web], 
+  [loja_id],
   [rede_id]
 )
 select 
@@ -947,6 +949,7 @@ select
   [local_producao], 
   [bn_requerobs], 
   [bn_vendenaweb], 
+  1,
   1
 from [combo]
 go
