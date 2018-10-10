@@ -2,7 +2,7 @@ if (object_id('sp_posicao_caixa') is not null)
   drop procedure sp_posicao_caixa
 go
 
-create procedure sp_posicao_caixa (@maquina_id int)
+create procedure sp_posicao_caixa (@maquina_id int, @func_id int)
 as
 
 	declare @troco_dinheiro money;
@@ -12,13 +12,16 @@ as
 	  (select isnull(sum(vl_recebido),0)
 	   from dbo.movimento_caixa m with(nolock)
 	   where (m.maquina_id = @maquina_id)
+     and (m.func_recebeu_id = @func_id)
 		 and (isnull(m.cancelado, 0) = 0)
 		 and meio_pagamento_id = -1)
+
 
 	set @troco_contravale =
 	  (select isnull(sum(vl_recebido),0)
 	   from dbo.movimento_caixa m with(nolock)
 	   where (m.maquina_id = @maquina_id)
+     and (m.func_recebeu_id = @func_id)
 		 and (isnull(m.cancelado, 0) = 0)
 		 and meio_pagamento_id = -3)
 
@@ -33,6 +36,7 @@ as
 		end
 	  from movimento_caixa m with(nolock)
 	where (m.maquina_id = @maquina_id)
+    and (m.func_recebeu_id = @func_id)
 	  and (isnull(m.cancelado, 0) = 0)
 	  and meio_pagamento_id > 0
 	  group by m.meio_pagamento_id
