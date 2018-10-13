@@ -45,7 +45,8 @@ on target.descricao = source.descricao collate Latin1_General_CI_AI
 when matched then
   update set 
     target.modo_venda_id = source.modo_venda_id,
-    target.sistema = source.sistema
+    target.sistema = source.sistema,
+    target.loja_id = source.loja_id
 when not matched by target then
   insert 
   (
