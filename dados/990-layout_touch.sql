@@ -9,21 +9,24 @@ go
 -- adiciona valores padroes aos campos
 declare @temp_layout_touch table 
 (
-  ativo bit default 1,
-  dt_alt datetime default getdate(),
+  ativo bit not null default 1,
+  dt_alt datetime not null default getdate(),
   descricao nvarchar(60) collate LATIN1_GENERAL_CI_AI not null,
   modo_venda_id int not null,
-  rede_id bigint default 1,
-  sistema bit default 1
+  rede_id bigint not null default 1,
+  loja_id int not null,
+  sistema bit not null default 1
 )
 
+declare @loja int = (select top(1) loja_id from dbo.loja order by loja_id)
+
 insert into @temp_layout_touch 
-(descricao, modo_venda_id, sistema) values
-('(Padrao balcão)', 1, 1),
-('(Padrao entrega)', 2, 1),
-('(Padrao mesa)', 3, 1),
-('(Padrao ficha)', 4, 1),
-('(Padrao comanda)', 5, 1)
+(descricao, modo_venda_id, sistema, loja_id) values
+('(Padrao balcão)', 1, 1, @loja),
+('(Padrao entrega)', 2, 1, @loja),
+('(Padrao mesa)', 3, 1, @loja),
+('(Padrao ficha)', 4, 1, @loja),
+('(Padrao comanda)', 5, 1, @loja)
 
 merge dbo.layout_touch as target
 using
@@ -33,16 +36,16 @@ using
     dt_alt, 
     descricao, 
     modo_venda_id, 
-    rede_id,sistema 
+    rede_id,
+    loja_id,
+    sistema 
   from @temp_layout_touch
  ) as source
-on 
-  (target.descricao = source.descricao collate Latin1_General_CI_AI) or 
-  (target.modo_venda_id = source.modo_venda_id and target.sistema = 1) 
+on target.descricao = source.descricao collate Latin1_General_CI_AI
 when matched then
   update set 
-    target.sistema = source.sistema,
-    target.descricao = source.descricao
+    target.modo_venda_id = source.modo_venda_id,
+    target.sistema = source.sistema
 when not matched by target then
   insert 
   (
@@ -51,6 +54,7 @@ when not matched by target then
     descricao, 
     modo_venda_id, 
     rede_id, 
+    loja_id,
     sistema
   ) values 
   (
@@ -59,6 +63,7 @@ when not matched by target then
     source.descricao, 
     source.modo_venda_id, 
     source.rede_id, 
+    source.loja_id,
     source.sistema
   );
 go
