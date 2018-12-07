@@ -949,7 +949,7 @@ select
   [local_producao], 
   [bn_requerobs], 
   [bn_vendenaweb], 
-  [loja_id] = select top 1 loja_id from loja order by loja_id,
+  [loja_id] = (select top 1 loja_id from loja order by loja_id),
   [rede_id] = 1
 from [combo]
 go
