@@ -6,13 +6,13 @@ create function dbo.fn_movimento_caixa(@operacao_id uniqueidentifier, @dia bit=n
 returns @tbl table
 (
   movimento_caixa_id int,
-  meio_pagamento_id smallint,
+  meio_pagamento_id int,
   vl_recebido money,
   operacao_id uniqueidentifier,
-  func_recebeu_id smallint,
-  func_cancelou_id smallint,
-  func_autorizou_id smallint,
-  maquina_id smallint,
+  func_recebeu_id int,
+  func_cancelou_id int,
+  func_autorizou_id int,
+  maquina_id int,
   cancelado bit,
   dt_hr_pagamento datetime,
   dt_alt datetime,
