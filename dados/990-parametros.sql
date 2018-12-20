@@ -767,8 +767,9 @@ exec sp_inserir_parametro
   @codigo = 'CfgUsaServicoComDesconto',
   @categoria = 'Modo',
   @subcategoria = 'Serviço',
-  @descr = 'Desconto incide sobre serviço',
-  @detalhes = 'Determina se o desconto é aplicado somente sobre o total dos produtos ou no total da conta (produtos + serviço).' ,
+  @descr = 'Usar desconto no cálculo do serviço',
+  @detalhes = 'Quando marcado, determina que o serviço é calculado sobre o total dos produtos menos o desconto. Ex: Vl Serviço = (Produtos - Desconto) x PctServiço.
+Quando desmarcado, determina que o serviço é calculado apenas sobre o total dos produtos, desconsiderando o desconto. Ex: Vl Serviço = Produtos x PctServiço.',
   @tipo_valor = 'boolean',
   @modovenda = '1,2,3,4',
   @tipo_param = 'V',
