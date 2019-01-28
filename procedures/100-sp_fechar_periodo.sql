@@ -285,6 +285,14 @@ where c.operacao_id in (select operacao_id from #opers)'
     print 'Reinicia o sequencial dos tickets'
     delete cache.proximo_ticket
 
+    print 'Atualiza o nome dos tickets de balcão'
+    update ticket with (rowlock) set 
+      apelido = nome, 
+      apelido_origem = nome
+    from maquina m with (nolock)
+    where m.id = ticket.codigo
+    and ticket.modo_venda_id = 1
+
     print 'Apagando as tabelas tempor�rias'
     drop table #vendas
     drop table #opers
