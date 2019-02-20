@@ -1,6 +1,6 @@
 update venda set
   origem = 'pdv'
-where venda_id not in (
+where venda_id in (
   select vi.venda_id
   from venda_item vi
   where isnull(vi.api_key, '') = ''
@@ -16,7 +16,7 @@ go
 
 update venda_geral set
   origem = 'pdv'
-where venda_id not in (
+where venda_id in (
   select vi.venda_id
   from venda_item_geral vi
   where isnull(vi.api_key, '') = ''
