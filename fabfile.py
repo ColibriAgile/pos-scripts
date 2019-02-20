@@ -2,7 +2,7 @@ from fabric.api import local, settings, task
 
 @task
 def empacotar_scripts(
-        destino='pacote\\_scripts.zip',
+        destino='_build\\pacote\\_scripts.zip',
         senha='armagedon'):
   
     def tratar_retorno(retorno):
