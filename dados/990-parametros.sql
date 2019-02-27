@@ -1367,6 +1367,16 @@ exec sp_inserir_parametro
   @altera_com_periodo_aberto = 0  
 go
 
+exec sp_inserir_parametro
+  @codigo = 'CfgUsaTEFNaContaAssinada',
+  @categoria = '8.TEF',
+  @subcategoria = '',
+  @tipo_valor = 'boolean',
+  @tipo_param = 'V',
+  @valor_default = '1',
+  @visivel = 0
+go
+
 -----Autopagamento-------------------
 exec sp_inserir_parametro
   @codigo = 'CfgFormaPagamentoCredito',
