@@ -10,25 +10,32 @@ create procedure [dbo].[sp_ativar_plugin](
 ) as
 begin
   declare @estado int = 0;
-  select @estado=maquina_id from dbo.plugin_maquina where nome = @nome and maquina_id < 0
+  
+  select @estado=maquina_id
+  from dbo.plugin_maquina
+  where nome = @nome and maquina_id < 0
   
   -- Apenas proteção
   if @maquina_id = 0 
-	return
+    return
 
   -- Não posso mudar um estado negativo... apenas desativá-lo
   if @estado < 0 and (@maquina_id <> @estado or @ativar = 1)
-	return
+    return
 
   -- Se estou desativando (maq zero, ou ativando um plugin global, negativos, removo os ativos)
   if @maquina_id > 0
-    delete from dbo.plugin_maquina where nome = @nome and maquina_id = @maquina_id;
+    delete from dbo.plugin_maquina
+	where nome = @nome
+	  and maquina_id = @maquina_id;
   else
-	delete from dbo.plugin_maquina where nome = @nome;
+    delete from dbo.plugin_maquina
+	where nome = @nome;
 
   if @ativar = 1
-	insert plugin_maquina (ativo, nome, arquivo, maquina_id)
-	  values (1, @nome, @arquivo, @maquina_id)
+    insert plugin_maquina
+    (ativo, nome, arquivo, maquina_id) values 
+    (1, @nome, @arquivo, @maquina_id)
 end
 go
 
