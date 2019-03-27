@@ -18,7 +18,16 @@ begin
   if @sistema = 1
 	select @ativo= 1
   else if @global = 1
-	select @ativo= isnull((select ativo from plugin_maquina where maquina_id=-1 and nome=@plugin), 0)
+	select @ativo= isnull
+	(
+	  (
+	    select ativo
+		from plugin_maquina
+		where maquina_id<0 
+		  and nome=@plugin
+	  ),
+	  0
+	)
 
   insert into @tbl
     select
