@@ -3,6 +3,6 @@ update dbo.material
 go
 
 alter table dbo.material
-  add constraint df_material$consumacao 
+  add constraint df_consumacao
   default 1 for consumacao
 go
