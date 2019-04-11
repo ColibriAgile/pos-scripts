@@ -168,7 +168,7 @@ when matched then
     descricao_producao = left(isnull(source.nm_descricaoproducao, '') + isnull(' '+source.nm_descricaoproducao2, ''), 50),
     tecla_prog = source.nm_teclaprog,
     imagem = source.nm_figura,
-    cod_externo = source.nu_codigo,
+    cod_externo = source.cod_externo,
     unidade = source.unid_venda,
     venda = source.bn_venda,
     servico = source.bn_servico,
