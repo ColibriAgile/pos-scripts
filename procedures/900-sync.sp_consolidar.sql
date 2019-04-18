@@ -238,7 +238,7 @@ begin try
       left(isnull(source.nm_descricaoproducao, '') + isnull(' '+source.nm_descricaoproducao2, ''), 50),
       source.nm_teclaprog,
       source.nm_figura,
-      source.nu_codigo,
+      source.cod_externo,
       source.unid_venda,
       source.bn_venda,
       source.bn_servico,
