@@ -257,6 +257,7 @@ where c.operacao_id in (select operacao_id from #opers)'
       update dbo.ticket 
       set venda_id = null
 
+      delete cache.slot_rodizio
       delete dbo.movimento_caixa
       delete dbo.venda_item
       delete dbo.venda
