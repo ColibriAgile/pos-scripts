@@ -1,11 +1,13 @@
 if dbo.fn_existe('ix_config_touch$layout_id$tipo$item_id')=0
   
-  select min(id) id, layout_id, tipo, item_id
-  into repetidos
-  from config_touch 
-  group by layout_id, tipo, item_id
-  having count(*) > 1
-  go
+  with repetidos (id, layout_id, tipo, item_id)
+  as 
+  (
+    select min(id) id, layout_id, tipo, item_id
+    from config_touch 
+    group by layout_id, tipo, item_id
+    having count(*) > 1
+  )
 
   delete config_touch
   from config_touch c inner join repetidos r
