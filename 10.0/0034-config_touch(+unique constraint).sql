@@ -15,7 +15,6 @@ begin
      c.layout_id = r.layout_id and
      c.tipo = r.tipo and
      c.item_id = r.item_id
-  go
 
   alter table dbo.config_touch add constraint ix_config_touch$layout_id$tipo$item_id unique nonclustered (layout_id, tipo, item_id)
 end
