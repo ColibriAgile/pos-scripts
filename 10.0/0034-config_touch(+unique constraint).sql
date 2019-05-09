@@ -1,5 +1,5 @@
 if dbo.fn_existe('ix_config_touch$layout_id$tipo$item_id')=0
-  
+begin
   with repetidos (id, layout_id, tipo, item_id)
   as 
   (
@@ -18,4 +18,5 @@ if dbo.fn_existe('ix_config_touch$layout_id$tipo$item_id')=0
   go
 
   alter table dbo.config_touch add constraint ix_config_touch$layout_id$tipo$item_id unique nonclustered (layout_id, tipo, item_id)
+end
 go
