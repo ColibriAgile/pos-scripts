@@ -8,19 +8,7 @@ if object_id('sync.sp_consolidar') is not null
 go
 
 -- apaga todas as tabelas do schema
-while (
-select count(t.name)
-from sys.tables t
-join sys.schemas s on s.schema_id = t.schema_id
-where s.name = 'sync') > 0
-begin
-  declare @table varchar(50) = (select top 1 t.name
-    from sys.tables t
-    join sys.schemas s on s.schema_id = t.schema_id
-    where s.name = 'sync') 
-  print 'drop table sync.'+ @table
-  exec('drop table sync.'+ @table)
-end;
+exec sync.sp_limpar_schema
 go
 
 create procedure sync.sp_consolidar
@@ -298,7 +286,7 @@ begin try
       1,
       @getDate,
       nm_descricao,
-      left(isNull(source.nm_descricaotouch,'') + isNull(' '+source.nm_descricaotouch2, '') + isNull(' '+source.nm_descricaotouch3, '') + isNull(' '+source.nm_descricaotouch4, ''), 40),
+      nm_descricaotouch,
       bn_permitecombinado,
       bn_ordemalfabetica,
       @loja_id,
