@@ -992,7 +992,7 @@ begin
       from sync.tabpreco t
       join dbo.tabela_preco tp on 
         tp.nome = t.Nome collate Latin1_General_CI_AI
-      where tp.codMerc in (select id from dbo.material)
+      where t.codMerc in (select id from dbo.material)
       group by 
         tp.id, 
         t.codMerc
