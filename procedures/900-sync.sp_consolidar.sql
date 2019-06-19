@@ -176,7 +176,6 @@ begin
       update set
         --descricao_touch = source.descricao_touch,
         --vende_combo = source.bn_vendenocombo,
-        --consumacao = source.bn_consumacao,
         ativo = source.bn_ativo,
         dt_alt = @getDate,
         codigo = source.nu_codigo,
@@ -187,6 +186,7 @@ begin
         cod_externo = source.cod_externo,
         unidade = source.unid_venda,
         venda = source.bn_venda,
+        consumacao = source.bn_consumacao,
         servico = source.bn_servico,
         requer_obs = source.bn_requerobs,
         qtde_frac = source.bn_qtdefrac,
