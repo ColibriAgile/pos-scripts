@@ -11,10 +11,17 @@ go
 exec sync.sp_limpar_schema
 go
 
-create procedure sync.sp_consolidar
+create procedure sync.sp_consolidar(@versao int)
 as
 begin
   set nocount on
+
+  if @versao < 230000
+    RAISERROR (  
+'***********************************************************************
+ A versão do arquivo de cadastros não é mais suportada pelo ColibriSync.
+ Atualize a versão do Colibri Back Office na retaguarda, e envie os arquivos novamente.
+***********************************************************************', 15, 1);
 
   declare
     @loja_id int,
