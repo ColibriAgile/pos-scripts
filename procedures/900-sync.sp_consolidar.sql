@@ -160,14 +160,15 @@ merge dbo.material as target
 using sync.material as source with (nolock) on target.id = source.material_id
 when matched then
   update set
+    --descricao_touch = source.nm_figura,
+    --imagem = source.nm_figura,
+    --vende_combo = source.bn_vendenocombo,
     ativo = source.bn_ativo,
     dt_alt = @getDate,
     codigo = source.nu_codigo,
     descricao = source.nm_descricao,
-    --descricao_touch =
     descricao_producao = left(isnull(source.nm_descricaoproducao, '') + isnull(' '+source.nm_descricaoproducao2, ''), 50),
     tecla_prog = source.nm_teclaprog,
-    imagem = source.nm_figura,
     cod_externo = source.nu_codigo,
     unidade = source.unid_venda,
     venda = source.bn_venda,
@@ -175,7 +176,6 @@ when matched then
     requer_obs = source.bn_requerobs,
     qtde_frac = source.bn_qtdefrac,
     balanca = source.bn_balanca,
-    --vende_combo = source.bn_vendenocombo,
     grupo_id = source.grupo_id
 when not matched by target then
   insert
