@@ -247,7 +247,7 @@ begin
       update set
         dt_alt = @getDate,
         codigo = source.codigo,
-        descricao_touch = source.descricao_touch,
+        --descricao_touch = source.descricao_touch,
         descricao_prod = source.descricao_prod,
         requer_obs = bn_requerobs,
         ativo = source.ativo
@@ -323,7 +323,7 @@ begin
         preco = source.preco,
         classe_id = source.classe_id,
         combo_id = source.combo_id,
-        local_producao_id = source.local_producao,
+        --local_producao_id = source.local_producao,
         material_id = source.material_id,
         precificador_id = source.precificador_id,
         quantificador_id = source.quantificador_id
