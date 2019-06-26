@@ -795,7 +795,7 @@ begin
         update set
           dt_alt = @getDate,
           codigo = nu_codigo,
-          descricao = nm_descricao,
+          descricao = nm_descricao
         --troco_dinheiro = bn_dinheiro,
         --troco_contravale = bn_contravale,
         --troco_repique = bn_repique,
