@@ -1254,23 +1254,15 @@ go
 /********************************
 Schemas
 ********************************/
-if exists (select * from sys.schemas where name = 'launcher')
-begin
-	execute sp_apagar_schema 'launcher'
-end
-if exists (select * from sys.schemas where name = 'ma')
-begin
-	execute sp_apagar_schema 'ma'
-end
-if exists (select * from sys.schemas where name = 'guard')
-begin
-	execute sp_apagar_schema 'guard'
-end
-if exists (select * from sys.schemas where name = 'catalog')
-begin
-	execute sp_apagar_schema 'catalog'
-end
-if exists (select * from sys.schemas where name = 'config')
-begin
-	execute sp_apagar_schema 'config'
-end
+if schema_id('launcher') is not null
+  exec dbo.sp_apagar_schema 'launcher'
+if schema_id('ma') is not null
+  exec dbo.sp_apagar_schema 'ma'
+if schema_id('guard') is not null
+  exec dbo.sp_apagar_schema 'guard'
+if schema_id('catalog') is not null
+  exec dbo.sp_apagar_schema 'catalog'
+if schema_id('config') is not null
+  exec dbo.sp_apagar_schema 'config'
+if schema_id('transact') is not null
+  exec dbo.sp_apagar_schema 'transact'
