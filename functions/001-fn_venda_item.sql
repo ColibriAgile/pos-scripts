@@ -52,7 +52,7 @@ returns @tbl table
   perfil_impressao_id int,
   classe_rodizio_id int,
   transferido bit,
-  desconto_id smallint,
+  desconto_id int,
   desconto_estrategia varchar(100),
   vl_desconto numeric(15, 2),
   slot_indice smallint,
