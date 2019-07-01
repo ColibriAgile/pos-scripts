@@ -170,6 +170,9 @@ begin
     if @versao >= 230000
       exec sync.sp_consolidarMaterial23 @loja_id, @rede_id
     else 
+    --descricao_touch = source.nm_figura,
+    --imagem = source.nm_figura,
+    --vende_combo = source.bn_vendenocombo,
       exec sync.sp_consolidarMaterial @loja_id, @rede_id
   end try
   begin catch
