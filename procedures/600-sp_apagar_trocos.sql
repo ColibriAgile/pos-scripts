@@ -3,7 +3,10 @@ if object_id('dbo.sp_apagar_trocos') is not null
 go
 
 create procedure dbo.sp_apagar_trocos
-  @operacao_id uniqueidentifier 
+  @operacao_id uniqueidentifier,
+  @cancelar bit = 0,
+  @func_id int = null,
+  @func_autorizou_id int = null
 as
 begin
   declare @ids table
@@ -35,8 +38,16 @@ begin
     from @ids
     where id = @currentrow
       
-    delete dbo.movimento_caixa
-    where movimento_caixa_id = @id
+    if (@cancelar = 0)
+      delete dbo.movimento_caixa
+      where movimento_caixa_id = @id
+    else
+      update dbo.movimento_caixa with (rowlock)
+      set
+        cancelado = 1,
+        func_cancelou_id = @func_id,
+        func_autorizou_id = @func_autorizou_id
+      where movimento_caixa_id = @id
   end
 end
 go
