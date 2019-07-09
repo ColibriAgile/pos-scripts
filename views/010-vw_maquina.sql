@@ -38,7 +38,8 @@ as
     m.inicia_autopagamento,
     m.inicia_pos
   from dbo.maquina m 
-  cross join (
+  cross join 
+  (
     select 
       layout_padrao_balcao = l.[1],
       layout_padrao_entrega = l.[2],
