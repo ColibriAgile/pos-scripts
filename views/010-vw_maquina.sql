@@ -33,7 +33,8 @@ as
     m.perfil_balcao_id,
     m.perfil_entrega_id,
     m.perfil_mesa_id,
-    m.perfil_ficha_id
+    m.perfil_ficha_id,
+    m.inicia_pos
   from dbo.maquina m 
   cross join 
   (

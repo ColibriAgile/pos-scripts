@@ -458,6 +458,8 @@ execute sp_apagar_campos 'operacao', 'comprovante', 'comprovante_chave', 'compro
 go
 execute sp_apagar_campos 'operacao_geral', 'comprovante', 'comprovante_chave', 'comprovante_status', 'comprovante_ressalva'
 go
+execute sp_apagar_campos 'maquina', 'autopagamento', 'inicia_autopagamento'
+go
 
 
 /**************************************
