@@ -33,10 +33,7 @@ as
     m.perfil_balcao_id,
     m.perfil_entrega_id,
     m.perfil_mesa_id,
-    m.perfil_ficha_id,
-    m.autopagamento,
-    m.inicia_autopagamento,
-    m.inicia_pos
+    m.perfil_ficha_id
   from dbo.maquina m 
   cross join 
   (
