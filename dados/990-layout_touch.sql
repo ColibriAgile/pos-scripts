@@ -1,12 +1,18 @@
 ﻿-- adiciona o campo sistema
-if exists(select * from syscolumns where id = object_id('layout_touch') and name='sistema') 
+if exists(
+  select * 
+  from sys.columns 
+  where object_id = object_id('layout_touch') 
+    and name='sistema'
+) 
   return
 
-alter table layout_touch add
+alter table dbo.layout_touch add
   sistema bit not null default 0
 go
 
--- adiciona valores padroes aos campos
+/*
+Cria os layouts de sistema caso não existam*/
 declare @temp_layout_touch table 
 (
   ativo bit not null default 1,
@@ -18,7 +24,11 @@ declare @temp_layout_touch table
   sistema bit not null default 1
 )
 
-declare @loja int = (select top(1) loja_id from dbo.loja order by loja_id)
+declare @loja int = (
+  select top(1) loja_id 
+  from dbo.loja 
+  order by loja_id
+)
 
 insert into @temp_layout_touch 
 (descricao, modo_venda_id, sistema, loja_id) values
@@ -27,6 +37,11 @@ insert into @temp_layout_touch
 ('(Padrao mesa)', 3, 1, @loja),
 ('(Padrao ficha)', 4, 1, @loja),
 ('(Padrao comanda)', 5, 1, @loja)
+
+/*
+Garante que qualquer layout touch antigo deixe de ser de sistema */
+update dbo.layout_touch
+set sistema = 0
 
 merge dbo.layout_touch as target
 using
@@ -40,7 +55,7 @@ using
     loja_id,
     sistema 
   from @temp_layout_touch
- ) as source
+) as source
 on target.descricao = source.descricao collate Latin1_General_CI_AI
 when matched then
   update set 
