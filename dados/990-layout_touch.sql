@@ -1,12 +1,13 @@
 ﻿-- adiciona o campo sistema
-if exists(select * from syscolumns where id = object_id('layout_touch') and name='sistema') 
+if (dbo.fn_existe('dbo.layout_touch.sistema') = 1)
   return
 
-alter table layout_touch add
+alter table dbo.layout_touch add
   sistema bit not null default 0
 go
 
--- adiciona valores padroes aos campos
+/*
+Cria os layouts de sistema caso não existam*/
 declare @temp_layout_touch table 
 (
   ativo bit not null default 1,
@@ -18,7 +19,11 @@ declare @temp_layout_touch table
   sistema bit not null default 1
 )
 
-declare @loja int = (select top(1) loja_id from dbo.loja order by loja_id)
+declare @loja int = (
+  select top(1) loja_id 
+  from dbo.loja 
+  order by loja_id
+)
 
 insert into @temp_layout_touch 
 (descricao, modo_venda_id, sistema, loja_id) values
@@ -27,6 +32,12 @@ insert into @temp_layout_touch
 ('(Padrao mesa)', 3, 1, @loja),
 ('(Padrao ficha)', 4, 1, @loja),
 ('(Padrao comanda)', 5, 1, @loja)
+
+/*
+Garante que qualquer layout touch antigo deixe de ser de sistema */
+update dbo.layout_touch
+set sistema = 0
+where 1=1
 
 merge dbo.layout_touch as target
 using
@@ -40,7 +51,7 @@ using
     loja_id,
     sistema 
   from @temp_layout_touch
- ) as source
+) as source
 on target.descricao = source.descricao collate Latin1_General_CI_AI
 when matched then
   update set 
@@ -76,11 +87,11 @@ declare
   @layout_mesa_id int,
   @layout_ficha_id int;
 
-set @acaotouch = (select id from dbo.django_content_type where model = 'acaotouch');
-set @layout_balcao_id = (select top 1 id from dbo.layout_touch where modo_venda_id = 1 and sistema = 1);
-set @layout_entrega_id = (select top 1 id from dbo.layout_touch where modo_venda_id = 2 and sistema = 1);
-set @layout_mesa_id = (select top 1 id from dbo.layout_touch where modo_venda_id = 3 and sistema = 1);
-set @layout_ficha_id = (select top 1 id from dbo.layout_touch where modo_venda_id = 4 and sistema = 1);
+set @acaotouch = (select top(1) id from dbo.django_content_type where model = 'acaotouch' order by id);
+set @layout_balcao_id = (select top(1) id from dbo.layout_touch where modo_venda_id = 1 and sistema = 1 order by id);
+set @layout_entrega_id = (select top(1) id from dbo.layout_touch where modo_venda_id = 2 and sistema = 1 order by id);
+set @layout_mesa_id = (select top(1) id from dbo.layout_touch where modo_venda_id = 3 and sistema = 1 order by id);
+set @layout_ficha_id = (select top(1) id from dbo.layout_touch where modo_venda_id = 4 and sistema = 1 order by id);
 
 declare @temp_config_touch table 
 (
@@ -101,7 +112,7 @@ select
   rank() over (order by a.acao_id) as ordem,
   @layout_balcao_id as layout_id,
   @acaotouch as tipo_item_id
-from acao_touch a
+from dbo.acao_touch a
 where balcao = 1
 order by ordem;
 
@@ -113,7 +124,7 @@ select
   rank() over (order by a.acao_id) as ordem,
   @layout_entrega_id as layout_id,
   @acaotouch as tipo_item_id
-from acao_touch a
+from dbo.acao_touch a
 where entrega = 1
 order by ordem;
 
@@ -125,7 +136,7 @@ select
   rank() over (order by a.acao_id) as ordem,
   @layout_mesa_id as layout_id,
   @acaotouch as tipo_item_id
-from acao_touch a
+from dbo.acao_touch a
 where mesa = 1
 order by ordem;
 
@@ -137,7 +148,7 @@ select
   rank() over (order by a.acao_id) as ordem,
   @layout_ficha_id as layout_id,
   @acaotouch as tipo_item_id
-from acao_touch a
+from dbo.acao_touch a
 where ficha = 1
 order by ordem;
 
@@ -183,4 +194,5 @@ set
   layout_ficha_id = coalesce(layout_ficha_id, @layout_ficha_id),
   layout_mesa_id = coalesce(layout_mesa_id, @layout_mesa_id)
 from dbo.maquina
+where 1=1
 go
