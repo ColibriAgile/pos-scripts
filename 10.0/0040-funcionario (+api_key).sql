@@ -6,9 +6,7 @@ alter table dbo.funcionario
 
 go
 ---------------------------------------------
-if dbo.fn_existe('dbo.funcionario.virtual')=1
-  alter table dbo.funcionario
-    drop column virtual
+exec sp_apagar_campo 'funcionario', 'virtual'
 
 alter table dbo.funcionario
   add virtual as (case when trim(isnull(api_key,'')) = '' then 0 else 1 end) persisted
