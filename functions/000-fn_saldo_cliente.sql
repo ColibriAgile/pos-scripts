@@ -11,14 +11,13 @@ as
 begin
   declare @valor money
 
-   select top 1 @valor = isnull(saldo, 0)
-   from pendura
-   where cliente_id = @cliente_id
-     and cancelado <> 1
-     and dt_hr_pendura <= isnull(@data, getdate())
-   order by
-     dt_hr_pendura desc,
-     ordem desc
+  select top 1 @valor = isnull(saldo, 0)
+  from pendura
+  where cliente_id = @cliente_id
+    and cancelado <> 1
+    and dt_hr_pendura <= isnull(@data, '21000101')
+  order by
+    ordem desc
 
   return isnull(@valor, 0)
 end
