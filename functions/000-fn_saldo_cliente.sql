@@ -12,7 +12,7 @@ begin
   declare @valor money
 
    select top 1 @valor = isnull(saldo, 0)
-   from pendura with(nolock)
+   from pendura
    where cliente_id = @cliente_id
      and cancelado <> 1
      and dt_hr_pendura <= isnull(@data, getdate())
