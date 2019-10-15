@@ -9,10 +9,10 @@ select
 from dbo.loja
 
 select 
-  @ultimo_codigo =
-    case when exists(select * from dbo.meio_pagamento where codigo in (90,91,92)) then max(codigo) 
+  @ultimo_codigo = case 
+    when exists(select * from dbo.meio_pagamento where codigo in (90,91,92)) then max(codigo) 
     else 89
-    end
+  end
 from dbo.meio_pagamento
 
 declare @meio_pagamento table 
@@ -120,10 +120,9 @@ insert
   ,source.rede_id
 );
 
-
 SET IDENTITY_INSERT meio_pagamento off
 
 update dbo.meio_pagamento
 set cartao = 1
 where tef = 1 
-and (cartao is null or cartao = 0);
+  and (cartao is null or cartao = 0);
