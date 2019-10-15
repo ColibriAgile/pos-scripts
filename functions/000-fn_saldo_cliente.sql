@@ -6,7 +6,7 @@ if object_id('fn_saldo_cliente') is not null
   drop function fn_saldo_cliente
 go
 
-create function fn_saldo_cliente (@cliente_id uniqueidentifier) returns money
+create function fn_saldo_cliente (@cliente_id uniqueidentifier, @data datetime = null) returns money
 as
 begin
   declare @valor money
@@ -15,6 +15,7 @@ begin
    from pendura with(nolock)
    where cliente_id = @cliente_id
      and cancelado <> 1
+     and dt_hr_pendura <= isnull(@data, getdate())
    order by
      dt_hr_pendura desc,
      ordem desc
