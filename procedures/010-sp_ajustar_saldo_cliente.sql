@@ -73,8 +73,14 @@ begin
       if (@@fetch_status <> -2) begin
 
         if (@auxID <> @cliID)
-          select @saldo = dbo.fn_saldo_cliente(@cliID, @dtIni) , @auxID = @cliID
-
+        begin
+          select @saldo = case 
+            when @dtini is null then 0
+            else dbo.fn_saldo_cliente (@cliID, @dtIni)
+          end
+          set @auxID = @cliID
+        end
+        
         if @cancelado <> '1'
           set @saldo = @saldo + @valor
 
