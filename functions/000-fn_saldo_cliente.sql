@@ -6,16 +6,18 @@ if object_id('fn_saldo_cliente') is not null
   drop function fn_saldo_cliente
 go
 
-create function fn_saldo_cliente (@cliente_id uniqueidentifier, @data datetime = null) returns money
+create function fn_saldo_cliente (@clienteID uniqueidentifier, @data datetime = null) returns decimal(19, 4)
 as
 begin
-  declare @valor money
+  declare 
+    @valor decimal(19, 4),
+    @dataEstupidamenteFuturaParaNaoTerProblema datetime = '21000101'
 
-  select top 1 @valor = isnull(saldo, 0)
-  from pendura
-  where cliente_id = @cliente_id
+  select top(1) @valor = isnull(saldo, 0)
+  from dbo.pendura
+  where cliente_id = @clienteID
     and cancelado <> 1
-    and dt_hr_pendura <= isnull(@data, '21000101')
+    and dt_hr_pendura <= isnull(@data, @dataEstupidamenteFuturaParaNaoTerProblema)
   order by
     ordem desc
 
