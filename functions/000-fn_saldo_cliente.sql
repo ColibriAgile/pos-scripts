@@ -14,7 +14,7 @@ begin
     @dataEstupidamenteFuturaParaNaoTerProblema datetime = '21000101'
 
   select top(1) @valor = isnull(saldo, 0)
-  from dbo.pendura
+  from dbo.pendura with(nolock)
   where cliente_id = @clienteID
     and cancelado <> 1
     and dt_hr_pendura <= isnull(@data, @dataEstupidamenteFuturaParaNaoTerProblema)
