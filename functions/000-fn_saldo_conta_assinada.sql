@@ -12,7 +12,7 @@ return
     select
       cliente_id,
       dt_hr_pendura = max(dt_hr_pendura)
-    from pendura
+    from dbo.pendura
     group by cliente_id
   )
   select *
@@ -20,9 +20,9 @@ return
   (
     select
       p.cliente_id,
-      saldo,
+      p.saldo,
       indice = row_number() over (partition by p.cliente_id order by p.dt_hr_pendura desc, ordem desc)
-    from pendura p
+    from dbo.pendura p
     join tbl on
       tbl.cliente_id = p.cliente_id and
       tbl.dt_hr_pendura = p.dt_hr_pendura
