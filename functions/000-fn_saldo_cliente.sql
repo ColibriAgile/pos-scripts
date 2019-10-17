@@ -19,6 +19,7 @@ begin
     and cancelado <> 1
     and dt_hr_pendura <= isnull(@data, @dataEstupidamenteFuturaParaNaoTerProblema)
   order by
+    dt_hr_pendura desc,
     ordem desc
 
   return isnull(@valor, 0)
