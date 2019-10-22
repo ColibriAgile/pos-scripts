@@ -6,8 +6,8 @@ exec('
   where local = ''loja''
   
   insert [colibri-master].sync.parametro
-        ( tipo, local, dados, descricao, recepcao )
-  select tipo, ''loja'', dados, descricao, case id when 0 then 1 else 0 end
+        ( tipo, local, dados, recepcao )
+  select tipo, ''loja'', dados, case id when 0 then 1 else 0 end
   from sync.parametro
 ')
 
