@@ -1,4 +1,4 @@
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Bematech',
   @modelo = 'MP-20CI',
   @salto = 10,
@@ -24,7 +24,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
 
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Bematech',
   @modelo = 'MP-2100TH',
   @salto = 10,
@@ -50,7 +50,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
 
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Bematech',
   @modelo = 'MP-4100TH',
   @salto = 0,
@@ -76,7 +76,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Bematech',
   @modelo = 'MP-4200TH',
   @salto = 0,
@@ -102,7 +102,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
 
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Citzen',
   @modelo = 'IDP3540',
   @salto = 10,
@@ -128,7 +128,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Citzen',
   @modelo = 'CBM-231',
   @salto = 20,
@@ -154,7 +154,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Compex',
   @modelo = 'GP-U80300 III',
   @salto = 9,
@@ -180,7 +180,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Compex',
   @modelo = 'GP-H80300 IIN',
   @salto = 0,
@@ -206,7 +206,7 @@ execute sp_incluir_impressora
   @fim = ''
 go  
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Daruma',
   @modelo = 'DR700',
   @salto = 10,
@@ -232,7 +232,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Daruma',
   @modelo = 'DR800',
   @salto = 10,
@@ -258,7 +258,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Dascom',
   @modelo = 'DT-230',
   @salto = 30,
@@ -284,7 +284,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Diebold',
   @modelo = 'TSP143M',
   @salto = 10,
@@ -309,8 +309,35 @@ execute sp_incluir_impressora
   @inicio = '',
   @fim = ''
 go
-  
-execute sp_incluir_impressora
+
+--mesmo set da Elgin i9, exceto barcode que Ã© igual a Bema 4200
+execute dbo.sp_incluir_impressora 
+  @marca = 'Control iD',
+  @modelo = 'Print iD',
+  @salto = 40,
+  @comprimido = '27,33,1',
+  @descomprimido = '27,33,1',
+  @desenfatizado = '27,33,50',
+  @desexpandido = '27,33,2',
+  @enfatizado = '27,33,31',
+  @expandido = '27,33,40',
+  @normal = '27,33,2',
+  @cortador = '1',
+  @eject = '10,10,10,10,27,109',
+  @colunas = 40,
+  @qrcode = '29,40,107,{qrtam1}+3,{qrtam2},49,80,48',
+  @fimqrcode = '29,40,107,3,0,49,81,48,12',
+  @barcode = '13,10,$1D,$77,$02,$1D,$68,90,$1D,$48,0,$1D,$6B,$49,44',
+  @fimbarcode = '',
+  @gaveta = '27,112,48,55,121',
+  @cor = '1',
+  @liga_autenticacao = '',
+  @desliga_autenticacao = '',
+  @inicio = '',
+  @fim = ''
+go
+
+execute dbo.sp_incluir_impressora
   @marca = 'Elgin',
   @modelo = 'i9',
   @salto = 40,
@@ -336,7 +363,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Elgin',
   @modelo = 'BK-T681',
   @salto = 40,
@@ -362,7 +389,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'TM-T88V',
   @salto = 9,
@@ -388,7 +415,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'TM-T20',
   @salto = 9,
@@ -414,7 +441,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'TM-T20X',
   @salto = 9,
@@ -440,7 +467,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
 
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'TM U300C',
   @salto = 9,
@@ -466,7 +493,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'TM-T88IV',
   @salto = 0,
@@ -492,7 +519,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'LX 300',
   @salto = 16,
@@ -518,7 +545,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Epson',
   @modelo = 'TM U300C',
   @salto = 9,
@@ -544,7 +571,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Urano',
   @modelo = 'ZP-300',
   @salto = 0,
@@ -570,7 +597,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
 
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Fujitsu',
   @modelo = 'FP 510',
   @salto = 12,
@@ -596,7 +623,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Mecaf',
   @modelo = 'IM402TP',
   @salto = 5,
@@ -622,7 +649,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Mecaf',
   @modelo = 'IM433T',
   @salto = 5,
@@ -648,9 +675,9 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Mecaf',
-  @modelo = 'Genérica',
+  @modelo = 'Genï¿½rica',
   @salto = 8,
   @comprimido = '15',
   @descomprimido = '18',
@@ -674,7 +701,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Olivetti',
   @modelo = 'PRT100',
   @salto = 20,
@@ -700,9 +727,9 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Quattro',
-  @modelo = 'Genérica',
+  @modelo = 'Genï¿½rica',
   @salto = 7,
   @comprimido = '15',
   @descomprimido = '18',
@@ -726,9 +753,9 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Sigtron',
-  @modelo = 'Genérica',
+  @modelo = 'Genï¿½rica',
   @salto = 12,
   @comprimido = '15',
   @descomprimido = '20',
@@ -752,7 +779,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Star',
   @modelo = 'TSP',
   @salto = 10,
@@ -778,7 +805,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Star',
   @modelo = 'TSP+BUZZER',
   @salto = 10,
@@ -804,7 +831,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Sweda',
   @modelo = 'SI-300S',
   @salto = 0,
@@ -830,7 +857,7 @@ execute sp_incluir_impressora
   @fim = ''
 go
   
-execute sp_incluir_impressora
+execute dbo.sp_incluir_impressora
   @marca = 'Tanca',
   @modelo = 'TP-650',
   @salto = 40,
