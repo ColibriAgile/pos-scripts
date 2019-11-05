@@ -309,7 +309,34 @@ execute sp_incluir_impressora
   @inicio = '',
   @fim = ''
 go
-  
+
+--mesmo set da Elgin i9, exceto barcode que Ã© igual a Bema 4200
+execute sp_incluir_impressora 
+  @marca = 'Control iD',
+  @modelo = 'Print iD',
+  @salto = 40,
+  @comprimido = '27,33,1',
+  @descomprimido = '27,33,1',
+  @desenfatizado = '27,33,50',
+  @desexpandido = '27,33,2',
+  @enfatizado = '27,33,31',
+  @expandido = '27,33,40',
+  @normal = '27,33,2',
+  @cortador = '1',
+  @eject = '10,10,10,10,27,109',
+  @colunas = 40,
+  @qrcode = '29,40,107,{qrtam1}+3,{qrtam2},49,80,48',
+  @fimqrcode = '29,40,107,3,0,49,81,48,12',
+  @barcode = '13,10,$1D,$77,$02,$1D,$68,90,$1D,$48,0,$1D,$6B,$49,44',
+  @fimbarcode = '',
+  @gaveta = '27,112,48,55,121',
+  @cor = '1',
+  @liga_autenticacao = '',
+  @desliga_autenticacao = '',
+  @inicio = '',
+  @fim = ''
+go
+
 execute sp_incluir_impressora
   @marca = 'Elgin',
   @modelo = 'i9',
@@ -650,7 +677,7 @@ go
   
 execute sp_incluir_impressora
   @marca = 'Mecaf',
-  @modelo = 'Genérica',
+  @modelo = 'Genï¿½rica',
   @salto = 8,
   @comprimido = '15',
   @descomprimido = '18',
@@ -702,7 +729,7 @@ go
   
 execute sp_incluir_impressora
   @marca = 'Quattro',
-  @modelo = 'Genérica',
+  @modelo = 'Genï¿½rica',
   @salto = 7,
   @comprimido = '15',
   @descomprimido = '18',
@@ -728,7 +755,7 @@ go
   
 execute sp_incluir_impressora
   @marca = 'Sigtron',
-  @modelo = 'Genérica',
+  @modelo = 'Genï¿½rica',
   @salto = 12,
   @comprimido = '15',
   @descomprimido = '20',
