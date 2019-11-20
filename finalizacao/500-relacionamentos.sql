@@ -670,6 +670,23 @@ add constraint ri_movimento_caixa_geral$turno_id__turno$turno_id foreign key
 go
 
 /******************************
+ dbo.turno
+ *******************************/
+exec dbo.sp_apagar_relacionamentos 'dbo.turno'
+go
+
+alter table dbo.turno with check
+add constraint ri_turno$func_fechou_id$id foreign key
+  (
+    func_fechou_id
+	) references dbo.funcionario
+	(
+	  id
+	) on update  no action 
+	 on delete  no action 
+go
+
+/******************************
  cache.slot_rodizio
  *******************************/
 exec dbo.sp_apagar_relacionamentos 'cache.slot_rodizio'
