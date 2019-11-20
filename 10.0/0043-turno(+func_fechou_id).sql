@@ -6,5 +6,6 @@ add func_fechou_id int null
 
 exec('update dbo.turno
 set func_fechou_id = func_id
-where func_fechou_id is null')
+where dt_hr_fechamento is not null')
+
 go
