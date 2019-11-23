@@ -10,3 +10,4 @@ if dbo.fn_existe('dbo.movimento_caixa_geral.dados_adicionais') = 1
 
 alter table movimento_caixa_geral
 add dados_adicionais varchar(1000) null
+go 
