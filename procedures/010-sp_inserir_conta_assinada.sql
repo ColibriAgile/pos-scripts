@@ -8,7 +8,8 @@ create procedure sp_inserir_conta_assinada
   @operacaoId uniqueidentifier, 
   @valor decimal(19,4), 
   @dtContabil datetime, 
-  @movimentoId int
+  @movimentoId int,
+  @obs varchar(200)
 )
 as
 begin
@@ -26,7 +27,8 @@ begin
     cancelado, 
     saldo, 
     dt_contabil, 
-    movimento_id
+    movimento_id,
+    obs
   ) output inserted.pendura_id values 
   (
     @clienteId, 
@@ -36,7 +38,8 @@ begin
     0, 
     @saldo, 
     @dtContabil, 
-    @movimentoId
+    @movimentoId,
+    @obs
   )
   commit          
 end
