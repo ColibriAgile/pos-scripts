@@ -167,13 +167,7 @@ begin
   material 
   *************************************/
   begin try
-    if @versao >= 230000
-      exec sync.sp_consolidarMaterial23 @loja_id, @rede_id
-    else 
-    --descricao_touch = source.nm_figura,
-    --imagem = source.nm_figura,
-    --vende_combo = source.bn_vendenocombo,
-      exec sync.sp_consolidarMaterial @loja_id, @rede_id
+    exec sync.sp_consolidar_material @versao, @loja_id, @rede_id
   end try
   begin catch
     select
@@ -465,43 +459,12 @@ begin
   fiscal.material
   *************************************/
   begin try
-    merge fiscal.material as target
-    using sync.fiscalmaterial as source with (nolock) on 
-      target.material_id = source.material_id
-    when not matched by target then
-      insert
-      (
-        material_id,
-        cfop,
-        cod_ncm,
-        prod_origem,
-        cst_icms,
-        cst_pis,
-        aliq_pis,
-        cst_cofins,
-        aliq_cofins,
-        tipo_aliquota,
-        aliq_ecf
-      ) values
-      (
-        source.material_id,
-        '5102',
-        source.cod_ncm,
-        source.prod_origem,
-        source.cst_icms,
-        source.cst_pis,
-        source.aliq_pis,
-        source.cst_cofins,
-        source.aliq_cofins,
-        'T',
-        '?'
-      );
+    exec sync.sp_consolidar_fiscalmaterial @versao
   end try
   begin catch
     select
       @erro = sync.fn_formatar_msg_erro(error_number(), error_line(), error_message(), 'Fiscal material'),
       @severidade = error_severity()
-
     raiserror(@erro, @severidade, 1)
   end catch
 
