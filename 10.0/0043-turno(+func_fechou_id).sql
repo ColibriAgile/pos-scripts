@@ -4,8 +4,8 @@ if dbo.fn_existe('dbo.turno.func_fechou_id') = 1
 alter table dbo.turno 
 add func_fechou_id int null
 
-exec('update dbo.turno
+update dbo.turno
 set func_fechou_id = func_id
-where dt_hr_fechamento is not null')
+where dt_hr_fechamento is not null
 
 go

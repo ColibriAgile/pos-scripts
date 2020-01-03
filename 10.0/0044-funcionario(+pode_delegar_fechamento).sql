@@ -4,8 +4,6 @@
 alter table dbo.funcionario
 add pode_delegar_fechamento bit null
 
-exec('update dbo.funcionario
+update dbo.funcionario
 set pode_delegar_fechamento = virtual
-')
-
 go
