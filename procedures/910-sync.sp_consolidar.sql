@@ -167,7 +167,10 @@ begin
   material 
   *************************************/
   begin try
-    exec sync.sp_consolidar_material @versao, @loja_id, @rede_id
+    if @versao >= 230000
+      exec sync.sp_consolidar_material_cbo230000 @loja_id, @rede_id
+    else 
+      exec sync.sp_consolidar_material @loja_id, @rede_id
   end try
   begin catch
     select
@@ -459,7 +462,10 @@ begin
   fiscal.material
   *************************************/
   begin try
-    exec sync.sp_consolidar_fiscalmaterial @versao
+    if @versao >= 240200
+      exec sync.sp_consolidar_fiscalmaterial_cbo240200
+    else 
+      exec sync.sp_consolidar_fiscalmaterial
   end try
   begin catch
     select

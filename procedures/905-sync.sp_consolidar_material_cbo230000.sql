@@ -1,17 +1,17 @@
-if object_id('sync.sp_consolidar_material') is not null
-  drop procedure sync.sp_consolidar_material
+if object_id('sync.sp_consolidar_material_cbo230000') is not null
+  drop procedure sync.sp_consolidar_material_cbo230000
 go
 
 exec sync.sp_limpar_schema
 go
 
-create procedure sync.sp_consolidar_material (@loja_id int, @rede_id int)
+create procedure sync.sp_consolidar_material_cbo230000 (@loja_id int, @rede_id int)
 as
 begin
   set nocount on
   set identity_insert dbo.material on
 
---CBO até versao 2.3.0
+--CBO versao 2.3.0 ou superior adiciona o campo 'consumacao'
   merge dbo.material as target
   using sync.material as source with (nolock) on 
     target.id = source.material_id
@@ -30,6 +30,7 @@ begin
       cod_externo = source.cod_externo,
       unidade = source.unid_venda,
       venda = source.bn_venda,
+      consumacao = source.bn_consumacao,
       requer_obs = source.bn_requerobs,
       qtde_frac = source.bn_qtdefrac,
       balanca = source.bn_balanca,
@@ -53,6 +54,7 @@ begin
       requer_obs,
       qtde_frac,
       balanca,
+      consumacao,
       vende_combo,
       vende_web,
       grupo_id,
@@ -77,6 +79,7 @@ begin
       source.bn_requerobs,
       source.bn_qtdefrac,
       source.bn_balanca,
+      source.bn_consumacao,
       0, --source.bn_vendenocombo,
       0,
       source.grupo_id,
