@@ -1118,6 +1118,10 @@ execute sp_apagar 'procedure', 'sp_increl'
 go
 execute sp_apagar 'procedure', 'sp_ajustaconfigio'
 go
+execute sp_apagar 'procedure', 'sync.sp_consolidarmaterial'
+go
+execute sp_apagar 'procedure', 'sync.sp_consolidarmaterial23'
+go
 
 /**************************************
  Tipos de usuario
