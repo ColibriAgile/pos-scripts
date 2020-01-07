@@ -42,6 +42,20 @@ on dbo.operacao_geral
 ) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
 go
 
+
+/*-------------------------------------------------------------
+ historico_operacao_geral 
+ -------------------------------------------------------------*/
+if exists (select object_id from sys.indexes where name = 'ix_historico_operacao_geral$operacao_id')
+  drop index ix_historico_operacao_geral$operacao_id on dbo.historico_operacao_geral
+
+create nonclustered index ix_historico_operacao_geral$operacao_id
+on dbo.historico_operacao_geral
+(
+  operacao_id ASC
+) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
+go
+
 /*-------------------------------------------------------------
  movimento_caixa
  -------------------------------------------------------------*/
