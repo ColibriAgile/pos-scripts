@@ -27,16 +27,17 @@ as
     nao_geral = 1,
   --identificacao da venda
     venda_id = i.venda_id,
-    numero_venda = h.numero_venda,
+    numero_venda = v.numero_venda,
     item_id = i.contador_item,
     dt_contabil = i.dt_contabil,
     loja_id = i.loja_id,
     maquina_id = i.maquina_id,
     modo_venda_id = i.modo_venda_id,
     ponto_venda_id = i.ponto_venda_id,
+    operacao_id = v.operacao_id,
 
   --ticket
-    ticket_cod = h.codigo_ticket,
+    ticket_cod = v.codigo_ticket,
     ticket_id = t.ticket_id,
     ticket_estado = case
       o.encerrada when 1 then 'finalizado'
@@ -49,7 +50,7 @@ as
     hr_lancamento = convert(varchar(5),i.dt_hr_lancamento, 14),
     dt_hr_lancamento = i.dt_hr_lancamento,
     dt_hr_cancelamento = case
-      when h.cancelado = 1 then h.dt_alt
+      when v.cancelado = 1 then v.dt_alt
       else i.dt_hr_cancelamento
     end,
     motivo_canc_id = i.motivo_cancelamento_id,
@@ -77,11 +78,12 @@ as
     cancelado = i.cancelado,
     transferido = i.transferido,
     imprimiu = i.imprimiu,
-    i.valido
+    i.valido,
+    pago = o.paga
   from venda_item i
-  left join venda h on h.venda_id = i.venda_id
-  left join operacao_venda o on o.operacao_id = h.operacao_id
-  left join ticket t on t.venda_id = h.venda_id
+  left join venda v on v.venda_id = i.venda_id
+  left join operacao_venda o on o.operacao_id = v.operacao_id
+  left join ticket t on t.venda_id = v.venda_id
 
   union all
 
@@ -89,16 +91,17 @@ as
     nao_geral = 0,
   --identificacao da venda
     venda_id = i.venda_id,
-    numero_venda = h.numero_venda,
+    numero_venda = v.numero_venda,
     item_id = i.contador_item,
     dt_contabil = i.dt_contabil,
     loja_id = i.loja_id,
     maquina_id = i.maquina_id,
     modo_venda_id = i.modo_venda_id,
     ponto_venda_id = i.ponto_venda_id,
+    operacao_id = v.operacao_id,
 
   --ticket
-    ticket_cod = h.codigo_ticket,
+    ticket_cod = v.codigo_ticket,
     ticket_id = null,
     ticket_estado = 'finalizado',
     ticket_origem = i.ticket_origem,
@@ -133,9 +136,12 @@ as
     cancelado = i.cancelado,
     transferido = i.transferido,
     imprimiu = i.imprimiu,
-    i.valido
+    i.valido,
+    pago = o.paga
   from venda_item_geral i
-  left join venda_geral h on h.venda_id = i.venda_id
+  left join venda_geral v on v.venda_id = i.venda_id
+  left join operacao_venda_geral o on o.operacao_id = v.operacao_id
+
 ) item
 left join material m on m.id = item.material_id
 left join grupo_material g on g.id = m.grupo_id
