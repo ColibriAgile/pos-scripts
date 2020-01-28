@@ -308,8 +308,6 @@ execute sp_apagar_campo 'maquina', 'separa_troco_pre_pgto'
 go
 execute sp_apagar_campo 'maquina', 'log_detalhado'
 go
-execute sp_apagar_campo 'maquina', 'usa_tef'
-go
 execute sp_apagar_campo 'material', 'h1'
 go
 execute sp_apagar_campo 'material', 'h2'
