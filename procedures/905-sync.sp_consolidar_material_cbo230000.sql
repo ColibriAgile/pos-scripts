@@ -18,7 +18,7 @@ begin
   when matched then
     update set
       --descricao_touch = source.descricao_touch,
-      --vende_combo = source.bn_vendenocombo,
+      vende_combo = source.bn_vendenocombo,
       --imagem = source.nm_figura,
       --tecla_prog = source.nm_teclaprog,
       --servico = source.bn_servico,
