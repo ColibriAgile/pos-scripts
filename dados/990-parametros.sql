@@ -1330,30 +1330,6 @@ exec sp_inserir_parametro
   @valor_default = ''
 go
 
------TEF-------------------
-exec sp_inserir_parametro
-  @codigo = 'CfgSolucaoTEF',
-  @categoria = '8.TEF',
-  @subcategoria = '',
-  @descr = '# Solução TEF',
-  @tipo_valor = 'string',
-  @tipo_param = 'L',
-  @valor_default = '',
-  @lista = 'discado
-SiTef'
-go
-
-exec sp_inserir_parametro
-  @codigo = 'CfgTEFConfiguracao',
-  @categoria = '8.TEF',
-  @subcategoria = '',
-  @descr = 'Configuração TEF',
-  @detalhes = 'Abre a tela de configuração da solução TEF.',
-  @tipo_valor = 'string',
-  @tipo_param = 'D',
-  @valor_default = '{}'
-go
-
 exec sp_inserir_parametro
   @codigo = 'CfgUsaTEFSimplificado',
   @categoria = '8.TEF',
@@ -1523,3 +1499,5 @@ delete parametro where codigo = 'CfgImprimeServicoDestacado'
 delete parametro_modo where codigo = 'CfgPermiteAlterarQuantidade'
 delete parametro where codigo = 'CfgPermiteAlterarQuantidade'
 delete parametro where codigo = 'CfgServicoComoItem'
+delete parametro where codigo = 'CfgSolucaoTEF'
+delete parametro where codigo = 'CfgTEFConfiguracao'

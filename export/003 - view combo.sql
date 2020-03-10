@@ -9,6 +9,7 @@ select
 	codigo=codigo,
 	descricao_touch=descricao_touch,
 	descricao_prod=descricao_prod,
+	grupo_id=grupo_id,
 	local_producao=null,
 	requer_obs=requer_obs,
 	ativo=ativo,

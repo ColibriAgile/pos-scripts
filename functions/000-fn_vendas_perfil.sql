@@ -5,37 +5,37 @@ go
 create function fn_vendas_perfil (@dtini datetime, @dtfim datetime)
 returns @dados table
 (
-  dt_contabil date,
-  perfil_id int,
-  tot money,
+  dt_contabil date not null,
+  perfil_id int not null,
+  tot decimal(19, 4) not null,
   qtd_pessoas as (qtd_homem + qtd_mulher + qtd_ninformado),
-  qtd_homem numeric,
-  qtd_mulher numeric,
+  qtd_homem numeric not null,
+  qtd_mulher numeric not null,
   /*
   A quantidade de não informados pode ser fracionado se implementarmos perfil no modo mesa
   ou se permitirmos alterar a quantidade de pessoas nos agrupamentos de ficha. Se isso
   acontecer teremos que alterar o tipo abaixo para float, mostrando fracionado.
   */
-  qtd_ninformado numeric
+  qtd_ninformado numeric null
 )
 as
 begin
 
   declare @tblPessoasPorConta table
   (
-    operacao_id uniqueidentifier,
-    qtd_pessoas float
+    operacao_id uniqueidentifier not null,
+    qtd_pessoas decimal not null
   )
 
   declare @tblPessoasPorPerfil table
   (
-    dt_contabil date,
-    operacao_id uniqueidentifier,
-    perfil_id int,
-    qtd_ninformado float,
-    qtd_homem float,
-    qtd_mulher float,
-    vl_itens money
+    dt_contabil date not null,
+    operacao_id uniqueidentifier not null,
+    perfil_id int not null,
+    qtd_ninformado decimal null,
+    qtd_homem decimal null,
+    qtd_mulher decimal null,
+    vl_itens decimal(19, 4) null
   )
 
   /*
@@ -69,11 +69,12 @@ begin
     qtd pessoas na conta = qtd pessoas da operacao / qtd contas^2
     */
     qtd_pessoas_por_conta = 1.0 * sum(ov.qtd_pessoas) / power(count(h.venda_id),2)
-  from operacao o with (nolock)
-  join operacao_venda ov with (nolock) on ov.operacao_id = o.operacao_id
-  join venda h with (nolock) on o.operacao_id = h.operacao_id
+  from dbo.operacao o with (nolock)
+  join dbo.operacao_venda ov with (nolock) on ov.operacao_id = o.operacao_id
+  join dbo.venda h with (nolock) on o.operacao_id = h.operacao_id
   where o.dt_contabil between @dtini and @dtfim
     and o.cancelada = 0
+    and ov.paga = 1
     and h.cancelado = 0
     and h.transferido = 0
   group by
@@ -84,11 +85,12 @@ begin
   select
     o.operacao_id,
     qtd_pessoas_por_conta = 1.0 * sum(ov.qtd_pessoas) / power(count(h.venda_id),2)
-  from operacao_geral o with (nolock)
-  join operacao_venda_geral ov with (nolock) on ov.operacao_id = o.operacao_id
-  join venda_geral h with (nolock) on o.operacao_id = h.operacao_id
+  from dbo.operacao_geral o with (nolock)
+  join dbo.operacao_venda_geral ov with (nolock) on ov.operacao_id = o.operacao_id
+  join dbo.venda_geral h with (nolock) on o.operacao_id = h.operacao_id
   where o.dt_contabil between @dtini and @dtfim
     and o.cancelada = 0
+    and ov.paga = 1
     and h.cancelado = 0
     and h.transferido = 0
   group by
@@ -139,18 +141,18 @@ begin
         when c2.sexo = 'F' then 1
         else 0
       end
-    from venda h with (nolock)
+    from dbo.venda h with (nolock)
     join @tblPessoasPorConta as p on p.operacao_id = h.operacao_id
-    left join cliente c with (nolock) on c.id = h.cliente_id
+    left join dbo.cliente c with (nolock) on c.id = h.cliente_id
     /*
     O join com ticket é necessário porque contas não encerradas ainda não tem o dado do cliente.
     O cliente só é movido do ticket para a conta quando a mesma é encerrada.
     */
-    left join ticket t with (nolock) on t.venda_id = h.venda_id
-    left join cliente c2 with (nolock) on c2.id = t.cliente_id
-    where cancelado = 0
-      and transferido = 0
-      and dt_contabil between @dtini and @dtfim
+    left join dbo.ticket t with (nolock) on t.venda_id = h.venda_id
+    left join dbo.cliente c2 with (nolock) on c2.id = t.cliente_id
+    where h.cancelado = 0
+      and h.transferido = 0
+      and h.dt_contabil between @dtini and @dtfim
 
     union all
 
@@ -170,11 +172,11 @@ begin
         when c2.sexo = 'F' then 1
         else 0
       end
-    from venda_geral h with (nolock)
+    from dbo.venda_geral h with (nolock)
     join @tblPessoasPorConta as p on p.operacao_id = h.operacao_id
-    left join cliente c with (nolock) on c.id = h.cliente_id
-    left join ticket t with (nolock) on t.venda_id = h.venda_id
-    left join cliente c2 with (nolock) on c2.id = t.cliente_id
+    left join dbo.cliente c with (nolock) on c.id = h.cliente_id
+    left join dbo.ticket t with (nolock) on t.venda_id = h.venda_id
+    left join dbo.cliente c2 with (nolock) on c2.id = t.cliente_id
     where h.cancelado = 0
       and h.transferido = 0
       and h.dt_contabil between @dtini and @dtfim

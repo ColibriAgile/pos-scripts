@@ -22,7 +22,6 @@ select
 	vende_web=vende_web,
 	consumacao=consumacao,
 	venda=venda,
-	tecla=tecla_prog,
 	tecla_prog=tecla_prog,
 	imagem=imagem,
 	cod_externo=cod_externo

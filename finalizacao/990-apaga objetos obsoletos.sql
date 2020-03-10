@@ -1,4 +1,4 @@
-﻿/**************************************
+/**************************************
  *** Tabelas
  **************************************/
 execute sp_apagar_tabela 'config_acao_touch'
@@ -250,6 +250,8 @@ go
 execute sp_apagar_constraint 'un_ponto_venda$nome'
 execute sp_apagar_constraint 'ix_ponto_venda$nome'
 go
+execute sp_apagar_constraint 'ix_tecla_material$tecla$material', 'mt'
+go
 
 /**************************************
  *** Campos
@@ -457,6 +459,8 @@ go
 execute sp_apagar_campos 'operacao', 'comprovante', 'comprovante_chave', 'comprovante_status', 'comprovante_ressalva'
 go
 execute sp_apagar_campos 'operacao_geral', 'comprovante', 'comprovante_chave', 'comprovante_status', 'comprovante_ressalva'
+go
+execute sp_apagar_campos 'maquina', 'autopagamento', 'inicia_autopagamento'
 go
 
 
