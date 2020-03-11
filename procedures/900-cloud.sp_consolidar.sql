@@ -296,9 +296,6 @@ when not matched by source then
   delete;
 
 /* classe */
-IF OBJECT_ID('dbo.ix_classe$descricao', 'UQ') IS NOT NULL
-  alter table dbo.classe drop constraint ix_classe$descricao
-
 set identity_insert dbo.classe on
 
 merge dbo.classe as target
@@ -338,33 +335,8 @@ when not matched by target then
     @rede_id
   )
 when not matched by source then
-  update set target.ativo = 0;
-
-select id
-into #tempClasse
-from classe cl 
-join
-(
-  select
-    descri = descricao
-  from classe
-  group by descricao
-  having count(*) > 1
-) temp on cl.descricao = temp.descri
-where cl.ativo = 0
-
-delete 
-from item_classe 
-where classe_id in (select id from #tempClasse) 
-or classe_item_id in (select id from #tempClasse)
-
-delete from classe 
-where id in (select id from #tempClasse)
-
-alter table dbo.classe add constraint ix_classe$descricao unique NONCLUSTERED 
-(
-  descricao ASC
-)
+  update set target.ativo = 0, target.descricao = concat(target.descricao, ' - inativa (', 
+    convert(varchar, getdate(), 103),' ',convert(varchar, getdate(), 24), ')');
 
 set identity_insert dbo.classe off
 
