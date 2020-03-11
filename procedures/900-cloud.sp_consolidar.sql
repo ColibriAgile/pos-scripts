@@ -335,8 +335,16 @@ when not matched by target then
     @rede_id
   )
 when not matched by source then
-  update set target.ativo = 0, target.descricao = concat(target.descricao, ' - inativa (', 
-    convert(varchar, getdate(), 103),' ',convert(varchar, getdate(), 24), ')');
+  update set 
+    target.ativo = 0, 
+    target.descricao = concat
+    (
+        target.descricao, 
+        ' - inativa (', 
+        convert(varchar, getdate(), 103),
+        ' ',
+        convert(varchar, getdate(), 24), ')'
+    );
 
 set identity_insert dbo.classe off
 
