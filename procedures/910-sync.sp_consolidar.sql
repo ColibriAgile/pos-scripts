@@ -194,7 +194,7 @@ begin
       update set
         descricao = source.nm_descricao,
         --descricao_touch = ,
-        ordem_alfabetica = source.bn_ordemalfabetica,
+        --ordem_alfabetica = source.bn_ordemalfabetica,
         dt_alt = @getDate
     when not matched by target then
       insert
@@ -215,8 +215,8 @@ begin
         @getDate,
         nm_descricao,
         nm_descricaotouch,
-        bn_permitecombinado,
-        bn_ordemalfabetica,
+        0,
+        0,
         @loja_id,
         @rede_id
       )
