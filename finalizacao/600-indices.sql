@@ -33,7 +33,8 @@ go
  operacao_geral 
  -------------------------------------------------------------*/
 if exists (select object_id from sys.indexes where name = 'ix_operacao_geral$dt_contabil')
-  drop index ix_operacao_geral$dt_contabil on dbo.operacao_geral
+  drop index ix_operacao_geral$dt_contabil 
+  on dbo.operacao_geral
 
 create clustered index ix_operacao_geral$dt_contabil 
 on dbo.operacao_geral
@@ -42,12 +43,57 @@ on dbo.operacao_geral
 ) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
 go
 
+/*-------------------------------------------------------------
+ operacao_venda_geral 
+ -------------------------------------------------------------*/
+if exists (select object_id from sys.indexes where name = 'ix_operacao_geral$transf_encerramento')
+  drop index ix_operacao_geral$transf_encerramento 
+  on dbo.operacao_venda_geral
+
+create nonclustered index ix_operacao_geral$transf_encerramento 
+on dbo.operacao_venda_geral
+(
+  [transferida], 
+  [dt_hr_encerramento], 
+  [hr_encerramento]
+)
+include 
+(
+  [modo_venda_id], 
+  [maquina_encerrou_id], 
+  [func_encerrou_id], 
+  [dt_encerramento]
+)
+go
+
+/*-------------------------------------------------------------
+ comprovante_geral 
+ -------------------------------------------------------------*/
+if exists (select object_id from sys.indexes where name = 'ix_comprovante_geral$operacao_id')
+  drop index ix_comprovante_geral$operacao_id 
+  on dbo.comprovante_geral
+
+create nonclustered index ix_comprovante_geral$operacao_id
+on dbo.comprovante_geral
+(
+  [operacao_id]
+)
+include 
+(
+  [consumidor], 
+  [numero], 
+  [chave], 
+  [status], 
+  [ressalva]
+)
+go
 
 /*-------------------------------------------------------------
  historico_operacao_geral 
  -------------------------------------------------------------*/
 if exists (select object_id from sys.indexes where name = 'ix_historico_operacao_geral$operacao_id')
-  drop index ix_historico_operacao_geral$operacao_id on dbo.historico_operacao_geral
+  drop index ix_historico_operacao_geral$operacao_id 
+  on dbo.historico_operacao_geral
 
 create nonclustered index ix_historico_operacao_geral$operacao_id
 on dbo.historico_operacao_geral
@@ -60,7 +106,8 @@ go
  movimento_caixa
  -------------------------------------------------------------*/
 if exists (select object_id from sys.indexes where name = 'ix_movimento_caixa$turno_id')
-  drop index ix_movimento_caixa$turno_id on dbo.movimento_caixa
+  drop index ix_movimento_caixa$turno_id on 
+  dbo.movimento_caixa
 
 create nonclustered index ix_movimento_caixa$turno_id 
 on dbo.movimento_caixa
@@ -73,7 +120,8 @@ go
  movimento_caixa_geral 
  -------------------------------------------------------------*/
 if exists (select object_id from sys.indexes where name = 'ix_movimento_caixa_geral$operacao_id')
-  drop index ix_movimento_caixa_geral$operacao_id on dbo.movimento_caixa_geral
+  drop index ix_movimento_caixa_geral$operacao_id 
+  on dbo.movimento_caixa_geral
 
 create nonclustered index ix_movimento_caixa_geral$operacao_id 
 on dbo.movimento_caixa_geral
@@ -83,7 +131,8 @@ on dbo.movimento_caixa_geral
 go
 
 if exists (select object_id from sys.indexes where name = 'ix_movimento_caixa_geral$turno_id')
-  drop index ix_movimento_caixa_geral$turno_id on dbo.movimento_caixa_geral
+  drop index ix_movimento_caixa_geral$turno_id 
+  on dbo.movimento_caixa_geral
 
 create nonclustered index ix_movimento_caixa_geral$turno_id 
 on dbo.movimento_caixa_geral
@@ -96,7 +145,8 @@ go
  turno
  -------------------------------------------------------------*/
 if exists (select object_id from sys.indexes where name = 'ix_turno$dt_contabil')
-  drop index ix_turno$dt_contabil on dbo.turno
+  drop index ix_turno$dt_contabil 
+  on dbo.turno
 
 create clustered index ix_turno$dt_contabil 
 on dbo.turno
