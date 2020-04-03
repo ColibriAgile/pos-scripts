@@ -9,6 +9,5 @@ alter table dbo.classe
 	alter column descricao_touch nvarchar(40) collate database_default null
 go
 
-alter table dbo.classe 
-  add constraint ix_classe$descricao unique nonclustered (descricao asc)
+exec sp_padronizar_collation 'dbo.classe'
 go
