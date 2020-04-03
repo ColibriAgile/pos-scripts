@@ -1,7 +1,22 @@
 /*-------------------------------------------------------------
+ classe
+ -------------------------------------------------------------*/
+if exists (select * from sys.indexes where name = N'ix_classe$descricao')
+  alter table dbo.classe
+  drop constraint ix_classe$descricao
+go
+  
+alter table dbo.classe 
+add  constraint ix_classe$descricao unique nonclustered 
+(
+	descricao asc
+)
+go
+
+/*-------------------------------------------------------------
  material
  -------------------------------------------------------------*/
-if exists (select object_id from sys.indexes where name = 'ix_material$ativo$venda')
+if exists (select object_id from sys.indexes where name = N'ix_material$ativo$venda')
   drop index ix_material$ativo$venda on dbo.material
 
 create nonclustered index ix_material$ativo$venda
@@ -10,6 +25,21 @@ on dbo.material
   ativo,
   venda
 )
+go
+
+if exists (select * from sys.indexes where name = N'ix_material$rede_id$sub_rede_id$loja_id$codigo')
+  alter table dbo.material 
+  drop constraint ix_material$rede_id$sub_rede_id$loja_id$codigo
+go
+
+alter table dbo.material 
+add  constraint ix_material$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
+(
+	[rede_id] asc,
+	[sub_rede_id] asc,
+	[loja_id] asc,
+	[codigo] asc
+) 
 go
 
 /*-------------------------------------------------------------
@@ -40,7 +70,7 @@ create clustered index ix_operacao_geral$dt_contabil
 on dbo.operacao_geral
 (
   dt_contabil ASC
-) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
+) 
 go
 
 /*-------------------------------------------------------------
@@ -113,7 +143,7 @@ create nonclustered index ix_movimento_caixa$turno_id
 on dbo.movimento_caixa
 (
   turno_id ASC
-) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
+) 
 go
 
 /*-------------------------------------------------------------
@@ -127,7 +157,7 @@ create nonclustered index ix_movimento_caixa_geral$operacao_id
 on dbo.movimento_caixa_geral
 (
   operacao_id 
-) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
+) 
 go
 
 if exists (select object_id from sys.indexes where name = 'ix_movimento_caixa_geral$turno_id')
@@ -138,7 +168,7 @@ create nonclustered index ix_movimento_caixa_geral$turno_id
 on dbo.movimento_caixa_geral
 (
   turno_id ASC
-) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
+) 
 go
 
 /*-------------------------------------------------------------
@@ -152,6 +182,6 @@ create clustered index ix_turno$dt_contabil
 on dbo.turno
 (
   dt_contabil asc
-) with (pad_index = off, statistics_norecompute = off, sort_in_tempdb = off, drop_existing = off, online = off, allow_row_locks = on, allow_page_locks = on)
+) 
 go
 
