@@ -35,11 +35,29 @@ go
 alter table dbo.material 
 add  constraint ix_material$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
 (
-	[rede_id] asc,
-	[sub_rede_id] asc,
-	[loja_id] asc,
-	[codigo] asc
+	rede_id asc,
+	sub_rede_id asc,
+	loja_id asc,
+	codigo asc
 ) 
+go
+
+/*-------------------------------------------------------------
+ combo
+ -------------------------------------------------------------*/
+if  exists (select * from sys.indexes where name = N'ix_combo$rede_id$sub_rede_id$loja_id$codigo')
+  alter table dbo.combo 
+  drop constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo
+go
+
+alter table dbo.combo 
+add  constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
+(
+	rede_id asc,
+	sub_rede_id asc,
+	loja_id asc,
+	codigo asc
+)
 go
 
 /*-------------------------------------------------------------
@@ -83,16 +101,16 @@ if exists (select object_id from sys.indexes where name = 'ix_operacao_geral$tra
 create nonclustered index ix_operacao_geral$transf_encerramento 
 on dbo.operacao_venda_geral
 (
-  [transferida], 
-  [dt_hr_encerramento], 
-  [hr_encerramento]
+  transferida, 
+  dt_hr_encerramento, 
+  hr_encerramento
 )
 include 
 (
-  [modo_venda_id], 
-  [maquina_encerrou_id], 
-  [func_encerrou_id], 
-  [dt_encerramento]
+  modo_venda_id, 
+  maquina_encerrou_id, 
+  func_encerrou_id, 
+  dt_encerramento
 )
 go
 
@@ -106,15 +124,15 @@ if exists (select object_id from sys.indexes where name = 'ix_comprovante_geral$
 create nonclustered index ix_comprovante_geral$operacao_id
 on dbo.comprovante_geral
 (
-  [operacao_id]
+  operacao_id
 )
 include 
 (
-  [consumidor], 
-  [numero], 
-  [chave], 
-  [status], 
-  [ressalva]
+  consumidor, 
+  numero, 
+  chave, 
+  status, 
+  ressalva
 )
 go
 
