@@ -1,4 +1,4 @@
-﻿if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
+if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
 begin
   exec sp_executesql N'CREATE SCHEMA cloud'
 end
@@ -339,11 +339,10 @@ when not matched by source then
     target.ativo = 0, 
     target.descricao = concat
     (
-        target.descricao, 
-        ' - inativa (', 
-        convert(varchar, getdate(), 103),
-        ' ',
-        convert(varchar, getdate(), 24), ')'
+      source.descricao, 
+      ' (inativada em ', 
+      convert(varchar, getdate(), 120),
+      ')'
     );
 
 set identity_insert dbo.classe off

@@ -225,12 +225,10 @@ begin
         target.ativo = 0, 
         target.descricao = concat
         (
-            target.descricao, 
-            ' - inativa (', 
-            convert(varchar, getdate(), 103),
-            ' ', 
-            convert(varchar, getdate(), 24), 
-            ')'
+          source.descricao, 
+          ' (inativada em ', 
+          convert(varchar, getdate(), 20),
+          ')'
         );
 
     set concat_null_yields_null on
