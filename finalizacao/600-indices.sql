@@ -9,7 +9,7 @@ go
 alter table dbo.classe 
 add  constraint ix_classe$descricao unique nonclustered 
 (
-	descricao asc
+  descricao asc
 )
 go
 
@@ -35,10 +35,10 @@ go
 alter table dbo.material 
 add  constraint ix_material$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
 (
-	rede_id asc,
-	sub_rede_id asc,
-	loja_id asc,
-	codigo asc
+  rede_id asc,
+  sub_rede_id asc,
+  loja_id asc,
+  codigo asc
 ) 
 go
 
@@ -53,10 +53,10 @@ go
 alter table dbo.combo 
 add  constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
 (
-	rede_id asc,
-	sub_rede_id asc,
-	loja_id asc,
-	codigo asc
+  rede_id asc,
+  sub_rede_id asc,
+  loja_id asc,
+  codigo asc
 )
 go
 
