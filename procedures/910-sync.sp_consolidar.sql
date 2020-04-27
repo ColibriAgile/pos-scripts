@@ -223,7 +223,7 @@ begin
     when not matched by source then
       update set 
         target.ativo = 0, 
-        target.descricao = convert(varchar, getdate(), 20)
+        target.descricao = convert(varchar, getdate(), 20);
 
     set concat_null_yields_null on
     set identity_insert dbo.classe off
