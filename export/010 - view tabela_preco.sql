@@ -5,7 +5,7 @@ go
 create view [export].[tabela_preco]
 as
 select
-	id=row_number() over(order by dt_alt asc),
+	id,
 	ativo=ativo,
 	nome=nome,
   dt_vigencia = cast(dt_vigencia as date),
