@@ -245,19 +245,14 @@ exec(
 set identity_insert dbo.material OFF
 
 update material 
-  set codigo = concat
-  (
-     'inativo-',
-     convert(varchar, getdate(), 114)
-  )
+set codigo = convert(varchar, getdate(), 20)
 from 
   material mat 
   join
   (
     select
       cod = codigo
-    from 
-      material
+    from material
     group by codigo
     having count(*) > 1
   ) temp on mat.codigo = temp.cod
@@ -345,7 +340,7 @@ when not matched by source then
     target.ativo = 0, 
     target.descricao = concat
     (
-      source.descricao, 
+      target.descricao, 
       ' (inativada em ', 
       convert(varchar, getdate(), 120),
       ')'
@@ -423,18 +418,13 @@ when not matched by source then
 set identity_insert dbo.combo off
 
 update combo 
-  set codigo = concat
-  (
-     'inativo-',
-     convert(varchar, getdate(), 114)
-  )
+set codigo = convert(varchar, getdate(), 20)
 from combo cob 
   join
   (
     select
       cod = codigo
-    from 
-      combo
+    from combo
     group by codigo
     having count(*) > 1
   ) temp on cob.codigo = temp.cod
