@@ -1,4 +1,4 @@
-if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
+﻿if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
 begin
   exec sp_executesql N'CREATE SCHEMA cloud'
 end
@@ -245,16 +245,17 @@ exec(
 set identity_insert dbo.material OFF
 
 update material 
-set codigo = '-' + codigo
-from material mat 
-join
-(
-  select
-    cod = codigo
-  from material
-  group by codigo
-  having count(*) > 1
-) temp on mat.codigo = temp.cod
+set codigo = convert(varchar, getdate(), 20)
+from 
+  material mat 
+  join
+  (
+    select
+      cod = codigo
+    from material
+    group by codigo
+    having count(*) > 1
+  ) temp on mat.codigo = temp.cod
 where mat.ativo = 0
 
 alter table dbo.material
@@ -337,13 +338,7 @@ when not matched by target then
 when not matched by source then
   update set 
     target.ativo = 0, 
-    target.descricao = concat
-    (
-      source.descricao, 
-      ' (inativada em ', 
-      convert(varchar, getdate(), 120),
-      ')'
-    );
+    target.descricao =  convert(varchar, getdate(), 120);
 
 set identity_insert dbo.classe off
 
@@ -417,16 +412,16 @@ when not matched by source then
 set identity_insert dbo.combo off
 
 update combo 
-set codigo = '-' + codigo
+set codigo = convert(varchar, getdate(), 20)
 from combo cob 
-join
-(
-  select
-    cod = codigo
-  from combo
-  group by codigo
-  having count(*) > 1
-) temp on cob.codigo = temp.cod
+  join
+  (
+    select
+      cod = codigo
+    from combo
+    group by codigo
+    having count(*) > 1
+  ) temp on cob.codigo = temp.cod
 where cob.ativo = 0
 
 alter table dbo.combo add constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo unique NONCLUSTERED
@@ -671,15 +666,17 @@ when not matched by source then
   update set target.ativo = 0;
 
 update motivo_cancelamento 
-set codigo = '-' + codigo
-from motivo_cancelamento mot join
-(
-  select
-    cod = codigo
-  from motivo_cancelamento
-  group by codigo
-  having count(*) > 1
-) temp on mot.codigo = temp.cod
+  set codigo = -1 * codigo
+from 
+  motivo_cancelamento mot join
+  (
+    select
+      cod = codigo
+    from 
+      motivo_cancelamento
+    group by codigo
+    having count(*) > 1
+  ) temp on mot.codigo = temp.cod
 where mot.ativo = 0
 
 alter table dbo.motivo_cancelamento add constraint ix_motivo_cancelamento$rede_id$sub_rede_id$codigo unique nonclustered
