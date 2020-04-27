@@ -340,7 +340,6 @@ when not matched by source then
     target.ativo = 0, 
     target.descricao = concat
     (
-      target.descricao, 
       ' (inativada em ', 
       convert(varchar, getdate(), 120),
       ')'
