@@ -338,12 +338,7 @@ when not matched by target then
 when not matched by source then
   update set 
     target.ativo = 0, 
-    target.descricao = concat
-    (
-      ' (inativada em ', 
-      convert(varchar, getdate(), 120),
-      ')'
-    );
+    target.descricao =  convert(varchar, getdate(), 120);
 
 set identity_insert dbo.classe off
 
