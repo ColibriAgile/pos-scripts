@@ -489,7 +489,7 @@ when not matched by target then
     source.minimo,
     source.maximo,
     source.preco,
-    source.classe,
+    source.classe_id,
     source.combo_id,
     source.local_id,
     source.mat_id,
