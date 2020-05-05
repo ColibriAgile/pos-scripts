@@ -117,7 +117,8 @@ alter table dbo.grupo_material add  constraint ix_grupo_material$rede_id$codigo 
 set identity_insert dbo.local_producao on
 
 merge dbo.local_producao as target
-using cloud_v1_0.local_producao as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.local_producao as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     nome = source.descricao,
@@ -149,113 +150,114 @@ IF OBJECT_ID('dbo.ix_material$rede_id$sub_rede_id$loja_id$codigo', 'UQ') IS NOT 
 
 set identity_insert dbo.material on
 
-exec(
-  'merge dbo.material as target
-    using
-    (
-      select
-        grupo_id = grupo.cliente_id,
-        local_id = l.cliente_id,
-        mat.*
-      from cloud_v1_0.material mat
-      join cloud_v1_0.grupo_material grupo on mat.grupo = grupo.id
-      left join cloud_v1_0.local_producao l on l.id = mat.local_producao
-    ) as source on target.id = source.cliente_id
-    when matched then
-      update set
-        ativo = source.ativo,
-        dt_alt = source.dt_alt,
-        codigo = source.codigo,
-        descricao = source.descricao,
-        descricao_touch = source.descricao_touch,
-        descricao_producao = source.descricao_producao,
-        descricao_extra = source.descricao_extra,
-        tecla_prog = source.tecla_prog,
-        imagem = source.imagem,
-        cod_externo = source.cod_externo,
-        unidade = source.unidade,
-        venda = source.venda,
-        servico = source.servico,
-        requer_obs = source.requer_obs,
-        qtde_frac = source.qtde_frac,
-        balanca = source.balanca,
-        consumacao = source.consumacao,
-        vende_web = source.vende_web,
-        vende_combo = source.vende_combo,
-        grupo_id = source.grupo_id,
-        local_producao_id = source.local_id
-    when not matched by target then
-      insert
-      (
-        id,
-        ativo,
-        dt_alt,
-        codigo,
-        descricao,
-        descricao_touch,
-        descricao_producao,
-        descricao_extra,
-        tecla_prog,
-        imagem,
-        cod_externo,
-        unidade,
-        venda,
-        servico,
-        requer_obs,
-        qtde_frac,
-        balanca,
-        consumacao,
-        vende_combo,
-        vende_web,
-        grupo_id,
-        local_producao_id,
-        loja_id,
-        rede_id
-      ) values
-      (
-        source.cliente_id,
-        source.ativo,
-        source.dt_alt,
-        source.codigo,
-        source.descricao,
-        source.descricao_touch,
-        source.descricao_producao,
-        source.descricao_extra,
-        source.tecla_prog,
-        source.imagem,
-        source.cod_externo,
-        source.unidade,
-        source.venda,
-        source.servico,
-        source.requer_obs,
-        source.qtde_frac,
-        source.balanca,
-        source.consumacao,
-        source.vende_combo,
-        source.vende_web,
-        source.grupo_id,
-        source.local_id,'
-        + @loja_id + ','
-        + @rede_id + '
-      )
-    when not matched by source then
-      update set target.ativo = 0;'
+exec('
+merge dbo.material as target
+using
+(
+  select
+    grupo_id = grupo.cliente_id,
+    local_id = l.cliente_id,
+    mat.*
+  from cloud_v1_0.material mat
+  join cloud_v1_0.grupo_material grupo 
+    on mat.grupo = grupo.id
+  left join cloud_v1_0.local_producao l 
+    on l.id = mat.local_producao
+) as source on target.id = source.cliente_id
+when matched then
+  update set
+    ativo = source.ativo,
+    dt_alt = source.dt_alt,
+    codigo = source.codigo,
+    descricao = source.descricao,
+    descricao_touch = source.descricao_touch,
+    descricao_producao = source.descricao_producao,
+    descricao_extra = source.descricao_extra,
+    tecla_prog = source.tecla_prog,
+    imagem = source.imagem,
+    cod_externo = source.cod_externo,
+    unidade = source.unidade,
+    venda = source.venda,
+    servico = source.servico,
+    requer_obs = source.requer_obs,
+    qtde_frac = source.qtde_frac,
+    balanca = source.balanca,
+    consumacao = source.consumacao,
+    vende_web = source.vende_web,
+    vende_combo = source.vende_combo,
+    grupo_id = source.grupo_id,
+    local_producao_id = source.local_id
+when not matched by target then
+  insert
+  (
+    id,
+    ativo,
+    dt_alt,
+    codigo,
+    descricao,
+    descricao_touch,
+    descricao_producao,
+    descricao_extra,
+    tecla_prog,
+    imagem,
+    cod_externo,
+    unidade,
+    venda,
+    servico,
+    requer_obs,
+    qtde_frac,
+    balanca,
+    consumacao,
+    vende_combo,
+    vende_web,
+    grupo_id,
+    local_producao_id,
+    loja_id,
+    rede_id
+  ) values
+(
+  source.cliente_id,
+  source.ativo,
+  source.dt_alt,
+  source.codigo,
+  source.descricao,
+  source.descricao_touch,
+  source.descricao_producao,
+  source.descricao_extra,
+  source.tecla_prog,
+  source.imagem,
+  source.cod_externo,
+  source.unidade,
+  source.venda,
+  source.servico,
+  source.requer_obs,
+  source.qtde_frac,
+  source.balanca,
+  source.consumacao,
+  source.vende_combo,
+  source.vende_web,
+  source.grupo_id,
+  source.local_id,'
+  + @loja_id + ','
+  + @rede_id + '
+)
+when not matched by source then
+  update set target.ativo = 0;'
 )
 
 set identity_insert dbo.material OFF
 
-update material 
-set codigo = convert(varchar, getdate(), 20)
-from 
-  material mat 
-  join
-  (
-    select
-      cod = codigo
-    from material
-    group by codigo
-    having count(*) > 1
-  ) temp on mat.codigo = temp.cod
+update dbo.material 
+set codigo = convert(varchar(20), getdate(), 20)
+from dbo.material mat 
+join
+(
+  select cod = codigo
+  from dbo.material
+  group by codigo
+  having count(*) > 1
+) temp on 
+  mat.codigo = temp.cod
 where mat.ativo = 0
 
 alter table dbo.material
@@ -276,7 +278,8 @@ using
     barra.*
   from cloud_v1_0.codigo_barra barra
   join cloud_v1_0.material mat on barra.material = mat.id
-) as source on target.codigo = source.codigo collate Latin1_General_CI_AI
+) as source on 
+  target.codigo = source.codigo
 when matched then
   update set material_id = source.material_id
 when not matched by target then
@@ -300,7 +303,8 @@ when not matched by source then
 set identity_insert dbo.classe on
 
 merge dbo.classe as target
-using cloud_v1_0.classe as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.classe as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     descricao = source.descricao,
@@ -338,7 +342,7 @@ when not matched by target then
 when not matched by source then
   update set 
     target.ativo = 0, 
-    target.descricao =  convert(varchar, getdate(), 120);
+    target.descricao =  convert(varchar(20), getdate(), 120);
 
 set identity_insert dbo.classe off
 
@@ -350,15 +354,17 @@ IF OBJECT_ID('dbo.ix_combo$rede_id$sub_rede_id$loja_id$codigo', 'UQ') is not nul
 exec('
 merge dbo.combo as target
 using
-  (
-    select
-      local_id = l.cliente_id,
-      grupo_id = g.cliente_id,
-      combo.*
-    from cloud_v1_0.combo combo
-    left join cloud_v1_0.local_producao l on l.id = combo.local_producao_id
-    left join cloud_v1_0.grupo_material g on g.id = combo.grupo
-  ) as source on target.id = source.cliente_id
+(
+  select
+    local_id = l.cliente_id,
+    grupo_id = g.cliente_id,
+    combo.*
+  from cloud_v1_0.combo combo
+  left join cloud_v1_0.local_producao l on l.id = combo.local_producao_id
+  left join cloud_v1_0.grupo_material g on g.id = combo.grupo
+) as source on 
+  target.id = source.cliente_id
+
 when matched then
   update set
     codigo = source.codigo,
@@ -371,6 +377,7 @@ when matched then
     vende_web = source.vende_web,
     local_producao_id = source.local_id,
     grupo_id =  source.grupo_id
+
 when not matched by target then
   insert
   (
@@ -405,53 +412,57 @@ when not matched by target then
     + @loja_id + ','
     + @rede_id + '
   )
+
 when not matched by source then
   update set target.ativo = 0;'
 )
 
 set identity_insert dbo.combo off
 
-update combo 
-set codigo = convert(varchar, getdate(), 20)
-from combo cob 
-  join
-  (
-    select
-      cod = codigo
-    from combo
-    group by codigo
-    having count(*) > 1
-  ) temp on cob.codigo = temp.cod
+update dbo.combo 
+set codigo = convert(varchar(20), getdate(), 20)
+from dbo.combo cob 
+join
+(
+  select cod = codigo
+  from dbo.combo
+  group by codigo
+  having count(*) > 1
+) temp on 
+  cob.codigo = temp.cod
 where cob.ativo = 0
 
-alter table dbo.combo add constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo unique NONCLUSTERED
-(
-  rede_id ASC,
-  sub_rede_id ASC,
-  loja_id ASC,
-  codigo ASC
-)
+alter table dbo.combo 
+  add constraint ix_combo$rede_id$sub_rede_id$loja_id$codigo unique NONCLUSTERED
+  (
+    rede_id ASC,
+    sub_rede_id ASC,
+    loja_id ASC,
+    codigo ASC
+  )
 
 /* comboslot */
 set identity_insert dbo.combo_slot on
 
 merge dbo.combo_slot as target
 using
-  (
-    select
-      combo_id = combo.cliente_id,
-      local_id = l.cliente_id,
-      classe_id = c.cliente_id,
-      mat_id = m.cliente_id,
-      slot.*
-    from cloud_v1_0.combo_slot slot
-    join cloud_v1_0.combo combo on combo.id = slot.combo
-    left join cloud_v1_0.local_producao l on l.id = slot.local_producao_id
-    left join cloud_v1_0.classe c on c.id = slot.classe
-    left join cloud_v1_0.material m on m.id = slot.material
-    where m.id is not null 
-       or c.id is not null
-  ) as source on target.id = source.id
+(
+  select
+    combo_id = combo.cliente_id,
+    local_id = l.cliente_id,
+    classe_id = c.cliente_id,
+    mat_id = m.cliente_id,
+    slot.*
+  from cloud_v1_0.combo_slot slot
+  join cloud_v1_0.combo combo on combo.id = slot.combo
+  left join cloud_v1_0.local_producao l on l.id = slot.local_producao_id
+  left join cloud_v1_0.classe c on c.id = slot.classe
+  left join cloud_v1_0.material m on m.id = slot.material
+  where m.id is not null 
+      or c.id is not null
+) as source on 
+  target.id = source.id
+
 when matched then
   update set
     ordem = source.ordem,
@@ -464,6 +475,7 @@ when matched then
     material_id = source.mat_id,
     precificador_id = source.precificador,
     quantificador_id = source.quantificador
+
 when not matched by target then
   insert
   (
@@ -496,6 +508,7 @@ when not matched by target then
     source.precificador,
     source.quantificador
   )
+
 when not matched by source then
   delete;
 
@@ -504,25 +517,29 @@ set identity_insert dbo.combo_slot off
 /* item classe */
 merge dbo.item_classe as target
 using
+(
+  select
+    classe_id = c.cliente_id,
+    classe_item_id = ci.cliente_id,
+    material_item_id = m.cliente_id,
+    combo_item_id = co.cliente_id,
+    item.*
+  from cloud_v1_0.item_classe item
+  join cloud_v1_0.classe c on 
+    c.id = item.classe
+  left join cloud_v1_0.classe ci on 
+    ci.id = item.classe_item
+  left join cloud_v1_0.material m on 
+    m.id = item.material_item
+  left join cloud_v1_0.combo co on 
+    co.id = combo_item
+) as source on 
+  target.classe_id = source.classe_id and
   (
-    select
-      classe_id = c.cliente_id,
-      classe_item_id = ci.cliente_id,
-      material_item_id = m.cliente_id,
-      combo_item_id = co.cliente_id,
-      item.*
-    from cloud_v1_0.item_classe item
-    join cloud_v1_0.classe c on c.id = item.classe
-    left join cloud_v1_0.classe ci on ci.id = item.classe_item
-    left join cloud_v1_0.material m on m.id = item.material_item
-    left join cloud_v1_0.combo co on co.id = combo_item
-  ) as source on 
-    (target.classe_id = source.classe_id) and
-    (
-      target.classe_item_id = source.classe_item_id or
-      target.material_item_id = source.material_item_id or
-      target.combo_item_id = source.combo_item_id
-    )
+    target.classe_item_id = source.classe_item_id or
+    target.material_item_id = source.material_item_id or
+    target.combo_item_id = source.combo_item_id
+  )
 when matched then
   update set
     ordem = source.ordem,
@@ -558,7 +575,8 @@ when not matched by source then
 set identity_insert dbo.observacao on
 
 merge dbo.observacao as target
-using cloud_v1_0.observacao as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.observacao as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     nome = source.nome,
@@ -601,7 +619,7 @@ using
   left join cloud_v1_0.material mat on mat.id = mat_obs.material
   left join cloud_v1_0.combo co on co.id = mat_obs.combo
 ) as source on
-  (target.observacao_id = source.observacao_id) and
+  target.observacao_id = source.observacao_id and
   (
     target.material_id = source.material_id or
     target.combo_id = source.combo_id
@@ -665,18 +683,17 @@ when not matched by target then
 when not matched by source then
   update set target.ativo = 0;
 
-update motivo_cancelamento 
-  set codigo = -1 * codigo
-from 
-  motivo_cancelamento mot join
-  (
-    select
-      cod = codigo
-    from 
-      motivo_cancelamento
-    group by codigo
-    having count(*) > 1
-  ) temp on mot.codigo = temp.cod
+update dbo.motivo_cancelamento 
+set codigo = -1 * codigo
+from dbo.motivo_cancelamento mot 
+join
+(
+  select cod = codigo
+  from dbo.motivo_cancelamento
+  group by codigo
+  having count(*) > 1
+) temp on 
+  mot.codigo = temp.cod
 where mot.ativo = 0
 
 alter table dbo.motivo_cancelamento add constraint ix_motivo_cancelamento$rede_id$sub_rede_id$codigo unique nonclustered
@@ -695,7 +712,8 @@ IF OBJECT_ID('dbo.ix_meio_pagamento$rede_id$sub_rede_id$codigo') IS NOT NULL
 set identity_insert dbo.meio_pagamento on
 
 merge dbo.meio_pagamento as target
-using cloud_v1_0.meio_pagamento as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.meio_pagamento as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     codigo = source.codigo,
@@ -763,8 +781,7 @@ set codigo = -1 * codigo
 from meio_pagamento meio 
 join
 (
-  select
-    cod = codigo
+  select cod = codigo
   from meio_pagamento
   group by codigo
   having count(*) > 1
@@ -786,7 +803,8 @@ IF OBJECT_ID('dbo.ix_tabela_preco$loja_id$modo_venda$dt_vigencia') IS NOT NULL
   alter table dbo.tabela_preco drop constraint ix_tabela_preco$loja_id$modo_venda$dt_vigencia
 
 merge dbo.tabela_preco as target
-using cloud_v1_0.tabela_preco as source with (nolock) on target.nome = source.nome collate Latin1_General_CI_AI
+using cloud_v1_0.tabela_preco as source with (nolock) on 
+  target.nome = source.nome
 when matched then
   update set
     target.dt_vigencia = source.dt_vigencia,
@@ -863,7 +881,7 @@ using
   from cloud_v1_0.item_preco item
   join cloud_v1_0.tabela_preco temp_tabela on item.tabela = temp_tabela.id
   join cloud_v1_0.material mat on mat.id = item.material
-  join dbo.tabela_preco tp on tp.nome = temp_tabela.nome collate Latin1_General_CI_AI
+  join dbo.tabela_preco tp on tp.nome = temp_tabela.nome
 ) as source on
   target.tabela_id = source.tab_id and
   target.material_id = source.material_id
@@ -892,7 +910,8 @@ when not matched by source then
 set identity_insert dbo.layout_touch on
 
 merge dbo.layout_touch as target
-using cloud_v1_0.layout_touch as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.layout_touch as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     ativo = source.ativo,
@@ -944,7 +963,6 @@ left join cloud_v1_0.classe c on c.id = config.item_id
 left join cloud_v1_0.material m on m.id = config.item_id
 left join cloud_v1_0.combo combo on combo.id = config.item_id
 
-
 merge dbo.config_touch as target
 using
 (
@@ -986,7 +1004,8 @@ when not matched then
 
 delete config
 from dbo.config_touch config
-join dbo.layout_touch layout on layout.id = config.layout_id
+join dbo.layout_touch layout on 
+  layout.id = config.layout_id
 where layout.cloud = 1
   and not exists
   (
@@ -1000,7 +1019,8 @@ where layout.cloud = 1
 set identity_insert dbo.perfil on
 
 merge dbo.perfil as target
-using cloud_v1_0.perfil as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.perfil as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     dt_alt = source.dt_alt,
@@ -1058,7 +1078,8 @@ set identity_insert dbo.perfil off
 set identity_insert dbo.desconto_estrategia on
 
 merge dbo.desconto_estrategia as target
-using cloud_v1_0.desconto_estrategia as source with (nolock) on target.id = source.cliente_id
+using cloud_v1_0.desconto_estrategia as source with (nolock) on 
+  target.id = source.cliente_id
 when matched then
   update set
     descricao = source.descricao,
@@ -1097,7 +1118,8 @@ using
     d.*
   from cloud_v1_0.desconto d
   left join cloud_v1_0.desconto_estrategia de on de.id = d.desconto_estrategia
-) as source on target.id = source.cliente_id
+) as source on 
+  target.id = source.cliente_id
 when matched then
   update set
     descricao = source.descricao,
@@ -1212,35 +1234,35 @@ when matched then
     ficha = source.ficha,
     cloud = 1
 when not matched then
- insert
- (
-   id,
-   dt_alt,
-   ativo,
-   descricao,
-   dt_inicio,
-   dt_fim,
-   balcao,
-   mesa,
-   entrega,
-   ficha,
-   loja_id,
-   cloud
- ) values
- (
-   source.cliente_id,
-   source.dt_alt,
-   source.ativo,
-   source.descricao,
-   source.dt_inicio,
-   source.dt_fim,
-   source.balcao,
-   source.mesa,
-   source.entrega,
-   source.ficha,
-   @loja_id,
-   1
- )
+  insert
+  (
+    id,
+    dt_alt,
+    ativo,
+    descricao,
+    dt_inicio,
+    dt_fim,
+    balcao,
+    mesa,
+    entrega,
+    ficha,
+    loja_id,
+    cloud
+  ) values
+  (
+    source.cliente_id,
+    source.dt_alt,
+    source.ativo,
+    source.descricao,
+    source.dt_inicio,
+    source.dt_fim,
+    source.balcao,
+    source.mesa,
+    source.entrega,
+    source.ficha,
+    @loja_id,
+    1
+  )
 when not matched by source and target.cloud = 1 then
   update set ativo = 0;
 
@@ -1249,17 +1271,18 @@ set identity_insert dbo.promocao off
 /* promocao dia */
 delete dia
 from dbo.promocao_dia dia
-join dbo.promocao promo on promo.id = dia.promocao_id
-where
-  promo.cloud = 1
+join dbo.promocao promo on 
+  promo.id = dia.promocao_id
+where promo.cloud = 1
   and not exists
   (
     select *
     from cloud_v1_0.promocao_dia temp
-    join cloud_v1_0.promocao temp_p on temp_p.id = temp.promocao 
-    where temp.id = dia.id and temp_p.cliente_id = promo.id
+    join cloud_v1_0.promocao temp_p on 
+      temp_p.id = temp.promocao 
+    where temp.id = dia.id 
+      and temp_p.cliente_id = promo.id
   )
-
 
 set identity_insert dbo.promocao_dia on
 merge dbo.promocao_dia as target
@@ -1270,7 +1293,9 @@ using
     dia.*
   from cloud_v1_0.promocao_dia dia
   join cloud_v1_0.promocao p on p.id = dia.promocao
-) as source on target.id = source.id and target.promocao_id = source.promocao_id
+) as source on 
+  target.id = source.id and 
+  target.promocao_id = source.promocao_id
 when matched then
   update set
     dia_semana = source.dia_semana,
@@ -1297,11 +1322,11 @@ set identity_insert dbo.promocao_dia off
 
 /* promocao item */
 select
-    promocao_id = p.cliente_id,
-    item.*,
+  promocao_id = p.cliente_id,
+  item.*,
   case item.tipo_item
-  when 'ma' then m.cliente_id
-  when 'gr' then g.cliente_id
+    when 'ma' then m.cliente_id
+    when 'gr' then g.cliente_id
   end cliente_item_id
 into #temp_promo_item
 from cloud_v1_0.promocao_item item
@@ -1350,5 +1375,3 @@ where promo.cloud = 1
       and t.tipo_item = item.tipo_item
   )
 go
-
-
