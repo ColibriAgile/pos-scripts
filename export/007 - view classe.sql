@@ -18,7 +18,6 @@ select
       else 'CLASSE ' + cast(id as varchar(5)) 
     end 
   end,
-  ordem_alfabetica = ordem_alfabetica,
   imagem = imagem
 from [dbo].[classe]
 GO
