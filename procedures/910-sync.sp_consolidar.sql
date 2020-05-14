@@ -223,7 +223,8 @@ begin
     when not matched by source then
       update set 
         target.ativo = 0, 
-        target.descricao = convert(varchar, getdate(), 20);
+        target.descricao = 'Inat.'+cast(target.id as varchar(15)),
+        target.dt_alt = getdate();
 
     set concat_null_yields_null on
     set identity_insert dbo.classe off
@@ -272,7 +273,7 @@ begin
         source.ativo,
         @getDate,
         source.codigo,
-        source.descricao_touch,
+        source.descricao_touch,  
         source.descricao_prod,
         source.bn_requerobs,
         0,

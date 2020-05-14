@@ -1,4 +1,4 @@
-﻿if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
+if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
 begin
   exec sp_executesql N'CREATE SCHEMA cloud'
 end
@@ -248,7 +248,7 @@ when not matched by source then
 set identity_insert dbo.material OFF
 
 update dbo.material 
-set codigo = convert(varchar(20), getdate(), 20)
+set codigo = 'Inat.'+cast(mat.id as varchar(15))
 from dbo.material mat 
 join
 (
@@ -342,7 +342,8 @@ when not matched by target then
 when not matched by source then
   update set 
     target.ativo = 0, 
-    target.descricao =  convert(varchar(20), getdate(), 120);
+    target.descricao = 'Inat.'+cast(target.id as varchar(15)),
+    target.dt_alt = getdate();
 
 set identity_insert dbo.classe off
 
@@ -420,7 +421,7 @@ when not matched by source then
 set identity_insert dbo.combo off
 
 update dbo.combo 
-set codigo = convert(varchar(20), getdate(), 20)
+set codigo = 'Inat.'+cast(cob.id as varchar(15))
 from dbo.combo cob 
 join
 (
