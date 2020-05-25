@@ -1,4 +1,4 @@
-﻿if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
+if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
 begin
   exec sp_executesql N'CREATE SCHEMA cloud'
 end
@@ -357,8 +357,8 @@ merge dbo.combo as target
 using
 (
   select
-    local_id = 
-      case
+    local_id =
+     case
         when combo.local_producao_id <> 0 then
           l.cliente_id
         else
@@ -462,7 +462,7 @@ using
           l.cliente_id
         else
           slot.local_producao_id
-      end,
+       end,
     classe_id = c.cliente_id,
     mat_id = m.cliente_id,
     slot.*
