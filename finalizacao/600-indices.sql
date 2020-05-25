@@ -43,6 +43,24 @@ add  constraint ix_material$rede_id$sub_rede_id$loja_id$codigo unique noncluster
 go
 
 /*-------------------------------------------------------------
+ codigo_barra
+ -------------------------------------------------------------*/
+if exists (select * from sys.indexes where name = N'ix_codigo_barra$rede_id$sub_rede_id$loja_id$codigo')
+  alter table dbo.codigo_barra
+  drop constraint ix_codigo_barra$rede_id$sub_rede_id$loja_id$codigo
+go
+
+alter table dbo.codigo_barra 
+add constraint ix_codigo_barra$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
+(
+  rede_id asc,
+  sub_rede_id asc,
+  loja_id asc,
+  codigo asc
+)
+go
+
+/*-------------------------------------------------------------
  combo
  -------------------------------------------------------------*/
 if  exists (select * from sys.indexes where name = N'ix_combo$rede_id$sub_rede_id$loja_id$codigo')
