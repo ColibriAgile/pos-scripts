@@ -33,7 +33,7 @@ if exists (select * from sys.indexes where name = N'ix_material$rede_id$sub_rede
 go
 
 alter table dbo.material 
-add  constraint ix_material$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
+add constraint ix_material$rede_id$sub_rede_id$loja_id$codigo unique nonclustered 
 (
   rede_id asc,
   sub_rede_id asc,
