@@ -357,7 +357,13 @@ merge dbo.combo as target
 using
 (
   select
-    local_id = l.cliente_id,
+    local_id =
+     case
+        when combo.local_producao_id <> 0 then
+          l.cliente_id
+        else
+          combo.local_producao_id
+      end,
     grupo_id = g.cliente_id,
     combo.*
   from cloud_v1_0.combo combo
@@ -450,7 +456,13 @@ using
 (
   select
     combo_id = combo.cliente_id,
-    local_id = l.cliente_id,
+    local_id = 
+      case
+        when slot.local_producao_id <> 0 then
+          l.cliente_id
+        else
+          slot.local_producao_id
+       end,
     classe_id = c.cliente_id,
     mat_id = m.cliente_id,
     slot.*
