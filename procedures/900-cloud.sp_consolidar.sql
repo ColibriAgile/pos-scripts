@@ -359,7 +359,7 @@ using
   select
     local_id = 
       case
-        when combo.local_producao_id !=0 then
+        when combo.local_producao_id <> 0 then
           l.cliente_id
         else
           combo.local_producao_id
@@ -458,7 +458,7 @@ using
     combo_id = combo.cliente_id,
     local_id = 
       case
-        when slot.local_producao_id !=0 then
+        when slot.local_producao_id <> 0 then
           l.cliente_id
         else
           slot.local_producao_id
