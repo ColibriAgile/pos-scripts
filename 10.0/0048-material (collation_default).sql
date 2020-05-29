@@ -7,6 +7,11 @@ if exists (select * from sys.indexes where name = N'ix_material$rede_id$sub_rede
   drop constraint ix_material$rede_id$sub_rede_id$loja_id$codigo
 go
 
+if exists (select * from sys.indexes where name = N'material_rede_id_6d4a9052_uniq')
+  alter table dbo.material 
+  drop constraint material_rede_id_6d4a9052_uniq
+go
+
 exec dbo.sp_padronizar_collation @nome_com_schema = 'dbo.material'
 go
 
