@@ -12,6 +12,10 @@ if exists (select * from sys.indexes where name = N'material_rede_id_6d4a9052_un
   drop constraint material_rede_id_6d4a9052_uniq
 go
 
+if exists (select * from sys.indexes where name = N'ix_material$codigo')
+  drop index ix_material$codigo on dbo.material
+go
+
 exec dbo.sp_padronizar_collation @nome_com_schema = 'dbo.material'
 go
 
