@@ -1,4 +1,18 @@
 /*-------------------------------------------------------------
+ praça
+ -------------------------------------------------------------*/
+if exists(select * from sys.indexes where name='ix_praca$nome') 
+  alter table dbo.praca
+  drop constraint ix_praca$nome
+go
+
+alter table dbo.praca 
+add constraint ix_praca$nome unique nonclustered
+(
+  nome
+)
+
+/*-------------------------------------------------------------
  classe
  -------------------------------------------------------------*/
 if exists (select * from sys.indexes where name = N'ix_classe$descricao')
