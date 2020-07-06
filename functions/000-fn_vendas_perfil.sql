@@ -6,16 +6,15 @@ create function fn_vendas_perfil (@dtini datetime, @dtfim datetime)
 returns @dados table
 (
   dt_contabil date not null,
-  perfil_id int not null,
+  -- Como é possível ter vendas sem perfil, este campo deve ser nulo
+  perfil_id int null,
   tot decimal(19, 4) not null,
   qtd_pessoas as (qtd_homem + qtd_mulher + qtd_ninformado),
   qtd_homem numeric not null,
   qtd_mulher numeric not null,
-  /*
-  A quantidade de não informados pode ser fracionado se implementarmos perfil no modo mesa
-  ou se permitirmos alterar a quantidade de pessoas nos agrupamentos de ficha. Se isso
-  acontecer teremos que alterar o tipo abaixo para float, mostrando fracionado.
-  */
+  --A quantidade de nao informados pode ser fracionado se implementarmos perfil no modo mesa
+  --ou se permitirmos alterar a quantidade de pessoas nos agrupamentos de ficha. Se isso
+  --acontecer teremos que alterar o tipo abaixo para float, mostrando fracionado.
   qtd_ninformado numeric null
 )
 as
@@ -31,7 +30,7 @@ begin
   (
     dt_contabil date not null,
     operacao_id uniqueidentifier not null,
-    perfil_id int not null,
+    perfil_id int null,
     qtd_ninformado decimal null,
     qtd_homem decimal null,
     qtd_mulher decimal null,
