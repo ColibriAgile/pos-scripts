@@ -1,4 +1,4 @@
-﻿/***************************
+/***************************
  Tipo do valor
  -------------
  string
@@ -593,47 +593,6 @@ exec sp_inserir_parametro
   @modovenda = '4'
 go
 
---o local de entrega pode ser utiliza no modo mesa para clubes, onde o sócio não está sempre sentado na mesa
-exec sp_inserir_parametro
-  @codigo = 'CfgPedeLocalDeEntregaDosItensVendidos',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Pede local de entrega',
-  @detalhes = 'Quando ativado o sistema solicita ao atendente que informe o local de entrega dos pratos. O local de entrega pode ser uma mesa, um assento ou um outro local.',
-  @tipo_valor = 'boolean',
-  @tipo_param = 'V',
-  @valor_default = '0',
-  @modovenda = '3,4'
-go
-
-exec sp_inserir_parametro
-  @codigo = 'CfgTipoParaLocalDeEntrega',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Tipo do dado',
-  @detalhes = 'Determina se será mostrado um teclado numérico ou alfa-numérico ao pedir o local de entrega.',
-  @tipo_valor = 'string',
-  @tipo_param = 'L',
-  @valor_default = 'texto',
-  @modovenda = '3,4',
-  @lista = 'texto
-numero',
-  @altera_com_periodo_aberto = 0
-go
-
-
-exec sp_inserir_parametro
-  @codigo = 'cfgTextoParaLocalDeEntregaDosItensVendidos',
-  @categoria = 'Modo',
-  @subcategoria = 'Lançamento',
-  @descr = 'Texto para local de entrega',
-  @detalhes = 'Título que será exibido na tela como local de entrega. Geralmente usa-se "Mesa" ou "Assento".',
-  @tipo_valor = 'string',
-  @tipo_param = 'V',
-  @valor_default = 'Mesa',
-  @modovenda = '3,4'
-go
-
 exec sp_inserir_parametro
   @codigo = 'CfgSelecionarProximoTicketAutomaticamente',
   @categoria = 'Modo',
@@ -738,6 +697,46 @@ exec sp_inserir_parametro
   @detalhes = 'Ativa o represamento de pedido por local de entrega para que as impressões dos vários pedidos do mesmo local ocorram simultaneamente ("Pede local de entrega" deve estar ativado).'
 
 -----Varios Modos de venda-----
+
+--o local de entrega pode ser utiliza no modo mesa para clubes, onde o sócio não está sempre sentado na mesa
+exec sp_inserir_parametro
+  @codigo = 'CfgPedeLocalDeEntregaDosItensVendidos',
+  @categoria = 'Modo',
+  @subcategoria = 'Lançamento',
+  @descr = 'Pede local de entrega',
+  @detalhes = 'Quando ativado o sistema solicita ao atendente que informe o local de entrega dos pratos. O local de entrega pode ser uma mesa, um assento ou um outro local.',
+  @tipo_valor = 'boolean',
+  @tipo_param = 'V',
+  @valor_default = '0',
+  @modovenda = '3,4'
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgTipoParaLocalDeEntrega',
+  @categoria = 'Modo',
+  @subcategoria = 'Lançamento',
+  @descr = 'Tipo do dado',
+  @detalhes = 'Determina se será mostrado um teclado numérico ou alfa-numérico ao pedir o local de entrega.',
+  @tipo_valor = 'string',
+  @tipo_param = 'L',
+  @valor_default = 'texto',
+  @modovenda = '3,4',
+  @lista = 'texto
+numero',
+  @altera_com_periodo_aberto = 0
+go
+
+exec sp_inserir_parametro
+  @codigo = 'cfgTextoParaLocalDeEntregaDosItensVendidos',
+  @categoria = 'Modo',
+  @subcategoria = 'Lançamento',
+  @descr = 'Texto para local de entrega',
+  @detalhes = 'Título que será exibido na tela como local de entrega. Geralmente usa-se "Mesa" ou "Assento".',
+  @tipo_valor = 'string',
+  @tipo_param = 'V',
+  @valor_default = 'Mesa',
+  @modovenda = '3,4'
+go
 
 exec sp_inserir_parametro
   @codigo = 'CfgDigitaQtd',
