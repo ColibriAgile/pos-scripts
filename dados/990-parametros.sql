@@ -593,7 +593,7 @@ exec sp_inserir_parametro
   @modovenda = '4'
 go
 
-
+--o local de entrega pode ser utiliza no modo mesa para clubes, onde o sócio não está sempre sentado na mesa
 exec sp_inserir_parametro
   @codigo = 'CfgPedeLocalDeEntregaDosItensVendidos',
   @categoria = 'Modo',
@@ -603,7 +603,7 @@ exec sp_inserir_parametro
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
-  @modovenda = '4'
+  @modovenda = '3,4'
 go
 
 exec sp_inserir_parametro
@@ -615,7 +615,7 @@ exec sp_inserir_parametro
   @tipo_valor = 'string',
   @tipo_param = 'L',
   @valor_default = 'texto',
-  @modovenda = '4',
+  @modovenda = '3,4',
   @lista = 'texto
 numero',
   @altera_com_periodo_aberto = 0
@@ -631,7 +631,7 @@ exec sp_inserir_parametro
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'Mesa',
-  @modovenda = '4'
+  @modovenda = '3,4'
 go
 
 exec sp_inserir_parametro
