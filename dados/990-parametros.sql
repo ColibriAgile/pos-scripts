@@ -24,8 +24,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgTextoParaIDdoCliente',
   @categoria = '#.Geral',
   @subcategoria = 'Cliente',
-  @descr = 'Texto para identifica√ß√£o do cliente',
-  @detalhes = 'T√≠tulo do campo de identifica√ß√£o do cliente. Normalmente usa-se Telefone ou CPF, mas pode ser qualquer dado que identifique unicamente um cliente.',
+  @descr = 'Texto para identificaÁ„o do cliente',
+  @detalhes = 'TÌtulo do campo de identificaÁ„o do cliente. Normalmente usa-se Telefone ou CPF, mas pode ser qualquer dado que identifique unicamente um cliente.',
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'Telefone'
@@ -35,8 +35,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgPermiteClienteDuplicado',
   @categoria = '#.Geral',
   @subcategoria = 'Cliente',
-  @descr = 'Permitir duplicidade na identifica√ß√£o de cliente',
-  @detalhes = 'Define se o sistema aceita a mesma identifica√ß√£o para v√°rios clientes. Ao consultar esta identifica√ß√£o o sistema exibe uma lista desses clientes para sele√ß√£o.',
+  @descr = 'Permitir duplicidade na identificaÁ„o de cliente',
+  @detalhes = 'Define se o sistema aceita a mesma identificaÁ„o para v·rios clientes. Ao consultar esta identificaÁ„o o sistema exibe uma lista desses clientes para seleÁ„o.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -46,8 +46,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgEtqBalancaDigitosMaterial',
   @categoria = '#.Geral',
   @subcategoria = 'Etiquetas',
-  @descr = 'Quantidade de d√≠gitos no c√≥digo de barras reservada para o c√≥digo do material',
-  @detalhes = 'Normalmente reserva-se 4 digitos no c√≥digo de barras para o c√≥digo do material. Ajuste o valor deste par√¢metro se precisar de mais d√≠gitos.',
+  @descr = 'Quantidade de dÌgitos no cÛdigo de barras reservada para o cÛdigo do material',
+  @detalhes = 'Normalmente reserva-se 4 digitos no cÛdigo de barras para o cÛdigo do material. Ajuste o valor deste par‚metro se precisar de mais dÌgitos.',
   @tipo_valor = 'integer',
   @tipo_param = 'L',
   @lista = '4
@@ -60,8 +60,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgEtqBalancaPorValor',
   @categoria = '#.Geral',
   @subcategoria = 'Etiquetas',
-  @descr = 'Etiquetas de balan√ßa possuem o valor ao inv√©s da quantidade/peso.',
-  @detalhes = 'Algumas balan√ßas podem gerar etiquetas com valor total ao inv√©s do peso. Ajuste este par√¢metro para que o sistema consiga ler essas etiquetas corretamente.',
+  @descr = 'Etiquetas de balanÁa possuem o valor ao invÈs da quantidade/peso.',
+  @detalhes = 'Algumas balanÁas podem gerar etiquetas com valor total ao invÈs do peso. Ajuste este par‚metro para que o sistema consiga ler essas etiquetas corretamente.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1'
@@ -70,9 +70,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgImprimeCanceladosNaRemota',
   @categoria = '#.Geral',
-  @subcategoria = 'Impress√£o remotas',
-  @descr = 'Incluir itens cancelados na impress√£o remota',
-  @detalhes = 'Determina se itens cancelados a ap√≥s produ√ß√£o ser√£o enviados para as remotas.',
+  @subcategoria = 'Impress„o remotas',
+  @descr = 'Incluir itens cancelados na impress„o remota',
+  @detalhes = 'Determina se itens cancelados a apÛs produÁ„o ser„o enviados para as remotas.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -81,9 +81,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgChaveDeCriptografia',
   @categoria = '#.Geral',
-  @subcategoria = 'Seguran√ßa',
+  @subcategoria = 'SeguranÁa',
   @descr = 'Chave de criptografia para QRCode',
-  @detalhes = 'Chave utilizada para codificar dados de mesa e loja antes de gerar o QR Code. A codifica√ß√£o evita o uso malicioso desses dados.',
+  @detalhes = 'Chave utilizada para codificar dados de mesa e loja antes de gerar o QR Code. A codificaÁ„o evita o uso malicioso desses dados.',
   @tipo_valor = 'string',
   @tipo_param = 'S',
   @valor_default = ''
@@ -94,7 +94,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Desconto',
   @descr = 'Comportamento do desconto por valor quando maior que o subtotal da venda',
-  @detalhes = 'Determina o que acontece com o desconto quando o valor total da conta se altera para um valor menor que o desconto. O sistema pode remover o desconto ou ajust√°-lo proporcionalmente √† redu√ß√£o de valor.',
+  @detalhes = 'Determina o que acontece com o desconto quando o valor total da conta se altera para um valor menor que o desconto. O sistema pode remover o desconto ou ajust·-lo proporcionalmente ‡ reduÁ„o de valor.',
   @tipo_valor = 'string',
   @tipo_param = 'K',
   @valor_default = '0',
@@ -111,7 +111,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Desconto',
   @descr = 'Habilita desconto por percentual',
-  @detalhes = 'Quanto ativado um usu√°rio com permiss√£o pode aplicar um desconto percentual.',
+  @detalhes = 'Quanto ativado um usu·rio com permiss„o pode aplicar um desconto percentual.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1'
@@ -122,7 +122,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Desconto',
   @descr = 'Habilita desconto por valor',
-  @detalhes = 'Quanto ativado um usu√°rio com permiss√£o pode aplicar um desconto por valor.',
+  @detalhes = 'Quanto ativado um usu·rio com permiss„o pode aplicar um desconto por valor.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1'
@@ -131,9 +131,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgPermiteAlterarServico',
   @categoria = '#.Geral',
-  @subcategoria = 'Servi√ßo',
-  @descr = 'Permite alterar servi√ßo',
-  @detalhes = 'Quanto ativado um usu√°rio com permiss√£o pode alterar o valor do servi√ßo.',
+  @subcategoria = 'ServiÁo',
+  @descr = 'Permite alterar serviÁo',
+  @detalhes = 'Quanto ativado um usu·rio com permiss„o pode alterar o valor do serviÁo.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1'
@@ -145,7 +145,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Venda',
   @descr = 'Consiste abertura da gaveta',
-  @detalhes = 'Quanto ativado o sistema verifica se a gaveta est√° fechada antes de sair do pagamento e iniciar um novo lan√ßamento.',
+  @detalhes = 'Quanto ativado o sistema verifica se a gaveta est· fechada antes de sair do pagamento e iniciar um novo lanÁamento.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -166,8 +166,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgNaoArredondarValoresNoCombo',
   @categoria = '#.Geral',
   @subcategoria = 'Combo',
-  @descr = 'N√£o usa arredondamento nos itens do combo',
-  @detalhes = 'Quando ativado o sistema n√£o calcula arredondamentos ao vender combos com precifica√ß√£o pela m√©dia.',
+  @descr = 'N„o usa arredondamento nos itens do combo',
+  @detalhes = 'Quando ativado o sistema n„o calcula arredondamentos ao vender combos com precificaÁ„o pela mÈdia.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -178,8 +178,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgBloquearObsDigitadasQuandoHouverCadastro',
   @categoria = '#.Geral',
   @subcategoria = 'Venda',
-  @descr = 'Impedir observa√ß√µes digitadas para materiais que possuem observa√ß√µes pr√©-definidas',
-  @detalhes = 'Quando ativado o atendente n√£o consegue digitar uma observa√ß√£o e deve, obrigatoriamente, selecionar uma das observa√ß√µes pr√©-definidas.',
+  @descr = 'Impedir observaÁıes digitadas para materiais que possuem observaÁıes prÈ-definidas',
+  @detalhes = 'Quando ativado o atendente n„o consegue digitar uma observaÁ„o e deve, obrigatoriamente, selecionar uma das observaÁıes prÈ-definidas.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -189,8 +189,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgUsaCodBarras',
   @categoria = '#.Geral',
   @subcategoria = 'Venda',
-  @descr = 'Procurar c√≥digo de barras antes do c√≥digo do material',
-  @detalhes = 'Quando ativado o sistema procura por um material que tenha um c√≥digo de barras igual ao c√≥digo digitado. Se n√£o encontrar um material nessas condi√ß√µes, refaz a busca pesquisando pelo c√≥digo do material. √ötil para estabelecimentos que lan√ßam itens lendo o c√≥digo EAN13 com um leitor de c√≥digo de barras.' ,
+  @descr = 'Procurar cÛdigo de barras antes do cÛdigo do material',
+  @detalhes = 'Quando ativado o sistema procura por um material que tenha um cÛdigo de barras igual ao cÛdigo digitado. Se n„o encontrar um material nessas condiÁıes, refaz a busca pesquisando pelo cÛdigo do material. ⁄til para estabelecimentos que lanÁam itens lendo o cÛdigo EAN13 com um leitor de cÛdigo de barras.' ,
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -201,7 +201,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Conta Assinada',
   @descr = 'Mostrar extrato do cliente ao receber',
-  @detalhes = 'Mostra o extrato do cliente selecionado ao confirmar um pagamento com conta assinada. O extrato s√≥ ser√° exibido se o usu√°rio logado possuir permiss√£o para ver o saldo do cliente.' ,
+  @detalhes = 'Mostra o extrato do cliente selecionado ao confirmar um pagamento com conta assinada. O extrato sÛ ser· exibido se o usu·rio logado possuir permiss„o para ver o saldo do cliente.' ,
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -212,7 +212,7 @@ exec sp_inserir_parametro
   @categoria = '#.Geral',
   @subcategoria = 'Arredondamento',
   @descr = 'Texto para arredondamento',
-  @detalhes = 'T√≠tulo utilizado nas telas e impress√µes para o arredondamento.',
+  @detalhes = 'TÌtulo utilizado nas telas e impressıes para o arredondamento.',
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'Arredondamento'
@@ -223,9 +223,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgSeparaQtdNaImpressaoRemota',
   @categoria = '#.Geral',
-  @subcategoria = 'Impress√£o remotas',
-  @descr = 'Separar quantidade na impress√£o remota',
-  @detalhes = 'Quanto ativado o sistema n√£o agrupa itens na gera√ß√£o da remota, ou seja, um item lan√ßado com quantidade 4 gera 4 remotas com quantidade 1.',
+  @subcategoria = 'Impress„o remotas',
+  @descr = 'Separar quantidade na impress„o remota',
+  @detalhes = 'Quanto ativado o sistema n„o agrupa itens na geraÁ„o da remota, ou seja, um item lanÁado com quantidade 4 gera 4 remotas com quantidade 1.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -236,9 +236,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgPedidoPermaneceNaTela',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Manter pedido na tela ap√≥s finalizar',
-  @detalhes = 'Determina se, ao encerrar o pagamento, o pedido permanece na tela ou se uma nova venda √© iniciada automaticamente.',
+  @subcategoria = 'LanÁamento',
+  @descr = 'Manter pedido na tela apÛs finalizar',
+  @detalhes = 'Determina se, ao encerrar o pagamento, o pedido permanece na tela ou se uma nova venda È iniciada automaticamente.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -249,8 +249,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgGerarNumeroDeChamada',
   @categoria = 'Modo',
   @subcategoria = 'Numero de chamada',
-  @descr = 'Gerar n√∫mero de chamada',
-  @detalhes = 'Determina se √© gerado um n√∫mero de chamada no rodap√© dos cupons para utiliza√ß√£o com pain√©is eletr√¥nicos.',
+  @descr = 'Gerar n˙mero de chamada',
+  @detalhes = 'Determina se È gerado um n˙mero de chamada no rodapÈ dos cupons para utilizaÁ„o com painÈis eletrÙnicos.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -262,7 +262,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Numero de chamada',
   @descr = 'Qtd de digitos',
-  @detalhes = 'Quantidade m√°xima de digitos do n√∫mero de chamada (somente para o tipo de chamada "Aleat√≥rio").',
+  @detalhes = 'Quantidade m·xima de digitos do n˙mero de chamada (somente para o tipo de chamada "AleatÛrio").',
   @tipo_valor = 'integer',
   @tipo_param = 'V',
   @valor_default = '4',
@@ -276,7 +276,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Numero de chamada',
   @descr = 'Tipo',
-  @detalhes = 'Determina se o n√∫mero de chamada √© aleat√≥rio ou se segue uma ordem sequencial ascendente.',
+  @detalhes = 'Determina se o n˙mero de chamada È aleatÛrio ou se segue uma ordem sequencial ascendente.',
   @tipo_valor = 'string',
   @tipo_param = 'L',
   @valor_default = 'aleatorio',
@@ -290,8 +290,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgNumeroDeChamadaInicial',
   @categoria = 'Modo',
   @subcategoria = 'Numero de chamada',
-  @descr = 'N√∫mero de chamada inicial',
-  @detalhes = 'Define o primeiro n√∫mero de chamada do dia (somente para tipo de chamada "Sequencial").',
+  @descr = 'N˙mero de chamada inicial',
+  @detalhes = 'Define o primeiro n˙mero de chamada do dia (somente para tipo de chamada "Sequencial").',
   @tipo_valor = 'integer',
   @tipo_param = 'V',
   @valor_default = '1',
@@ -304,8 +304,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgTextoParaNumChamada',
   @categoria = 'Modo',
   @subcategoria = 'Numero de chamada',
-  @descr = 'Texto para o n√∫mero de chamada',
-  @detalhes = 'T√≠tulo utilizado nas impress√µes para o n√∫mero de chamada.',
+  @descr = 'Texto para o n˙mero de chamada',
+  @detalhes = 'TÌtulo utilizado nas impressıes para o n˙mero de chamada.',
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'No. chamada',
@@ -315,9 +315,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgPctServico',
   @categoria = 'Modo',
-  @subcategoria = 'Servi√ßo',
-  @descr = 'Taxa de servi√ßo',
-  @detalhes = 'Percentual de servi√ßo padr√£o aplicado ao materiais que aceitam servi√ßo. Este valor pode ser modificado para cada mesa ou ficha.',
+  @subcategoria = 'ServiÁo',
+  @descr = 'Taxa de serviÁo',
+  @detalhes = 'Percentual de serviÁo padr„o aplicado ao materiais que aceitam serviÁo. Este valor pode ser modificado para cada mesa ou ficha.',
   @tipo_valor = 'float',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -329,9 +329,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgPermiteTransfQtdFracionada',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
+  @subcategoria = 'LanÁamento',
   @descr = 'Pode transferir item em quantidade fracionada',
-  @detalhes = 'Determina se na transfer√™ncia de itens pode-se informar quantidade fracionada (somente para materiais que permitem quantidade fracionada).',
+  @detalhes = 'Determina se na transferÍncia de itens pode-se informar quantidade fracionada (somente para materiais que permitem quantidade fracionada).',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -344,7 +344,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Taxas',
   @descr = 'Texto para taxa de entrega',
-  @detalhes = 'T√≠tulo utilizado nas telas e impress√µes para a taxa de entrega.',
+  @detalhes = 'TÌtulo utilizado nas telas e impressıes para a taxa de entrega.',
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'Entrega',
@@ -356,7 +356,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Taxas',
   @descr = 'Valor da taxa de entrega',
-  @detalhes = 'Valor da unidade de taxa de entrega. As taxas de entrega por regi√£o n√£o s√£o absolutas, s√£o calculadas multiplicando-se a quantidade de taxas de entrega pelo valor da unidade.',
+  @detalhes = 'Valor da unidade de taxa de entrega. As taxas de entrega por regi„o n„o s„o absolutas, s„o calculadas multiplicando-se a quantidade de taxas de entrega pelo valor da unidade.',
   @tipo_valor = 'currency',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -366,9 +366,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgImprimirCanhotoAoLancarPedido',
   @categoria = 'Modo',
-  @subcategoria = 'Impress√£o',
-  @descr = 'Imprime o canhoto de entrega ao lan√ßar pedido.',
-  @detalhes = 'Quando ativado o canhoto de entrega √© impresso ao lan√ßar o pedido e n√£o na expedi√ß√£o',
+  @subcategoria = 'Impress„o',
+  @descr = 'Imprime o canhoto de entrega ao lanÁar pedido.',
+  @detalhes = 'Quando ativado o canhoto de entrega È impresso ao lanÁar o pedido e n„o na expediÁ„o',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1',
@@ -378,9 +378,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgImprimirPedidoDeEntregaAoLancarPedido',
   @categoria = 'Modo',
-  @subcategoria = 'Impress√£o',
-  @descr = 'Imprime o pedido de entrega ao lan√ßar o pedido.',
-  @detalhes = 'Quando ativado o pedido de entrega √© impresso ao lan√ßar o pedido e n√£o na expedi√ß√£o',
+  @subcategoria = 'Impress„o',
+  @descr = 'Imprime o pedido de entrega ao lanÁar o pedido.',
+  @detalhes = 'Quando ativado o pedido de entrega È impresso ao lanÁar o pedido e n„o na expediÁ„o',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1',
@@ -427,8 +427,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgAlertaDeSemConsumacao',
   @categoria = 'Modo',
   @subcategoria = 'Alertas',
-  @descr = 'Intervalo para exibir alerta de "sem consuma√ß√£o"',
-  @detalhes = 'Tempo em minutos desde o √∫ltimo lan√ßamento para que uma mesa fique marcada como "sem consuma√ß√£o" no mapa de mesas. Se est√° configurado para 0 (zero) o alerta n√£o √© exibido.',
+  @descr = 'Intervalo para exibir alerta de "sem consumaÁ„o"',
+  @detalhes = 'Tempo em minutos desde o ˙ltimo lanÁamento para que uma mesa fique marcada como "sem consumaÁ„o" no mapa de mesas. Se est· configurado para 0 (zero) o alerta n„o È exibido.',
   @tipo_valor = 'integer',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -440,9 +440,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgUtilizaSubtickets',
   @categoria = 'Modo',
-  @subcategoria = 'Divis√£o de tickets',
-  @descr = 'Utiliza divis√£o de tickets',
-  @detalhes = 'Quando ativado o sistema permite a divis√£o de uma mesa em v√°rias subcontas. Cada subconta √© tratada como uma mesa independente.',
+  @subcategoria = 'Divis„o de tickets',
+  @descr = 'Utiliza divis„o de tickets',
+  @detalhes = 'Quando ativado o sistema permite a divis„o de uma mesa em v·rias subcontas. Cada subconta È tratada como uma mesa independente.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -453,8 +453,8 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgNomeDaDivisaoEmSubtickets',
   @categoria = 'Modo',
-  @subcategoria = 'Divis√£o de tickets',
-  @descr = 'Nome da divis√£o',
+  @subcategoria = 'Divis„o de tickets',
+  @descr = 'Nome da divis„o',
   @detalhes = 'Nome utilizado para a subconta. Geralmente utiliza-se "Lugar", "Assento" ou "Conta".',
   @tipo_valor = 'string',
   @tipo_param = 'V',
@@ -465,9 +465,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgQtdLimiteDeSubtickets',
   @categoria = 'Modo',
-  @subcategoria = 'Divis√£o de tickets',
-  @descr = 'Quantidade m√°xima de subtickets',
-  @detalhes = 'Determina o n√∫mero maxima de subcontas que uma mesa pode ter.',
+  @subcategoria = 'Divis„o de tickets',
+  @descr = 'Quantidade m·xima de subtickets',
+  @detalhes = 'Determina o n˙mero maxima de subcontas que uma mesa pode ter.',
   @tipo_valor = 'integer',
   @tipo_param = 'V',
   @valor_default = '99',
@@ -480,8 +480,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgPedeDadosDoCartao',
   @categoria = 'Modo',
   @subcategoria = 'Recebimento',
-  @descr = 'Pedir dados do cart√£o no pagamento',
-  @detalhes = 'No pagamento com cart√£o (exceto TEF) o sistema solicita dados adicionais de credenciadora, n√∫mero de autoriza√ß√£o e bandeira.',
+  @descr = 'Pedir dados do cart„o no pagamento',
+  @detalhes = 'No pagamento com cart„o (exceto TEF) o sistema solicita dados adicionais de credenciadora, n˙mero de autorizaÁ„o e bandeira.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -492,8 +492,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgBloquearVariosAtendentesPorMesa',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr = 'Bloquear v√°rios atendentes por mesa',
-  @detalhes = 'Quanto ativado, somente o primeiro atendente pode continuar atendendo. Outros atendentes n√£o podem lan√ßar itens em mesas que n√£o foram abertas por eles.',
+  @descr = 'Bloquear v·rios atendentes por mesa',
+  @detalhes = 'Quanto ativado, somente o primeiro atendente pode continuar atendendo. Outros atendentes n„o podem lanÁar itens em mesas que n„o foram abertas por eles.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -504,8 +504,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgAtendenteXPraca',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr='Utilizar atendente x pra√ßa',
-  @detalhes = 'Habilita a configura√ß√£o de Atendente X Pra√ßa, que restringe o lan√ßamento de itens √†s mesas das pra√ßas que o atendente pode atender.',
+  @descr='Utilizar atendente x praÁa',
+  @detalhes = 'Habilita a configuraÁ„o de Atendente X PraÁa, que restringe o lanÁamento de itens ‡s mesas das praÁas que o atendente pode atender.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -517,7 +517,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Geral',
   @descr='Trabalhar com marcha',
-  @detalhes = 'Quanto ativado habilita o bot√£o de marcha na tela de lan√ßamento.',
+  @detalhes = 'Quanto ativado habilita o bot„o de marcha na tela de lanÁamento.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -530,8 +530,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgReutilizaTicket',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr = 'Reutilizar ficha ap√≥s finalizar',
-  @detalhes = 'Quanto ativado indica que uma ficha pode ser reutilizada dentro do mesmo per√≠odo cont√°bil.',
+  @descr = 'Reutilizar ficha apÛs finalizar',
+  @detalhes = 'Quanto ativado indica que uma ficha pode ser reutilizada dentro do mesmo perÌodo cont·bil.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1',
@@ -549,8 +549,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgUsaAberturaPrevia',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr = 'Ativar abertura pr√©via',
-  @detalhes = 'Habilita a abertura pr√©via de fichas na tela principal.',
+  @descr = 'Ativar abertura prÈvia',
+  @detalhes = 'Habilita a abertura prÈvia de fichas na tela principal.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -574,7 +574,7 @@ exec sp_inserir_parametro
   @codigo = 'CfgAbreTelaDePagamentoAposCheckin',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr = 'Abre a tela de pagamento ap√≥s o check-in',
+  @descr = 'Abre a tela de pagamento apÛs o check-in',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -585,20 +585,20 @@ exec sp_inserir_parametro
   @codigo = 'CfgSaldoPrePagoComoRepique',
   @categoria = 'Modo',
   @subcategoria = 'Geral',
-  @descr = 'Sempre transferir saldo positivo da ficha pr√©-paga para repique da casa.',
+  @descr = 'Sempre transferir saldo positivo da ficha prÈ-paga para repique da casa.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1',
-  @detalhes = 'Indica se o sistema deve transferir o saldo positivo na ficha pre-paga para repique da casa ou se deve deixar na conta do cliente para uso futuro. Este par√¢metro afeta somente fichas que tem cliente associado. Caso a ficha n√£o tenha cliente, o saldo vai sempre para repique.',
+  @detalhes = 'Indica se o sistema deve transferir o saldo positivo na ficha pre-paga para repique da casa ou se deve deixar na conta do cliente para uso futuro. Este par‚metro afeta somente fichas que tem cliente associado. Caso a ficha n„o tenha cliente, o saldo vai sempre para repique.',
   @modovenda = '4'
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgSelecionarProximoTicketAutomaticamente',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Selecionar pr√≥xima ficha automaticamente',
-  @detalhes = 'Quanto ativado o sistema busca a pr√≥xima ficha livre automaticamente, agilizando o atendimento.' ,
+  @subcategoria = 'LanÁamento',
+  @descr = 'Selecionar prÛxima ficha automaticamente',
+  @detalhes = 'Quanto ativado o sistema busca a prÛxima ficha livre automaticamente, agilizando o atendimento.' ,
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -609,20 +609,20 @@ exec sp_inserir_parametro
   @codigo = 'CfgCompartilhaConsumacao',
   @categoria = 'Modo',
   @subcategoria = '',
-  @descr = 'Compartilhar consuma√ß√£o entre os tickets agrupados',
+  @descr = 'Compartilhar consumaÁ„o entre os tickets agrupados',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
   @modovenda = '4',
-  @detalhes = 'Indica se o valor da consuma√ß√£o ser√° compartilhado entre as fichas agrupadas.'
+  @detalhes = 'Indica se o valor da consumaÁ„o ser· compartilhado entre as fichas agrupadas.'
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgTextoParaEntrada',
   @categoria = 'Modo',
-  @subcategoria = 'Texto de identifica√ß√£o',
+  @subcategoria = 'Texto de identificaÁ„o',
   @descr = 'Texto para entrada',
-  @detalhes = 'T√≠tulo utilizado nas telas e impress√µes para a entrada.' ,
+  @detalhes = 'TÌtulo utilizado nas telas e impressıes para a entrada.' ,
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'Entrada',
@@ -632,21 +632,21 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgTextoParaConsumacao',
   @categoria = 'Modo',
-  @subcategoria = 'Texto de identifica√ß√£o',
-  @descr = 'Texto para consuma√ß√£o',
-  @detalhes = 'T√≠tulo utilizado nas telas e impress√µes para a consuma√ß√£o.' ,
+  @subcategoria = 'Texto de identificaÁ„o',
+  @descr = 'Texto para consumaÁ„o',
+  @detalhes = 'TÌtulo utilizado nas telas e impressıes para a consumaÁ„o.' ,
   @tipo_valor = 'string',
   @tipo_param = 'V',
-  @valor_default = 'Consuma√ß√£o',
+  @valor_default = 'ConsumaÁ„o',
   @modovenda = '4'
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgImprimeConferenciaDeContaAoEnviar',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Imprime confer√™ncia de conta ao enviar pedido',
-  @detalhes = 'Quando ativado o sistema imprime a confer√™ncia de conta assim que o pedido √© enviado. √ötil para restaurantes por quilo.' ,
+  @subcategoria = 'LanÁamento',
+  @descr = 'Imprime conferÍncia de conta ao enviar pedido',
+  @detalhes = 'Quando ativado o sistema imprime a conferÍncia de conta assim que o pedido È enviado. ⁄til para restaurantes por quilo.' ,
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -656,54 +656,54 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgCalculoDoServicoConsumacao',
   @categoria = 'Modo',
-  @subcategoria = 'Servi√ßo',
-  @descr = 'Calculo do servi√ßo sobre a consuma√ß√£o',
-  @detalhes = 'Determina qual a estrat√©gia para c√°lculo do servi√ßo sobre o valor da consuma√ß√£o.' ,
+  @subcategoria = 'ServiÁo',
+  @descr = 'Calculo do serviÁo sobre a consumaÁ„o',
+  @detalhes = 'Determina qual a estratÈgia para c·lculo do serviÁo sobre o valor da consumaÁ„o.' ,
   @tipo_valor = 'integer',
   @tipo_param = 'K',
   @valor_default = '0',
   @modovenda = '4',
   @list_sql =
 '
-select key_field = ''0'', list_field = ''Calcular servi√ßo sobre consumido''
+select key_field = ''0'', list_field = ''Calcular serviÁo sobre consumido''
 union
-select key_field = ''1'', list_field = ''Calcular servi√ßo sobre consuma√ß√£o''
+select key_field = ''1'', list_field = ''Calcular serviÁo sobre consumaÁ„o''
 union
-select key_field = ''2'', list_field = ''Calcular servi√ßo como parte da consuma√ß√£o''
+select key_field = ''2'', list_field = ''Calcular serviÁo como parte da consumaÁ„o''
 '
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgUsaDigitoVerificador',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Validar d√≠gito verificador',
+  @subcategoria = 'LanÁamento',
+  @descr = 'Validar dÌgito verificador',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
   @modovenda = '4',
-  @detalhes = 'Utiliza o √∫ltimo d√≠gito da ficha informada como um d√≠gito verificador para garantir que o operador digitou o c√≥digo da ficha corretamente.'
+  @detalhes = 'Utiliza o ˙ltimo dÌgito da ficha informada como um dÌgito verificador para garantir que o operador digitou o cÛdigo da ficha corretamente.'
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgUsaEnvioSuspenso',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
+  @subcategoria = 'LanÁamento',
   @descr = 'Usa represamento de pedido por local de entrega',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
   @modovenda = '4',
-  @detalhes = 'Ativa o represamento de pedido por local de entrega para que as impress√µes dos v√°rios pedidos do mesmo local ocorram simultaneamente ("Pede local de entrega" deve estar ativado).'
+  @detalhes = 'Ativa o represamento de pedido por local de entrega para que as impressıes dos v·rios pedidos do mesmo local ocorram simultaneamente ("Pede local de entrega" deve estar ativado).'
 
 -----Varios Modos de venda-----
 
---o local de entrega pode ser utiliza no modo mesa para clubes, onde o s√≥cio n√£o est√° sempre sentado na mesa
+--o local de entrega pode ser utiliza no modo mesa para clubes, onde o sÛcio n„o est· sempre sentado na mesa
 exec sp_inserir_parametro
   @codigo = 'CfgPedeLocalDeEntregaDosItensVendidos',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Pede local de entrega',
+  @subcategoria = 'Local de entrega',
+  @descr = 'Pede local de entrega ao lanÁar itens',
   @detalhes = 'Quando ativado o sistema solicita ao atendente que informe o local de entrega dos pratos. O local de entrega pode ser uma mesa, um assento ou um outro local.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
@@ -714,9 +714,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgTipoParaLocalDeEntrega',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Tipo do dado',
-  @detalhes = 'Determina se ser√° mostrado um teclado num√©rico ou alfa-num√©rico ao pedir o local de entrega.',
+  @subcategoria = 'Local de entrega',
+  @descr = 'Formato para o local de entrega',
+  @detalhes = 'Determina se ser· mostrado um teclado numÈrico ou alfa-numÈrico ao pedir o local de entrega.',
   @tipo_valor = 'string',
   @tipo_param = 'L',
   @valor_default = 'texto',
@@ -729,9 +729,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'cfgTextoParaLocalDeEntregaDosItensVendidos',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Texto para local de entrega',
-  @detalhes = 'T√≠tulo que ser√° exibido na tela como local de entrega. Geralmente usa-se "Mesa" ou "Assento".',
+  @subcategoria = 'Local de entrega',
+  @descr = 'TÌtulo para o local de entrega',
+  @detalhes = 'TÌtulo que ser· exibido na tela como local de entrega. Geralmente usa-se "Mesa" ou "Assento".',
   @tipo_valor = 'string',
   @tipo_param = 'V',
   @valor_default = 'Mesa',
@@ -741,9 +741,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgDigitaQtd',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
+  @subcategoria = 'LanÁamento',
   @descr = 'Digita quantidade',
-  @detalhes = 'Quanto ativado o sistema automaticamente passa pelo campo de quantidade para que o atendente possa alter√°-lo antes do lan√ßamento.' ,
+  @detalhes = 'Quanto ativado o sistema automaticamente passa pelo campo de quantidade para que o atendente possa alter·-lo antes do lanÁamento.' ,
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -753,22 +753,22 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgTextoParaServico',
   @categoria = 'Modo',
-  @subcategoria = 'Servi√ßo',
-  @descr = 'Texto para servi√ßo',
-  @detalhes = 'T√≠tulo utilizado nas telas e impress√µes para o servi√ßo.' ,
+  @subcategoria = 'ServiÁo',
+  @descr = 'Texto para serviÁo',
+  @detalhes = 'TÌtulo utilizado nas telas e impressıes para o serviÁo.' ,
   @tipo_valor = 'string',
   @tipo_param = 'V',
-  @valor_default = 'Servi√ßo',
+  @valor_default = 'ServiÁo',
   @modovenda = '1,2,3,4'
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgUsaServicoComDesconto',
   @categoria = 'Modo',
-  @subcategoria = 'Servi√ßo',
-  @descr = 'Usar desconto no c√°lculo do servi√ßo',
-  @detalhes = 'Quando marcado, determina que o servi√ßo √© calculado sobre o total dos produtos menos o desconto. Ex: Vl Servi√ßo = (Produtos - Desconto) x PctServi√ßo.
-Quando desmarcado, determina que o servi√ßo √© calculado apenas sobre o total dos produtos, desconsiderando o desconto. Ex: Vl Servi√ßo = Produtos x PctServi√ßo.',
+  @subcategoria = 'ServiÁo',
+  @descr = 'Usar desconto no c·lculo do serviÁo',
+  @detalhes = 'Quando marcado, determina que o serviÁo È calculado sobre o total dos produtos menos o desconto. Ex: Vl ServiÁo = (Produtos - Desconto) x PctServiÁo.
+Quando desmarcado, determina que o serviÁo È calculado apenas sobre o total dos produtos, desconsiderando o desconto. Ex: Vl ServiÁo = Produtos x PctServiÁo.',
   @tipo_valor = 'boolean',
   @modovenda = '1,2,3,4',
   @tipo_param = 'V',
@@ -778,7 +778,7 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgTempoOciosoParaEnviarPedido',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
+  @subcategoria = 'LanÁamento',
   @descr = 'Tempo ocioso para enviar o pedido',
   @tipo_valor = 'integer',
   @tipo_param = 'V',
@@ -786,7 +786,7 @@ exec sp_inserir_parametro
   @valor_max = '999999',
   @valor_default = '0',
   @modovenda = '3,4',
-  @detalhes = 'Tempo m√°ximo em segundos que o sistema aguarda alguma a√ß√£o do usuario antes de enviar o pedido para a produ√ß√£o.'
+  @detalhes = 'Tempo m·ximo em segundos que o sistema aguarda alguma aÁ„o do usuario antes de enviar o pedido para a produÁ„o.'
 go
 
 exec sp_inserir_parametro
@@ -798,7 +798,7 @@ exec sp_inserir_parametro
   @tipo_param = 'V',
   @valor_default = '0',
   @modovenda = '1,2,3,4',
-  @detalhes = 'Exibe uma mensagem de confirma√ß√£o caso o usu√°rio tente vender uma quantidade acima do valor configurado.'
+  @detalhes = 'Exibe uma mensagem de confirmaÁ„o caso o usu·rio tente vender uma quantidade acima do valor configurado.'
 go
 
 exec sp_inserir_parametro
@@ -810,7 +810,7 @@ exec sp_inserir_parametro
   @tipo_param = 'V',
   @valor_default = '100',
   @modovenda = '1,2,3,4',
-  @detalhes = 'Exibe uma mensagem de confirma√ß√£o quando o valor do troco √© maior ou igual ao valor configurado.'
+  @detalhes = 'Exibe uma mensagem de confirmaÁ„o quando o valor do troco È maior ou igual ao valor configurado.'
 go
 
 exec sp_inserir_parametro
@@ -824,15 +824,15 @@ exec sp_inserir_parametro
   @modovenda = '3',
   @valor_min = 0,
   @valor_max = 9999,
-  @detalhes = 'Exibe uma mensagem de confirma√ß√£o quando o n√∫mero de pessoas informado √© maior que o valor configurado.'
+  @detalhes = 'Exibe uma mensagem de confirmaÁ„o quando o n˙mero de pessoas informado È maior que o valor configurado.'
 go
 
 exec sp_inserir_parametro
   @codigo = 'CfgQuantidadePadrao',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Quantidade padr√£o',
-  @detalhes = 'Determina a quantidade padr√£o utilizada pelo sistema a cada novo lan√ßamento.',
+  @subcategoria = 'LanÁamento',
+  @descr = 'Quantidade padr„o',
+  @detalhes = 'Determina a quantidade padr„o utilizada pelo sistema a cada novo lanÁamento.',
   @tipo_valor = 'float',
   @tipo_param = 'V',
   @valor_min = '1',
@@ -844,9 +844,9 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgPedeAtendenteNaVenda',
   @categoria = 'Modo',
-  @subcategoria = 'Lan√ßamento',
-  @descr = 'Pede atendente no lan√ßamento de itens (o terminal tamb√©m deve estar configurado)',
-  @detalhes = 'Quando ativado obriga a escolha de um atendente ao fazer o lan√ßamento. √ötil quando o lan√ßamento √© feito pelo caixa a pedido do gar√ßom. ATEN√á√ÉO! Para funcionar deve-se ativar tamb√©m o par√¢metro "N¬∫ do atendente na venda" nas configura√ß√µes do terminal.',
+  @subcategoria = 'LanÁamento',
+  @descr = 'Pede atendente no lanÁamento de itens (o terminal tambÈm deve estar configurado)',
+  @detalhes = 'Quando ativado obriga a escolha de um atendente ao fazer o lanÁamento. ⁄til quando o lanÁamento È feito pelo caixa a pedido do garÁom. ATEN«√O! Para funcionar deve-se ativar tambÈm o par‚metro "N∫ do atendente na venda" nas configuraÁıes do terminal.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -858,7 +858,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Caixa',
   @descr = 'Permite receber uma conta parcialmente.',
-  @detalhes = 'Quando ativado permite o pagamento parcial de uma conta. √ötil para grupos de pessoas onde uma delas sai antecipadamente e deixa uma parte da conta paga.',
+  @detalhes = 'Quando ativado permite o pagamento parcial de uma conta. ⁄til para grupos de pessoas onde uma delas sai antecipadamente e deixa uma parte da conta paga.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -873,7 +873,7 @@ set
 where codigo = 'CfgHabilitarRecebimentoParcial'
   and modo_venda_id = 2
 
------Configura√ß√µes internas----
+-----ConfiguraÁıes internas----
 
 exec sp_inserir_parametro
   @codigo = 'CfgFinalizaTicketNaTransferencia',
@@ -903,7 +903,7 @@ exec sp_inserir_parametro
   @codigo = 'CfgUsaLockNoBancoDeDados',
   @categoria = '#.Geral',
   @subcategoria = 'Ambiente',
-  @descr = 'Utiliza a estrat√©gia de lock via banco de dados.',
+  @descr = 'Utiliza a estratÈgia de lock via banco de dados.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -1000,7 +1000,7 @@ exec sp_inserir_parametro
 go
 
 update parametro_modo
-set valor = 'Em produ√ß√£o'
+set valor = 'Em produÁ„o'
 where codigo = 'CfgDescricaoConsumindo'
 go
 
@@ -1062,7 +1062,7 @@ exec sp_inserir_parametro
 go
 
 update parametro_modo
-set valor = 'Aguardando expedi√ß√£o a mais de '
+set valor = 'Aguardando expediÁ„o a mais de '
 where codigo = 'CfgDescricaoSemConsumoRecente'
 go
 
@@ -1142,8 +1142,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgConfereCaixa',
   @categoria = '5.Fechamento',
   @subcategoria = 'Caixa',
-  @descr = 'Usa confer√™ncia de turno',
-  @detalhes = 'Quanto ativado exibe a tela de confer√™ncia de turno de caixa para fechamento do turno.',
+  @descr = 'Usa conferÍncia de turno',
+  @detalhes = 'Quanto ativado exibe a tela de conferÍncia de turno de caixa para fechamento do turno.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -1153,7 +1153,7 @@ exec sp_inserir_parametro
   @codigo = 'CfgForcarEmissaoComprovantes',
   @categoria = '5.Fechamento',
   @subcategoria = 'Caixa',
-  @descr = 'For√ßar emiss√£o de comprovantes',
+  @descr = 'ForÁar emiss„o de comprovantes',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1',
@@ -1165,7 +1165,7 @@ exec sp_inserir_parametro
   @categoria = '5.Fechamento',
   @subcategoria = 'Periodo',
   @descr = 'Transfere movimentos pendentes',
-  @detalhes = 'Quanto ativado move todas as contas n√£o encerradas no fechamento para o pr√≥ximo dia de movimento.',
+  @detalhes = 'Quanto ativado move todas as contas n„o encerradas no fechamento para o prÛximo dia de movimento.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0'
@@ -1176,7 +1176,7 @@ exec sp_inserir_parametro
   @categoria = '5.Fechamento',
   @subcategoria = 'Checkout',
   @descr = 'Liberar fichas em checkout no fechamento do dia.',
-  @detalhes = 'Quanto ativado libera no fechamento do dia as fichas que sa√≠ram do estabelecimento.',
+  @detalhes = 'Quanto ativado libera no fechamento do dia as fichas que saÌram do estabelecimento.',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '1'
@@ -1186,14 +1186,14 @@ exec sp_inserir_parametro
   @codigo = 'CfgQtdHorasParaForcarFechamento',
   @categoria = '5.Fechamento',
   @subcategoria = 'Periodo',
-  @descr = 'Quantidade de horas para for√ßar fechamento do per√≠odo.',
+  @descr = 'Quantidade de horas para forÁar fechamento do perÌodo.',
   @tipo_valor = 'integer',
   @tipo_param = 'V',
   @valor_default = '4',
   @valor_min = '0',
   @valor_max = '12',
-  @detalhes = 'N√∫mero de horas a partir do √∫ltimo lan√ßamento para que o sistema impe√ßa o lan√ßamento de novos itens, voltando a liberar apenas ap√≥s a abertura de um novo periodo.
-Com valor 0 (zero) o sistema n√£o for√ßa o fechamento.'
+  @detalhes = 'N˙mero de horas a partir do ˙ltimo lanÁamento para que o sistema impeÁa o lanÁamento de novos itens, voltando a liberar apenas apÛs a abertura de um novo periodo.
+Com valor 0 (zero) o sistema n„o forÁa o fechamento.'
 go
 
 exec sp_inserir_parametro
@@ -1334,7 +1334,7 @@ exec sp_inserir_parametro
   @categoria = '8.TEF',
   @subcategoria = '',
   @descr = 'Usar meio de pagamento TEF simplificado',
-  @detalhes = 'Esconde todos os meios de pagamento sinalizados como TEF e mostra somente os meios TEF do sistema (TEF d√©bito, TEF cr√©dito e TEF voucher).',
+  @detalhes = 'Esconde todos os meios de pagamento sinalizados como TEF e mostra somente os meios TEF do sistema (TEF dÈbito, TEF crÈdito e TEF voucher).',
   @tipo_valor = 'boolean',
   @tipo_param = 'V',
   @valor_default = '0',
@@ -1357,8 +1357,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgFormaPagamentoCredito',
   @categoria = 'Modo',
   @subcategoria = 'Autopagamento',
-  @descr = 'Meio para cr√©dito',
-  @detalhes = 'Meio de pagamento utilizado para a op√ß√£o cr√©dito no autopagamento',
+  @descr = 'Meio para crÈdito',
+  @detalhes = 'Meio de pagamento utilizado para a opÁ„o crÈdito no autopagamento',
   @tipo_valor = 'integer',
   @tipo_param = 'K',
   @valor_default = '-90',
@@ -1383,8 +1383,8 @@ exec sp_inserir_parametro
   @codigo = 'CfgFormaPagamentoDebito',
   @categoria = 'Modo',
   @subcategoria = 'Autopagamento',
-  @descr = 'Meio para d√©bito',
-  @detalhes = 'Meio de pagamento utilizado para a op√ß√£o d√©bito no autopagamento',
+  @descr = 'Meio para dÈbito',
+  @detalhes = 'Meio de pagamento utilizado para a opÁ„o dÈbito no autopagamento',
   @tipo_valor = 'integer',
   @tipo_param = 'K',
   @valor_default = '-91',
@@ -1410,7 +1410,7 @@ exec sp_inserir_parametro
   @categoria = 'Modo',
   @subcategoria = 'Autopagamento',
   @descr = 'Meio para voucher',
-  @detalhes = 'Meio de pagamento utilizado para a op√ß√£o voucher no autopagamento',
+  @detalhes = 'Meio de pagamento utilizado para a opÁ„o voucher no autopagamento',
   @tipo_valor = 'integer',
   @tipo_param = 'K',
   @valor_default = '-92',
