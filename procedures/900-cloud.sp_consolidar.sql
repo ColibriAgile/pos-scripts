@@ -1,4 +1,4 @@
-if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
+﻿if not exists (select  schema_name from  information_schema.schemata where schema_name = 'cloud' )
 begin
   exec sp_executesql N'CREATE SCHEMA cloud'
 end
@@ -95,7 +95,7 @@ when not matched by source then
 set identity_insert dbo.grupo_material off
 
 update grupo_material 
-set codigo = -1 * codigo
+set codigo = (select IIF(min(codigo) < 0,  min(codigo)-1, -1) from grupo_material)
 from grupo_material gru 
 join
 (
@@ -697,7 +697,7 @@ when not matched by source then
   update set target.ativo = 0;
 
 update dbo.motivo_cancelamento 
-set codigo = -1 * codigo
+set codigo = (select IIF(min(codigo) < 0,  min(codigo)-1, -1) from motivo_cancelamento)
 from dbo.motivo_cancelamento mot 
 join
 (
@@ -790,7 +790,7 @@ when not matched by source and target.cloud=1 then
   update set target.ativo = 0;
 
 update meio_pagamento 
-set codigo = -1 * codigo
+set codigo = (select IIF(min(codigo) < 0,  min(codigo)-1, -1) from meio_pagamento)
 from meio_pagamento meio 
 join
 (
@@ -1123,6 +1123,9 @@ set identity_insert dbo.desconto_estrategia off
 /* desconto */
 set identity_insert dbo.desconto on
 
+IF OBJECT_ID('dbo.ix_desconto$codigo$cloud') IS NOT NULL
+  alter table dbo.desconto drop constraint ix_desconto$codigo$cloud
+
 merge dbo.desconto as target
 using
 (
@@ -1172,6 +1175,23 @@ when not matched then
 when not matched by source and target.cloud = 1 then
   update set ativo = 0;
 
+update desconto 
+set codigo = (select IIF(min(codigo) < 0,  min(codigo)-1, -1) from desconto)
+from desconto d 
+join
+(
+  select cod = codigo
+  from desconto
+  group by codigo
+  having count(*) > 1
+) temp on d.codigo = temp.cod
+where d.ativo = 0
+
+alter table dbo.desconto add constraint ix_desconto$codigo$cloud unique
+(
+  codigo asc,
+  cloud asc
+)
 
 set identity_insert dbo.desconto off
 
