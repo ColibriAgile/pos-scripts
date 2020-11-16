@@ -249,7 +249,7 @@ when not matched by source then
 set identity_insert dbo.material OFF
 
 update dbo.material 
-set codigo = 'Inat.'+cast(mat.id as varchar(15))
+set codigo = cast(-1 * mat.id as varchar(15))
 from dbo.material mat 
 join
 (
