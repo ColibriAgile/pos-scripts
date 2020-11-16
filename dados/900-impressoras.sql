@@ -882,4 +882,29 @@ execute dbo.sp_incluir_impressora
   @inicio = '',
   @fim = ''
 go
-    
+
+execute dbo.sp_incluir_impressora
+  @marca = 'Dimep',
+  @modelo = 'D-Print Dual',
+  @salto = 9,
+  @comprimido = '29,80,0,8,27,51,1,15,27,33,35,18,27,33,1,15',
+  @descomprimido = '29,80,0,0,27,97,48,18,27,50',
+  @desenfatizado = '27,33,1',
+  @desexpandido = '27,33,1',
+  @enfatizado = '27,33,9',
+  @expandido = '27,33,33',
+  @normal = '18',
+  @cortador = '10,10,10,10,10,5,27,109',
+  @eject = '10,10,10,10,10,5,27,109',
+  @colunas = 55,
+  @qrcode = '27,97,49,29,40,107,3,0,49,67,4,29,40,107,3,0,49,69,49,29,40,107,{qrtam1}+3,{qrtam2},49,80,48',
+  @fimqrcode = '29,40,107,3,0,49,81,48,12,27,97,48',
+  @barcode = '29,104,50,29,119,1,27,97,1,10,29,107,73,24,123,67{BIN}',
+  @fimbarcode = '',
+  @gaveta = '27,112,48,55,121',
+  @cor = '',
+  @liga_autenticacao = '',
+  @desliga_autenticacao = '',
+  @inicio = '29,119,2',
+  @fim = ''
+go
