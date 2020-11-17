@@ -826,6 +826,7 @@ using cloud_v1_0.tabela_preco as source with (nolock) on
 when matched then
   update set
     target.dt_vigencia = source.dt_vigencia,
+    target.ativo = source.ativo,
     target.modo_venda = case source.modo_venda
       when 0 then null
       else source.modo_venda
