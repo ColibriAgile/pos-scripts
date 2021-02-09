@@ -566,7 +566,10 @@ begin
       select
         nu_posicao = min(nu_posicao),
         material_id,
-        combo_id,
+        combo_id = case combo_id
+          when 0 then null
+          else combo_id
+        end,
         observacao_id
       from sync.materialxobs with (nolock)
       group by
