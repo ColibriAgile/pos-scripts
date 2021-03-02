@@ -50,6 +50,7 @@ begin
     ,permite_reserva
     ,t.saiu
     ,t.pre_pago
+    ,t.retirada
   into #tmp
   from ticket t
   left join dbo.venda h on h.venda_id = t.venda_id

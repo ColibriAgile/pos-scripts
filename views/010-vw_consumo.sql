@@ -9,8 +9,8 @@ select
   modo_venda_id = o.modo_venda_id,
   estado = case 
     when op.cancelada = 1 then 'cancelado'
-	  else'finalizado'
-	end,
+      else'finalizado'
+    end,
   codigo = case 
     when charindex('/', h.codigo_ticket, 0) > 0 then
       substring(h.codigo_ticket, charindex('/', h.codigo_ticket, 0)+1, len(h.codigo_ticket))
@@ -74,7 +74,8 @@ select
     else 1
   end,
   t.permite_reserva,
-  t.pre_pago
+  t.pre_pago,
+  t.retirada
 from operacao_venda o  with (nolock)
 join venda h with (nolock) on (h.operacao_id = o.operacao_id)
 left join funcionario f with (nolock) on (h.func_atendeu_id = f.id)
@@ -104,8 +105,8 @@ select
   t.modo_venda_id,
   estado = case 
     when op.cancelada = 1 then 'cancelado'
-	  else t.estado
-	end,
+      else t.estado
+    end,
   t.codigo,
   t.apelido,
   codigo_pai = isnull(pai.codigo,0),
@@ -165,7 +166,8 @@ select
     else 1
   end,
   t.permite_reserva,
-  t.pre_pago
+  t.pre_pago,
+  t.retirada
 from ticket t  with (nolock)
 left join perfil p with (noLock) on p.id = t.perfil_id
 left join ticket pai with (nolock) on (pai.ticket_id = t.ticket_pai_id)
