@@ -1,6 +1,12 @@
 if object_id('sync.parametro') is null
   return
 
+if not exists(select * from sys.databases where name = 'colibri-master')
+  return;
+
+if not exists(select * from [colibri-master].sys.schemas where name = 'sync')
+  return
+
 exec
 ('
 delete [colibri-master].sync.parametro
