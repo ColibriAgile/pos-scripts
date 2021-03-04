@@ -1,6 +1,9 @@
 if not exists(select * from sys.schemas where name = 'launcher')
   return
 
+if not exists(select * from sys.databases where name = 'colibri-master')
+  return;
+
 if not exists(select * from [colibri-master].sys.schemas where name = 'launcher')
   return
 
