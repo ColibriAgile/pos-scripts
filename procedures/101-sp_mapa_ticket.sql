@@ -2,7 +2,7 @@
   drop procedure sp_mapa_ticket
 go
 ----------------------------------------------------------------------------------------
-create procedure sp_mapa_ticket(@modo_venda_id int, @intervalo int, @estados varchar(100), @func_atendeu_id int = 0, @usa_praca int = 0)
+create procedure sp_mapa_ticket(@modo_venda_id int, @intervalo int, @estados varchar(150), @func_atendeu_id int = 0, @usa_praca int = 0)
 as 
 begin
   set nocount on
@@ -14,7 +14,8 @@ begin
     estado = case
       when (@intervalo > 0) and (t.estado = 'consumindo') and (h.dt_hr_ultimo_consumo < dateadd(mi, -@intervalo, GETDATE())) then 'sem consumo recente'
       when o.cancelada = 1 then 'cancelado'
-      else t.estado      
+      when (t.estado = 'consumindo') and (t.retirada = 1) then 'para retirar'
+      else t.estado
     end
     ,t.ticket_id
     ,t.ticket_pai_id

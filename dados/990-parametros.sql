@@ -1055,6 +1055,13 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
+  @codigo = 'CfgDescricaoRetirada',
+  @valor_default = 'Para retirar',
+  @modovenda = '2',
+  @visivel = 0
+go
+
+exec sp_inserir_parametro
   @codigo = 'CfgDescricaoAberto',
   @valor_default = 'Aberto',
   @modovenda = '4',
@@ -1317,6 +1324,16 @@ exec sp_inserir_parametro
   @tipo_valor = 'string',
   @tipo_param = 'I',
   @valor_default = 'tickets\ticket-quadrado-ciano.png'
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgImagemTicketParaRetirar',
+  @categoria = '7.Imagens',
+  @subcategoria = 'Mapa',
+  @descr = 'Imagem para o estado "Para retirar"',
+  @tipo_valor = 'string',
+  @tipo_param = 'I',
+  @valor_default = 'tickets\ticket-quadrado-magenta.png'
 go
 
 exec sp_inserir_parametro
