@@ -1,7 +1,9 @@
-alter table dbo.venda_item
+if dbo.fn_existe('dbo.venda_item.origem')=0
+  alter table dbo.venda_item
   add origem nvarchar(50) null
 go
 
-alter table dbo.venda_item_geral
+if dbo.fn_existe('dbo.venda_item_geral.origem')=0
+  alter table dbo.venda_item_geral
   add origem nvarchar(50) null
 go
