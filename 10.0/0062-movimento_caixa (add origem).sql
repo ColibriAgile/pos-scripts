@@ -16,15 +16,15 @@ go
 update dbo.movimento_caixa
 set
   origem = case 
-    when api_key='' then 'pdv'
+    when isnull(api_key,'') = '' then 'pdv'
     else 'cis'
   end;
 go
-  
+
 update dbo.movimento_caixa_geral
 set
   origem = case 
-    when api_key='' then 'pdv'
+    when isnull(api_key,'') = '' then 'pdv'
     else 'cis'
   end;
 go
@@ -32,7 +32,7 @@ go
 update dbo.pre_pagamento
 set
   origem = case 
-    when api_key='' then 'pdv'
+    when isnull(api_key,'') = '' then 'pdv'
     else 'cis'
   end;
 go
