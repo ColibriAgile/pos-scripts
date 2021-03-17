@@ -689,7 +689,7 @@ go
 /******************************
  dbo.turno_conferencia
  *******************************/
-exec dbo.sp_apagar_relacionamentos 'dbo.turno'
+exec dbo.sp_apagar_relacionamentos 'dbo.turno_conferencia'
 go
 
 alter table dbo.turno_conferencia with nocheck
