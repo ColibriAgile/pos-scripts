@@ -687,6 +687,34 @@ add constraint ri_turno$func_fechou_id$id foreign key
 go
 
 /******************************
+ dbo.turno_conferencia
+ *******************************/
+exec dbo.sp_apagar_relacionamentos 'dbo.turno_conferencia'
+go
+
+alter table dbo.turno_conferencia with nocheck
+add constraint ri_turno_conferencia$turno_id foreign key 
+(
+  turno_id
+) references dbo.turno 
+(
+  turno_id
+) on update no action
+  on delete no action
+go
+
+alter table dbo.turno_conferencia with nocheck
+add constraint ri_turno_conferencia$meio_pagamento_id foreign key 
+(
+  meio_pagamento_id
+) references dbo.meio_pagamento
+(
+  id
+) on update no action
+  on delete no action
+go
+
+/******************************
  cache.slot_rodizio
  *******************************/
 exec dbo.sp_apagar_relacionamentos 'cache.slot_rodizio'
