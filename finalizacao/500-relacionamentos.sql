@@ -693,23 +693,25 @@ exec dbo.sp_apagar_relacionamentos 'dbo.turno_conferencia'
 go
 
 alter table dbo.turno_conferencia with nocheck
-add constraint ri_turno_conferencia$turno_id__turno$turno_id foreign key 
+add constraint ri_turno_conferencia$turno_id foreign key 
 (
   turno_id
 ) references dbo.turno 
 (
   turno_id
-)
+) on update no action
+  on delete no action
 go
 
 alter table dbo.turno_conferencia with nocheck
-add constraint ri_turno_conferencia$meio_pagamento_id__meio_pagamento$id foreign key 
+add constraint ri_turno_conferencia$meio_pagamento_id foreign key 
 (
   meio_pagamento_id
 ) references dbo.meio_pagamento
 (
   id
-)
+) on update no action
+  on delete no action
 go
 
 /******************************
