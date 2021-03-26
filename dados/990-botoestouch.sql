@@ -31,6 +31,7 @@
  Alt + F6 - Liberar marcha
  Alt + F7 - Resumo da casa
  Alt + F8 - Consultar preço
+ Alt + F12 - Alterar pedido para retirada/entrega
 
  Shift + F2 - Buscar por cliente
  Shift + F2 - Dados do cliente
@@ -834,6 +835,44 @@ declare
   @trans   varchar(30) = 'consultar_preco',
   @titulo  varchar(30) = 'Consultar
 preço'
+
+exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
+go
+
+/***************************
+ Alterar para retirar
+ ***************************/
+declare
+  @id      integer = 72,
+  @balcao  bit = 0,
+  @entrega bit = 1,
+  @mesa    bit = 0,
+  @ficha   bit = 0,
+  @atalho  varchar(20) = 'Alt+F12',
+  @atalho2 varchar(20) = '',
+  @img     varchar(30) = 'cmd-para-retirada.png',
+  @trans   varchar(30) = 'retirada',
+  @titulo  varchar(30) = 'Alterar para
+retirada'
+
+exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
+go
+
+/***************************
+ Alterar para entrega
+ ***************************/
+declare
+  @id      integer = 73,
+  @balcao  bit = 0,
+  @entrega bit = 1,
+  @mesa    bit = 0,
+  @ficha   bit = 0,
+  @atalho  varchar(20) = 'Alt+F12',
+  @atalho2 varchar(20) = '',
+  @img     varchar(30) = 'cmd-para-entrega.png',
+  @trans   varchar(30) = 'entrega',
+  @titulo  varchar(30) = 'Alterar para
+entrega'
 
 exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
 go
