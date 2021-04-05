@@ -31,6 +31,7 @@
  Alt + F6 - Liberar marcha
  Alt + F7 - Resumo da casa
  Alt + F8 - Consultar preço
+ Alt + F11 - Consultar pedidos
  Alt + F12 - Alterar pedido para retirada/entrega
 
  Shift + F2 - Buscar por cliente
@@ -873,6 +874,25 @@ declare
   @trans   varchar(30) = 'entrega',
   @titulo  varchar(30) = 'Alterar para
 entrega'
+
+exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
+go
+
+/***************************
+ Procurar pedido
+ ***************************/
+declare
+  @id      integer = 74,
+  @balcao  bit = 0,
+  @entrega bit = 1,
+  @mesa    bit = 1,
+  @ficha   bit = 1,
+  @atalho  varchar(20) = 'Alt+F11',
+  @atalho2 varchar(20) = '',
+  @img     varchar(30) = 'cmd-consultar-pedidos.png',
+  @trans   varchar(30) = 'consultar-pedidos',
+  @titulo  varchar(30) = 'Consultar
+pedidos'
 
 exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
 go
