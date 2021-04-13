@@ -215,6 +215,9 @@ execute sp_apagar_tabela 'licenca'
 go
 execute sp_apagar_tabela 'plugin'
 go
+execute sp_apagar_tabela 'pre-pagamento'
+go
+
 if object_id('log') is not null  -- a sp_apagar_tabela da erro ao tentar apagar a tabela de log
   exec('drop table log')         -- por isso usei um drop table 
 go
