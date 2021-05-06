@@ -215,7 +215,7 @@ execute sp_apagar_tabela 'licenca'
 go
 execute sp_apagar_tabela 'plugin'
 go
-execute sp_apagar_tabela 'pre-pagamento'
+execute sp_apagar_tabela 'pre_pagamento'
 go
 
 if object_id('log') is not null  -- a sp_apagar_tabela da erro ao tentar apagar a tabela de log
