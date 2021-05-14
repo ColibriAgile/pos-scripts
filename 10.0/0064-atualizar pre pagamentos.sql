@@ -12,9 +12,10 @@ from
     intencao = case min(meio_pagamento_id)
       when 1 then 1
       when 4 then 4
-      else 2
+      else case min(m.tipo_tef) when 'V' then 3 else 2 end 
     end
-  from pre_pagamento
+  from pre_pagamento p
+  join meio_pagamento m on p.meio_pagamento_id = m.id
   where meio_pagamento_id > 0
   group by operacao_id
 ) x
