@@ -889,10 +889,10 @@ declare
   @ficha   bit = 1,
   @atalho  varchar(20) = 'Alt+F11',
   @atalho2 varchar(20) = '',
-  @img     varchar(30) = 'cmd-consultar-pedidos.png',
+  @img     varchar(30) = 'cmd-procurar-pedido.png',
   @trans   varchar(30) = 'consultar-pedidos',
-  @titulo  varchar(30) = 'Consultar
-pedidos'
+  @titulo  varchar(30) = 'Procurar
+pedido'
 
 exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
 go
