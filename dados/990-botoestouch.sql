@@ -61,6 +61,7 @@
  Ctrl + F12 - Ver Detalhes
 
  Ctrl + Enter - Expedir
+ Ctrl + Enter - Finalizar produção
 
  Enter - Novo pedido
 ******************************************************/
@@ -384,6 +385,24 @@ declare
   @img     varchar(30) = 'cmd-expedir.png',
   @trans   varchar(30) = 'expedir',
   @titulo  varchar(30) = 'Expedir'
+
+exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
+go
+
+/***************************
+ Finalizar produção
+ ***************************/
+declare
+  @id      integer = 75,
+  @balcao  bit = 0,
+  @entrega bit = 1,
+  @mesa    bit = 0,
+  @ficha   bit = 0,
+  @atalho  varchar(20) = 'F11',
+  @atalho2 varchar(20) = 'Ctrl+Enter',
+  @img     varchar(30) = 'cmd-pronto.png',
+  @trans   varchar(30) = 'finalizar_producao',
+  @titulo  varchar(30) = 'Marcar pedido como pronto'
 
 exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
 go
@@ -890,7 +909,7 @@ declare
   @atalho  varchar(20) = 'Alt+F11',
   @atalho2 varchar(20) = '',
   @img     varchar(30) = 'cmd-procurar-pedido.png',
-  @trans   varchar(30) = 'consultar-pedidos',
+  @trans   varchar(30) = 'consultar_pedidos',
   @titulo  varchar(30) = 'Procurar
 pedido'
 
