@@ -1062,6 +1062,20 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
+  @codigo = 'CfgDescricaoPronto',
+  @valor_default = 'Pronto para retirar',
+  @modovenda = '2',
+  @visivel = 0
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgDescricaoProntoPago',
+  @valor_default = 'Pronto para retirar e pago',
+  @modovenda = '2',
+  @visivel = 0
+go
+
+exec sp_inserir_parametro
   @codigo = 'CfgDescricaoAberto',
   @valor_default = 'Aberto',
   @modovenda = '4',
@@ -1331,6 +1345,26 @@ exec sp_inserir_parametro
   @categoria = '7.Imagens',
   @subcategoria = 'Mapa',
   @descr = 'Imagem para o estado "Para retirar"',
+  @tipo_valor = 'string',
+  @tipo_param = 'I',
+  @valor_default = 'tickets\ticket-quadrado-magenta.png'
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgImagemTicketPronto',
+  @categoria = '7.Imagens',
+  @subcategoria = 'Mapa',
+  @descr = 'Imagem para o estado "Pronto para retirar"',
+  @tipo_valor = 'string',
+  @tipo_param = 'I',
+  @valor_default = 'tickets\ticket-quadrado-magenta.png'
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgImagemTicketProntoPago',
+  @categoria = '7.Imagens',
+  @subcategoria = 'Mapa',
+  @descr = 'Imagem para o estado "Pronto para retirar e pago"',
   @tipo_valor = 'string',
   @tipo_param = 'I',
   @valor_default = 'tickets\ticket-quadrado-magenta.png'
