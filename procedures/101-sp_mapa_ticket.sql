@@ -14,7 +14,12 @@ begin
     estado = case
       when (@intervalo > 0) and (t.estado = 'consumindo') and (h.dt_hr_ultimo_consumo < dateadd(mi, -@intervalo, GETDATE())) then 'sem consumo recente'
       when o.cancelada = 1 then 'cancelado'
-      when (t.estado = 'consumindo') and (t.retirada = 1) then 'para retirar'
+      when (t.estado = 'consumindo') then
+        case 
+          when (t.modo_venda_id = 2) and (t.retirada = 0) then 'para entrega'
+          when (t.modo_venda_id = 2) and (t.retirada = 1) then 'para retirar'
+          else 'consumindo'
+        end  
       else t.estado
     end
     ,t.ticket_id

@@ -1007,13 +1007,7 @@ go
 exec sp_inserir_parametro
   @codigo = 'CfgDescricaoEmPagamento',
   @valor_default = 'Em Pagamento',
-  @modovenda = '2',
   @visivel = 0
-go
-
-update parametro_modo
-set valor = 'Expedido'
-where codigo = 'CfgDescricaoEmPagamento'
 go
 
 exec sp_inserir_parametro
@@ -1055,8 +1049,15 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgDescricaoRetirada',
-  @valor_default = 'Para retirar',
+  @codigo = 'CfgDescricaoParaEntrega',
+  @valor_default = 'Para entrega',
+  @modovenda = '2',
+  @visivel = 0
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgDescricaoParaRetirada',
+  @valor_default = 'Para retirada',
   @modovenda = '2',
   @visivel = 0
 go
@@ -1341,10 +1342,20 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgImagemTicketParaRetirar',
+  @codigo = 'CfgImagemTicketParaEntrega',
   @categoria = '7.Imagens',
   @subcategoria = 'Mapa',
-  @descr = 'Imagem para o estado "Para retirar"',
+  @descr = 'Imagem para o estado "Para entrega"',
+  @tipo_valor = 'string',
+  @tipo_param = 'I',
+  @valor_default = 'tickets\ticket-quadrado-azul.png'
+go
+
+exec sp_inserir_parametro
+  @codigo = 'CfgImagemTicketParaRetirada',
+  @categoria = '7.Imagens',
+  @subcategoria = 'Mapa',
+  @descr = 'Imagem para o estado "Para retirada"',
   @tipo_valor = 'string',
   @tipo_param = 'I',
   @valor_default = 'tickets\ticket-quadrado-magenta.png'
