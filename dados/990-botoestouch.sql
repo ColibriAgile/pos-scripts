@@ -400,9 +400,10 @@ declare
   @ficha   bit = 0,
   @atalho  varchar(20) = 'F11',
   @atalho2 varchar(20) = 'Ctrl+Enter',
-  @img     varchar(30) = 'cmd-pronto.png',
+  @img     varchar(30) = 'cmd-pedido-pronto.png',
   @trans   varchar(30) = 'finalizar_producao',
-  @titulo  varchar(30) = 'Marcar pedido como pronto'
+  @titulo  varchar(30) = 'Pedido
+pronto'
 
 exec sp_inserir_botao_touch @id, @img, @titulo, @balcao, @entrega, @mesa, @ficha, @atalho, @atalho2, @trans
 go

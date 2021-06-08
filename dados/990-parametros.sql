@@ -1357,7 +1357,7 @@ exec sp_inserir_parametro
   @descr = 'Imagem para o estado "Pronto para retirar"',
   @tipo_valor = 'string',
   @tipo_param = 'I',
-  @valor_default = 'tickets\ticket-quadrado-magenta.png'
+  @valor_default = 'tickets\ticket-quadrado-roxo.png'
 go
 
 exec sp_inserir_parametro
@@ -1367,7 +1367,7 @@ exec sp_inserir_parametro
   @descr = 'Imagem para o estado "Pronto para retirar e pago"',
   @tipo_valor = 'string',
   @tipo_param = 'I',
-  @valor_default = 'tickets\ticket-quadrado-magenta.png'
+  @valor_default = 'tickets\ticket-quadrado-roxo-laranja.png'
 go
 
 exec sp_inserir_parametro
