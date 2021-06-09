@@ -1071,7 +1071,7 @@ go
 
 update parametro_modo
 set valor = 'Pronto'
-where codigo = 'CfgDescricaoProntoPago'
+where codigo = 'CfgDescricaoPronto'
 go
 
 
