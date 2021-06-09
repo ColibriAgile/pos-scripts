@@ -1064,16 +1064,27 @@ go
 
 exec sp_inserir_parametro
   @codigo = 'CfgDescricaoPronto',
-  @valor_default = 'Pronto para retirar',
+  @valor_default = 'Pronto',
   @modovenda = '2',
   @visivel = 0
 go
 
+update parametro_modo
+set valor = 'Pronto'
+where codigo = 'CfgDescricaoProntoPago'
+go
+
+
 exec sp_inserir_parametro
   @codigo = 'CfgDescricaoProntoPago',
-  @valor_default = 'Pronto para retirar e pago',
+  @valor_default = 'Pronto e pago',
   @modovenda = '2',
   @visivel = 0
+go
+
+update parametro_modo
+set valor = 'Pronto e pago'
+where codigo = 'CfgDescricaoProntoPago'
 go
 
 exec sp_inserir_parametro
