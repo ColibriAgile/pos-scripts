@@ -1021,10 +1021,6 @@ exec sp_inserir_parametro
   @valor_default ='Pago',
   @visivel = 0
 
-exec sp_inserir_parametro
-  @codigo = 'CfgDescricaoExpedidoPago',
-  @valor_default ='Expedido e pago',
-  @visivel = 0
 
 exec sp_inserir_parametro
   @codigo = 'CfgDescricaoFinalizado',
@@ -1037,7 +1033,7 @@ exec sp_inserir_parametro
   @visivel = 0
 
 exec sp_inserir_parametro
-  @codigo = 'CfgDescricaoExpedidoNaoPago',
+  @codigo = 'CfgDescricaoExpedidoo',
   @valor_default ='Expedido',
   @visivel = 0
 
@@ -1072,19 +1068,6 @@ go
 update parametro_modo
 set valor = 'Pronto'
 where codigo = 'CfgDescricaoPronto'
-go
-
-
-exec sp_inserir_parametro
-  @codigo = 'CfgDescricaoProntoPago',
-  @valor_default = 'Pronto e pago',
-  @modovenda = '2',
-  @visivel = 0
-go
-
-update parametro_modo
-set valor = 'Pronto e pago'
-where codigo = 'CfgDescricaoProntoPago'
 go
 
 exec sp_inserir_parametro
@@ -1293,26 +1276,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgImagemTicketPago',
-  @categoria = '7.Imagens',
-  @subcategoria = 'Mapa',
-  @descr = 'Imagem para o estado "Pago"',
-  @tipo_valor = 'string',
-  @tipo_param = 'I',
-  @valor_default = 'tickets\ticket-quadrado-laranja.png'
-go
-
-exec sp_inserir_parametro
-  @codigo = 'CfgImagemTicketExpedidoPago',
-  @categoria = '7.Imagens',
-  @subcategoria = 'Mapa',
-  @descr = 'Imagem para o estado "Expedido e Pago"',
-  @tipo_valor = 'string',
-  @tipo_param = 'I',
-  @valor_default = 'tickets\ticket-quadrado-ciano-laranja.png'
-go
-
-exec sp_inserir_parametro
   @codigo = 'CfgImagemTicketFinalizado',
   @categoria = '7.Imagens',
   @subcategoria = 'Mapa',
@@ -1333,10 +1296,10 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgImagemTicketExpedidoNaoPago',
+  @codigo = 'CfgImagemTicketExpedido',
   @categoria = '7.Imagens',
   @subcategoria = 'Mapa',
-  @descr = 'Imagem para o estado "Expedido Nao Pago"',
+  @descr = 'Imagem para o estado "Expedido"',
   @tipo_valor = 'string',
   @tipo_param = 'I',
   @valor_default = 'tickets\ticket-quadrado-ciano.png'
@@ -1376,20 +1339,10 @@ exec sp_inserir_parametro
   @codigo = 'CfgImagemTicketPronto',
   @categoria = '7.Imagens',
   @subcategoria = 'Mapa',
-  @descr = 'Imagem para o estado "Pronto para retirar"',
+  @descr = 'Imagem para o estado "Pronto"',
   @tipo_valor = 'string',
   @tipo_param = 'I',
   @valor_default = 'tickets\ticket-quadrado-roxo.png'
-go
-
-exec sp_inserir_parametro
-  @codigo = 'CfgImagemTicketProntoPago',
-  @categoria = '7.Imagens',
-  @subcategoria = 'Mapa',
-  @descr = 'Imagem para o estado "Pronto para retirar e pago"',
-  @tipo_valor = 'string',
-  @tipo_param = 'I',
-  @valor_default = 'tickets\ticket-quadrado-roxo-laranja.png'
 go
 
 exec sp_inserir_parametro
