@@ -1017,12 +1017,6 @@ exec sp_inserir_parametro
 go
 
 exec sp_inserir_parametro
-  @codigo = 'CfgDescricaoPago',
-  @valor_default ='Pago',
-  @visivel = 0
-
-
-exec sp_inserir_parametro
   @codigo = 'CfgDescricaoFinalizado',
   @valor_default ='Finalizado',
   @visivel = 0
@@ -1524,3 +1518,20 @@ delete parametro where codigo = 'CfgImprimeServicoDestacado'
 delete parametro_modo where codigo = 'CfgPermiteAlterarQuantidade'
 delete parametro where codigo = 'CfgPermiteAlterarQuantidade'
 delete parametro where codigo = 'CfgServicoComoItem'
+
+delete parametro_modo where codigo = 'CfgDescricaoPago'
+delete parametro where codigo = 'CfgDescricaoPago'
+delete parametro_modo where codigo = 'CfgDescricaoExpedidoPago'
+delete parametro where codigo = 'CfgDescricaoExpedidoPago'
+delete parametro_modo where codigo = 'CfgDescricaoExpedidoNaoPago'
+delete parametro where codigo = 'CfgDescricaoExpedidoNaoPago'
+delete parametro_modo where codigo = 'CfgDescricaoProntoPago'
+delete parametro where codigo = 'CfgDescricaoProntoPago'
+
+delete parametro where codigo = 'CfgImagemTicketPago'
+delete parametro where codigo = 'CfgImagemTicketExpedidoPago'
+delete parametro where codigo = 'CfgImagemTicketExpedidoNaoPago'
+delete parametro where codigo = 'CfgImagemTicketProntoPago'
+
+
+
