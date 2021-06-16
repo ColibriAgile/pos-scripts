@@ -1027,7 +1027,7 @@ exec sp_inserir_parametro
   @visivel = 0
 
 exec sp_inserir_parametro
-  @codigo = 'CfgDescricaoExpedidoo',
+  @codigo = 'CfgDescricaoExpedido',
   @valor_default ='Expedido',
   @visivel = 0
 
