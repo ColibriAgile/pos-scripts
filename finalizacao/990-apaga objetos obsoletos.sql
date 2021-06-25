@@ -1129,6 +1129,12 @@ execute sp_apagar 'procedure', 'sync.sp_consolidarmaterial'
 go
 execute sp_apagar 'procedure', 'sync.sp_consolidarmaterial23'
 go
+execute sp_apagar 'procedure', 'sp_add_permissao'
+go
+execute sp_apagar 'procedure', 'sp_atualizar_periferico'
+go
+execute sp_apagar 'procedure', 'sp_configuracomanda'
+go
 
 /**************************************
  Tipos de usuario
