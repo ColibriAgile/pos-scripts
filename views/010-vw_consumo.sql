@@ -7,10 +7,11 @@ select
   ticket_id = null,
   ticket_pai_id = null,
   modo_venda_id = o.modo_venda_id,
+  modo_venda = mv.nome,
   estado = case 
     when op.cancelada = 1 then 'cancelado'
-      else'finalizado'
-    end,
+    else'finalizado'
+  end,
   codigo = case 
     when charindex('/', h.codigo_ticket, 0) > 0 then
       substring(h.codigo_ticket, charindex('/', h.codigo_ticket, 0)+1, len(h.codigo_ticket))
@@ -40,7 +41,7 @@ select
   o.vl_subtotal_para_desconto,
   o.vl_subtotal_para_servico,
   vl_total = op.vl_total,
-  vl_recebido = isnull(m.vl_recebido, 0),
+  vl_recebido = isnull(mov.vl_recebido, 0),
   cliente_id = h.cliente_id,
   c.regiao_id,
   o.consumidor,
@@ -53,19 +54,19 @@ select
   dt_hr_abertura = h.dt_hr_abertura,
   func_entregou_id = o.func_entregou_id,
   entregador = cast(e.codigo as varchar(3)) + ' - ' + e.nome,
-  numero_venda,
-  cancelado,
+  h.numero_venda,
+  h.cancelado,
   o.paga,
-  dt_hr_expedicao,
-  dt_hr_encerramento,
-  vl_acrescimo,
-  vl_desconto,
+  o.dt_hr_expedicao,
+  o.dt_hr_encerramento,
+  o.vl_acrescimo,
+  o.vl_desconto,
   o.vl_consumacao,
   o.vl_diferenca_consumacao,
   o.vl_entrada,
-  vl_servico,
-  vl_taxa_de_entrega,
-  qtd_pessoas,
+  o.vl_servico,
+  o.vl_taxa_de_entrega,
+  o.qtd_pessoas,
   cliente = c.nome,
   sexo = c.sexo,
   ordem = row_number() over (partition by o.operacao_id order by h.numero_venda),
@@ -76,24 +77,26 @@ select
   t.permite_reserva,
   t.pre_pago,
   t.retirada
-from operacao_venda o  with (nolock)
-join venda h with (nolock) on (h.operacao_id = o.operacao_id)
-left join funcionario f with (nolock) on (h.func_atendeu_id = f.id)
-left join funcionario e with (nolock) on (o.func_entregou_id = e.id)
-join operacao op with (nolock) on (op.operacao_id = o.operacao_id)
-left join cliente c with (nolock) on (c.id = h.cliente_id)
-left join regiao r with (nolock) on (r.id = c.regiao_id)
-left join ticket t with (nolock) on t.venda_id = h.venda_id
-left join perfil p with (nolock) on (p.id = h.perfil_id)
+from dbo.operacao_venda o  with (nolock)
+join dbo.operacao op with (nolock) on (op.operacao_id = o.operacao_id)
+join dbo.venda h with (nolock) on (h.operacao_id = o.operacao_id)
+join dbo.modo_venda mv with (nolock) on mv.id = o.modo_venda_id
+left join dbo.funcionario f with (nolock) on (h.func_atendeu_id = f.id)
+left join dbo.funcionario e with (nolock) on (o.func_entregou_id = e.id)
+left join dbo.cliente c with (nolock) on (c.id = h.cliente_id)
+left join dbo.regiao r with (nolock) on (r.id = c.regiao_id)
+left join dbo.ticket t with (nolock) on t.venda_id = h.venda_id
+left join dbo.perfil p with (nolock) on (p.id = h.perfil_id)
 left join
 (
   select
     operacao_id, 
     vl_recebido = sum(vl_recebido)
-  from movimento_caixa with (nolock)
+  from dbo.movimento_caixa with (nolock)
   where cancelado = 0
   group by operacao_id
-) m on m.operacao_id = o.operacao_id
+) mov on 
+  mov.operacao_id = o.operacao_id
 where t.ticket_id is null
   and o.encerrada = 1
 
@@ -103,10 +106,11 @@ select
   t.ticket_id,
   t.ticket_pai_id,
   t.modo_venda_id,
+  modo_venda = mv.nome,
   estado = case 
     when op.cancelada = 1 then 'cancelado'
-      else t.estado
-    end,
+    else t.estado
+  end,
   t.codigo,
   t.apelido,
   codigo_pai = isnull(pai.codigo,0),
@@ -132,7 +136,7 @@ select
     when t.venda_id is null then cast(p.vl_consumacao + p.vl_entrada as money)
     else op.vl_total
   end,
-  vl_recebido = isnull(m.vl_recebido, 0),
+  vl_recebido = isnull(mov.vl_recebido, 0),
   t.cliente_id,
   c.regiao_id,
   o.consumidor,
@@ -145,18 +149,18 @@ select
   t.dt_hr_abertura,
   func_entregou_id = o.func_entregou_id,
   entregador = cast(e.codigo as varchar(3)) + ' - ' + e.nome,
-  numero_venda,
-  cancelado,
+  h.numero_venda,
+  h.cancelado,
   o.paga,
-  dt_hr_expedicao,
-  dt_hr_encerramento,
-  vl_acrescimo,
-  vl_desconto,
+  o.dt_hr_expedicao,
+  o.dt_hr_encerramento,
+  o.vl_acrescimo,
+  o.vl_desconto,
   vl_consumacao = isnull(o.vl_consumacao,p.vl_consumacao),
-  vl_diferenca_consumacao = isnull(vl_diferenca_consumacao,p.vl_consumacao),
+  vl_diferenca_consumacao = isnull(o.vl_diferenca_consumacao,p.vl_consumacao),
   vl_entrada = isnull(o.vl_entrada,p.vl_entrada),
-  vl_servico,
-  vl_taxa_de_entrega,
+  o.vl_servico,
+  o.vl_taxa_de_entrega,
   qtd_pessoas = o.qtd_pessoas,
   cliente = c.nome,
   sexo = c.sexo,
@@ -168,35 +172,37 @@ select
   t.permite_reserva,
   t.pre_pago,
   t.retirada
-from ticket t  with (nolock)
-left join perfil p with (noLock) on p.id = t.perfil_id
-left join ticket pai with (nolock) on (pai.ticket_id = t.ticket_pai_id)
-left join venda h with (nolock) on (h.venda_id = t.venda_id)
-left join funcionario f with (nolock) on (h.func_atendeu_id = f.id)
-left join operacao_venda o with (nolock) on (o.operacao_id = h.operacao_id)
-left join funcionario e with (nolock) on (o.func_entregou_id = e.id)
-left join operacao op with (nolock) on (op.operacao_id = o.operacao_id)
-left join cliente c with (nolock) on (c.id = t.cliente_id)
-left join regiao r with (nolock) on (r.id = c.regiao_id)
+from dbo.ticket t  with (nolock)
+left join dbo.perfil p with (noLock) on p.id = t.perfil_id
+left join dbo.ticket pai with (nolock) on (pai.ticket_id = t.ticket_pai_id)
+left join dbo.venda h with (nolock) on (h.venda_id = t.venda_id)
+left join dbo.funcionario f with (nolock) on (h.func_atendeu_id = f.id)
+left join dbo.operacao_venda o with (nolock) on (o.operacao_id = h.operacao_id)
+left join dbo.funcionario e with (nolock) on (o.func_entregou_id = e.id)
+left join dbo.operacao op with (nolock) on (op.operacao_id = o.operacao_id)
+left join dbo.cliente c with (nolock) on (c.id = t.cliente_id)
+left join dbo.regiao r with (nolock) on (r.id = c.regiao_id)
 left join 
 (
   select
     operacao_id, 
     vl_recebido = sum(vl_recebido)
-  from movimento_caixa with (nolock)
+  from dbo.movimento_caixa with (nolock)
   where cancelado = 0
   group by operacao_id
-) m on m.operacao_id = o.operacao_id
+) mov on 
+  mov.operacao_id = o.operacao_id
 left join 
 (
   select
     ticket_id = ticket_pai_id,
     qtd_subtickets = count(*)
-  from ticket with (nolock)
+  from dbo.ticket with (nolock)
   where ticket_pai_id is not null
     and estado <> 'finalizado'
   group by ticket_pai_id
-) sub on sub.ticket_id = t.ticket_id
+) sub on 
+  sub.ticket_id = t.ticket_id
 
 go
 ---------------------------------------------------
