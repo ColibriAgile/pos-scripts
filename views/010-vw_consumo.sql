@@ -178,6 +178,7 @@ left join dbo.ticket pai with (nolock) on (pai.ticket_id = t.ticket_pai_id)
 left join dbo.venda h with (nolock) on (h.venda_id = t.venda_id)
 left join dbo.funcionario f with (nolock) on (h.func_atendeu_id = f.id)
 left join dbo.operacao_venda o with (nolock) on (o.operacao_id = h.operacao_id)
+join dbo.modo_venda mv with (nolock) on mv.id = o.modo_venda_id
 left join dbo.funcionario e with (nolock) on (o.func_entregou_id = e.id)
 left join dbo.operacao op with (nolock) on (op.operacao_id = o.operacao_id)
 left join dbo.cliente c with (nolock) on (c.id = t.cliente_id)
