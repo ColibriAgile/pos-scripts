@@ -1,8 +1,18 @@
 {
   "arquivos":[],
   "dependencias" : {
-    "Master": "2.2.1.*"  
+    "Master": "5.1.*",
+    "Launcher": "4.4.*"
   },
+   "executar": [
+     {
+       "comando": "comando_launcher",
+       "parametros": {
+         "{banco_pos}": null,
+         "-tipo": "validar_periodo_fechado"
+       }
+     }
+   ],
   "nome":"ColibriScripts",
   "nome_exibicao": "Colibri PoS Scripts",
   "versao": "1.0.0.0",
