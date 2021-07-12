@@ -4,8 +4,9 @@
     "Master": "5.1.*",
     "Launcher": "4.4.*"
   },
-  "pre_condicoes": [
+  "comandos": [
     {
+      "pre_condicao": true,
       "comando": "comando_launcher",
       "parametros": {
         "{banco_pos}": null,
