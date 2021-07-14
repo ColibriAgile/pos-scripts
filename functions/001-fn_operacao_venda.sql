@@ -29,10 +29,10 @@ returns @tbl table
   vl_taxa_de_entrega numeric(15, 2),
   vl_taxa_de_entrega_calculada numeric(15, 2),
   vl_taxa_de_entrega_informada numeric(15, 2),
-  desconto varchar(20),
+  desconto varchar(60),
   pct_desconto numeric(10, 5),
-  vl_diferenca_consumacao money,
-  vl_outros money,
+  vl_diferenca_consumacao decimal(19, 4),
+  vl_outros decimal(19, 4),
   encerrada bit,
   dt_hr_encerramento datetime,
   maquina_encerrou_id int,
@@ -82,7 +82,7 @@ begin
       transferida,
       paga,
       dia = 1
-    from operacao_venda with (nolock)
+    from dbo.operacao_venda with (nolock)
     where operacao_id = @operacao_id
   else
     insert @tbl
@@ -122,7 +122,7 @@ begin
       transferida,
       paga,
       dia = 0
-    from operacao_venda_geral with (nolock)
+    from dbo.operacao_venda_geral with (nolock)
     where operacao_id = @operacao_id  
 
   return
