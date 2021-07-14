@@ -15,10 +15,10 @@ returns @tbl table
   periodo_aberto bit,
   modo_venda_id int,
   qtd_pessoas int,
-  vl_total money,
-  vl_desconto money,
+  vl_total decimal(19, 4),
+  vl_desconto decimal(19, 4),
   desconto varchar(60),
-  pct_desconto money,
+  pct_desconto decimal(19, 4),
   desconto_id int,
   cancelada bit,
   encerrada bit,
@@ -36,7 +36,7 @@ begin
 
   if exists (
     select *
-    from periodo h
+    from dbo.periodo h
     where h.dt_hr_fechamento is null
       and h.dt_contabil <= @dtContabilFim
   ) set @tabelasDoDia = 1
@@ -65,15 +65,15 @@ begin
         hr_encerramento = cast(ov.dt_hr_encerramento as time),
         ov.func_encerrou_id,
         ov.maquina_encerrou_id
-      from operacao o with(nolock)
-      join operacao_venda ov with(nolock) on o.operacao_id = ov.operacao_id
-      left join desconto d with(nolock) on d.id = ov.desconto_id
+      from dbo.operacao o with(nolock)
+      join dbo.operacao_venda ov with(nolock) on o.operacao_id = ov.operacao_id
+      left join dbo.desconto d with(nolock) on d.id = ov.desconto_id
       where (o.tipo = 'venda')
         and (@modoVenda = 0 or ov.modo_venda_id = @modoVenda)
         and o.operacao_id in
         (
           select operacao_id
-          from venda h
+          from dbo.venda h
         )
     )
     insert @tbl
@@ -140,9 +140,9 @@ begin
       hr_encerramento = cast(ov.dt_hr_encerramento as time),
       ov.func_encerrou_id,
       ov.maquina_encerrou_id
-    from operacao_geral o with(nolock)
-    join operacao_venda_geral ov with(nolock) on o.operacao_id = ov.operacao_id
-    left join desconto d with(nolock) on d.id = ov.desconto_id
+    from dbo.operacao_geral o with(nolock)
+    join dbo.operacao_venda_geral ov with(nolock) on o.operacao_id = ov.operacao_id
+    left join dbo.desconto d with(nolock) on d.id = ov.desconto_id
     where (o.dt_contabil between @dtContabilIni and @dtContabilFim)
       and (o.tipo = 'venda')
       and (@modoVenda = 0 or ov.modo_venda_id = @modoVenda)
