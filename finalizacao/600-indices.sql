@@ -1,4 +1,18 @@
 /*-------------------------------------------------------------
+ cliente
+ -------------------------------------------------------------*/
+if exists (select * from sys.indexes where name = 'ix_cliente$identificacao')
+  drop index ix_cliente$identificacao on dbo.cliente
+go
+
+create nonclustered index ix_cliente$identificacao
+on dbo.cliente
+(
+  identificacao
+)
+go
+
+/*-------------------------------------------------------------
  praça
  -------------------------------------------------------------*/
 if exists(select * from sys.indexes where name='ix_praca$nome') 
